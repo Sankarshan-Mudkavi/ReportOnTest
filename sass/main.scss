@@ -1,0 +1,36 @@
+@import "variables";
+@import "~@sketchpixy/rubix/sass/rubix";
+@import "~@sketchpixy/rubix/sass/vendor";
+@import "colors";
+@import "theme";
+
+@import "fonts/lato/lato";
+@import "fonts/fontello/fontello";
+@import "fonts/climacons/climacons";
+@import "fonts/devicon/devicon";
+@import "fonts/dripicons/dripicons";
+@import "fonts/feather/feather";
+@import "fonts/flatline/flatline";
+@import "fonts/mfizz/mfizz";
+@import "fonts/nargela/nargela";
+@import "fonts/glyphicons/glyphicons";
+@import "fonts/ikons/ikons";
+@import "fonts/outlined/outlined";
+@import "fonts/pixelvicon/pixelvicon";
+@import "fonts/Simple-Line-Icons/Simple-Line-Icons";
+@import "fonts/Stroke-Gap-Icons/Stroke-Gap-Icons";
+
+/* Component styles */
+@import "components/sidebar";
+
+/* Page styles */
+@import "pages/auth";
+@import "pages/blogs";
+@import "pages/inbox";
+@import "pages/wizard";
+@import "pages/social";
+@import "pages/sliders";
+@import "pages/gallery";
+@import "pages/homepage";
+@import "pages/calendar";
+@import "pages/dashboard";

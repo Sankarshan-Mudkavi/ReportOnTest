@@ -1,0 +1,29 @@
+extends ./layout.pug
+
+//- optional (PACE loader)
+block pace-loader
+  link(rel='stylesheet', href='/css/pace.css')
+  script(type='text/javascript', src='/bower_components/PACE/pace.min.js')
+
+block header
+  != app_stylesheets
+
+block content
+  div#app-container!= content
+  //- blueimp-gallery snippet (optional)
+  div#blueimp-gallery.blueimp-gallery.blueimp-gallery-controls
+    div.slides
+    h3.title
+    p.description
+    a.prev ‹
+    a.next ›
+    a.close ×
+    a.play-pause
+    ol.indicator
+
+block scripts
+  script(type="text/javascript", src="//maps.google.com/maps/api/js?key=AIzaSyC17i__cWhjxmtwJJjgLA8rmXWqRI5baJI")
+  != app_scripts
+
+block stylesheets
+  link(rel='stylesheet', href='/bower_components/codemirror/theme/ambiance.css')
