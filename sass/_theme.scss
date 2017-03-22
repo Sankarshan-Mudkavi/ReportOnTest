@@ -3,6 +3,103 @@
 // Giving the default theme a name
 @include theme-maker("default", ());
 
+$theme-color :  white;
+$theme-bg-color:  #E76049;
+$body-color:  $theme-color;
+$body-bg-color:   #E9F0F5;
+$header-color:  $theme-color;
+$header-bg-color:   #273135;
+$header-hover-color:  #ffffff;
+$logout-bg-color:   #E76049;
+$logout-color:  #ffffff;
+$logout-hover-bg:   #F4654D;
+$sidebar-btn-bg:  #2AA38B;
+$sidebar-btn-color:   #ffffff;
+$sidebar-btn-hover-bg:  #2EB398;
+$header-divider-color:  rgba(59, 70, 72, 0.45);
+$sidebar-bg:  #273135;
+$sidebar-avatar-bg:   #FA7252;
+$sidebar-controls-bg:   #DE5939;
+$sidebar-controls-btn-color:  #993F31;
+$sidebar-controls-btn-border :  darken(#D25436, 2%);
+$sidebar-controls-btn-active-bg : lighten(#A74635, 5%);
+$sidebar-controls-btn-active-color :  #FA7252;
+$components-link-color:   #2EB398;
+$components-panel-bg:   #ffffff;
+$components-panel-border:   #CEDBEC;
+$components-form-control-border:  #ddd;
+$components-form-control-active-border:   #2EB398;
+$footer-color:  #CCD6DF;
+$footer-bg :  $theme-color;
+
+//new custom theme
+@include theme-mixin('ripple', (
+  theme (
+  color $theme-color,
+  bg $theme-bg-color
+  ),
+  body (
+  bg $body-bg-color,
+  color $body-color
+  ),
+  header (
+  bg $header-bg-color,
+  color $header-color,
+  hover-color $header-hover-color,
+
+  logout (
+    bg $logout-bg-color,
+    color $logout-color,
+    hover-bg $logout-hover-bg
+  ),
+
+  sidebar-btn (
+    bg $sidebar-btn-bg,
+    color $sidebar-btn-color,
+    hover-bg $sidebar-btn-hover-bg
+  ),
+
+  divider (
+    color $header-divider-color
+  )
+  ),
+  sidebar (
+  bg $sidebar-bg,
+  width 250px,
+  avatar (
+    bg $sidebar-avatar-bg
+  ),
+  controls (
+    bg $sidebar-controls-bg,
+    btn (
+    color $sidebar-controls-btn-color,
+    border $sidebar-controls-btn-border,
+    active-bg $sidebar-controls-btn-active-bg,
+    active-color $sidebar-controls-btn-active-color
+    )
+  )
+  ),
+  components (
+  link (
+    color $components-link-color
+  ),
+  panel (
+    bg $components-panel-bg,
+    border $components-panel-border
+  ),
+  form-control (
+    border $components-form-control-border,
+    active (
+    border $components-form-control-active-border
+    )
+  )
+  ),
+  footer (
+  bg $footer-bg,
+  color $footer-color
+  )
+));
+
 // Modifying the default theme
 
 @include theme-maker("green", (
@@ -33,7 +130,7 @@
 
 @include theme-maker("blue", (
   theme (
-    bg #79B0EC
+    bg #2EB398
   ),
   header (
     logout (
