@@ -77,6 +77,9 @@ import Pricing from './routes/Pricing';
 
 import Lock from './routes/Lock';
 
+
+import Campaigns from './routes/Campaigns';
+
 class App extends React.Component {
 
   
@@ -107,7 +110,7 @@ class App extends React.Component {
 const routes = (
   <Route component={App}>
     <Route path='dashboard' component={Dashboard} />
-    <Route path='accounts' component={Datatablesjs} />
+    <Route path='campaigns' component={Campaigns} />
     <Route path='mailbox/inbox' component={Inbox} />
     <Route path='mailbox/mail' component={Mail} />
     <Route path='mailbox/compose' component={Compose} />

@@ -88,6 +88,8 @@
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
+    "datatables.net-buttons": "^1.2.4",
+    "datatables.net-buttons-dt": "^1.2.4",
     "express": "^4.14.0",
     "pug": "^2.0.0-beta3",
     "react": "^15.3.0",

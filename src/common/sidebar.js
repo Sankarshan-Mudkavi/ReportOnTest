@@ -49,7 +49,7 @@ class ApplicationSidebar extends React.Component {
                       <SidebarNavItem glyph='icon-dripicons-message' name='Compose' href={::this.getPath('mailbox/compose')} />
                     </SidebarNav>
                   </SidebarNavItem> */}
-                  <SidebarNavItem glyph='icon-feather-share' name='Accounts' href={::this.getPath('accounts')} />
+                  <SidebarNavItem glyph='icon-feather-share' name='Campaigns' href={::this.getPath('campaigns')} />
                   <SidebarNavItem glyph='icon-feather-share' name='Reports' href={::this.getPath('social')} />
                   <SidebarNavItem glyph='icon-pixelvicon-photo-gallery' name='Gallery' href={::this.getPath('gallery')} />
                   {/*<SidebarNavItem glyph='icon-feather-share' name='Social' href={::this.getPath('social')} /> */}

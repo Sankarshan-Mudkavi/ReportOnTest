@@ -48,6 +48,9 @@
     "filament-tablesaw": "^2.0.3",
     "jquery-ui": "^1.12.0",
     "dropzone": "^4.3.0",
-    "PACE": "pace#~1.0.2"
+    "PACE": "pace#~1.0.2",
+    "datatables.net-buttons": "^1.2.4",
+    "datatables.net-autofill-dt": "^2.1.3",
+    "datatables.net-buttons-dt": "^1.2.4"
   }
 }

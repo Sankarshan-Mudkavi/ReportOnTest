@@ -43,6 +43,10 @@ import "bower_components/x-editable/dist/inputs-ext/address/address.js";
 import "bower_components/x-editable/dist/inputs-ext/typeaheadjs/typeaheadjs.js";
 import 'bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js';
 import "bower_components/datatables/media/js/jquery.dataTables.js";
+import "bower_components/datatables.net-buttons/js/dataTables.buttons.js";
+import "bower_components/datatables.net-buttons/js/buttons.print.js";
+
+
 import "js/vendor/fullcalendar/fullcalendar.js";
 import "js/vendor/datatables/responsive.js";
 import "js/vendor/jcrop/color.js";
