@@ -9,14 +9,20 @@ import {
 } from '@sketchpixy/rubix';
 
 import { Link, withRouter } from 'react-router';
-
+import { connect } from 'react-redux';
 import ChatComponent from './chat';
 import StatisticsComponent from './statistics';
 import TimelineComponent from './timeline';
 import NotificationsComponent from './notifications';
+import actions from '../redux/actions';
 
 @withRouter
+@connect((state) => {
+  
+  return state
+})
 class ApplicationSidebar extends React.Component {
+  
   handleChange(e) {
     this._nav.search(e.target.value);
   }
@@ -28,7 +34,17 @@ class ApplicationSidebar extends React.Component {
     return path;
   }
 
+  renderAccounts(){
+    let { accounts, dispatch } = this.props;
+    let { result, error } = accounts;
+    return result.map((account, i) => {
+      return <SidebarNavItem key={i} glyph='icon-feather-layout' name={account.name} href={::this.getPath('account/'+account.name)} />
+    })
+  }
+
   render() {
+
+
     return (
       <div>
         <Grid>
@@ -49,6 +65,16 @@ class ApplicationSidebar extends React.Component {
                       <SidebarNavItem glyph='icon-dripicons-message' name='Compose' href={::this.getPath('mailbox/compose')} />
                     </SidebarNav>
                   </SidebarNavItem> */}
+
+                  <SidebarNavItem glyph='icon-stroke-gap-icons-Blog' name={<span>Accounts <Label className='bg-darkcyan fg-white'>2</Label></span>}>
+                    <SidebarNav>
+                      {this.renderAccounts()}
+                      {/*<SidebarNavItem glyph='icon-feather-layout' name='Posts' href={::this.getPath('blog/posts')} /> */}
+                      <SidebarNavItem glyph='icon-simple-line-icons-plus' name='Add Account' href={::this.getPath('account/AddAccount')} />
+                    </SidebarNav>
+                  </SidebarNavItem>
+
+
                   <SidebarNavItem glyph='icon-feather-share' name='Campaigns' href={::this.getPath('campaigns')} />
                   <SidebarNavItem glyph='icon-feather-share' name='Reports' href={::this.getPath('social')} />
                   <SidebarNavItem glyph='icon-pixelvicon-photo-gallery' name='Gallery' href={::this.getPath('gallery')} />
@@ -170,8 +196,10 @@ class DummySidebar extends React.Component {
   }
 }
 
-@withRouter
+
+@withRouter 
 export default class SidebarContainer extends React.Component {
+
   getPath(path) {
     var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
     path = `/${dir}/${path}`;

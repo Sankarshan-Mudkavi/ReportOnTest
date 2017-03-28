@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import DropZone from 'react-dropzone';
+import slIcon from './fonts/simple-line-icons';
 import {
   Row,
   Col,
   Grid,
   Panel,
   Table,
+  Form,
   PanelBody,
   PanelHeader,
   Modal,
@@ -16,49 +18,21 @@ import {
   FormControl,
   PanelContainer,
 } from '@sketchpixy/rubix';
+import { withRouter } from 'react-router';
 // var $ = require( 'jquery' );
 // $.DataTable = require('datatables.net');
 // var cunt = require( 'datatables.net-buttons' )( window, $ )
-
-class UploadPhoto extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { showModal: false };
-  }
-
-  close() {
-    this.setState({ showModal: false });
-  }
-
-  open() {
-    this.setState({ showModal: true });
-  }
-
-  render() {
-    return (
-      <Modal show={this.state.showModal} onHide={::this.close}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h4>Text in a modal</h4>
-          <p> fucking </p>
-          
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={::this.close}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-}
 
 
 class NewCampaign extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { showModal: false };
+    this.state = { 
+      showModal: false,
+      value:''
+
+     };
   }
 
   close() {
@@ -75,25 +49,137 @@ class NewCampaign extends React.Component {
 
   render() {
     return (
-      <Modal show={this.state.showModal} onHide={::this.close}>
+      <Modal backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
         <Modal.Header closeButton>
-          <Modal.Title>Give your Campaign a Name</Modal.Title>
+          <Modal.Title>Give your NEW Campaign a Name</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <FormGroup controlId='username'>
             <ControlLabel>Name *</ControlLabel>
             <FormControl type='text' name='name' className='required'
               onChange={(event) => {
-                console.log("changed name to " + event.target.value)
+                
+                var stringValue = event.target.value.replace(/[^A-Z0-9]+/ig, "_").toLowerCase();
+                console.log("changed name to " + stringValue);
                 this.setState({
-                  value:event.target.value
+                  value:stringValue
                 })
               }} />
           </FormGroup>
-          <p> Your shit will be at http://reportOn.com/campaigns/{this.state.value}</p>
+          <p> <br/><br/>Your campaign will be at <br/> http://reportOn.com/campaigns/{this.state.value}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={::this.next}>Next</Button>
+          <Button bsStyle='primary' disabled={(this.state.value.length < 1)} onClick={::this.next}>Next</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
+class UploadPhoto extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      showModal: false,
+      passedProp: props.passedProp || {},
+      
+    };
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.passedProp != this.props.passedProp) {
+      this.setState({
+        passedProp: nextProps.passedProp
+      });
+    }
+  }
+
+
+
+  close() {
+    this.setState({ showModal: false });
+  }
+
+  open() {
+    this.setState({ showModal: true });
+  }
+
+  next(){
+    this.props.next(this.state.value.file[0]);
+  }
+
+
+
+  onDrop(file){
+    console.log("dropped file " + JSON.stringify(file));
+    if (file.length>0) {
+      this.setState({
+       file,
+       showImage:true,
+       error:false
+      });
+    } else {
+      console.log("in ondrop else");
+      this.setState({
+        file:[],
+        showImage:false,
+        error:true
+      })
+    }
+    
+  }
+
+  dropPreview(){
+    if (this.state.file) {
+      console.log("file exists now");
+      return <img src={this.state.file.preview}/> 
+    } else {
+      console.log('file doesnt exist');
+      return <div style={{textAlign:'center'}}> <br/><br/>Drag & drop an image or <br/> click here to select an image to upload</div>
+    }
+  }
+
+
+  render() {
+    
+    return (
+      <Modal  show={this.state.showModal} backdrop='static' onHide={::this.close}>
+        <Modal.Header closeButton>
+          <Modal.Title>Upload a Photo for {this.state.passedProp.campaignName}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Grid>
+            <Row>
+            
+              <Col md={6} mdOffset={3} >
+
+                <DropZone multiple={false} onDrop={this.onDrop.bind(this)} accept={'image/*'}>
+                  
+                  {this.state.showImage
+                    ? 
+                    <div style={{textAlign:'center'}}>
+                      <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={this.state.file[0].preview}/> 
+                      Click here to upload a different image...
+                    </div>
+                    :
+                    null                  
+                  }
+
+                  { !this.state.file ? <div style={{textAlign:'center'}}><br/><br/> Drag & drop an image or <br/> click here to select an image to upload</div> : null }
+                  {this.state.error
+                    ?
+                    <div style={{textAlign:'center'}}> <br/><br/><br/> Please upload a valid image. <br/> Click here to try again</div>
+                    :
+                    null
+                  }
+                </DropZone>
+              </Col>
+            </Row>
+          </Grid>
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button bsStyle='primary' disabled={!this.state.showImage} onClick={::this.next}>Next</Button>
         </Modal.Footer>
       </Modal>
     );
@@ -101,19 +187,18 @@ class NewCampaign extends React.Component {
 }
 
 
+
+
 class DatatableComponent extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state={
+
+    }
+  }
+
   componentDidMount() {
-    console.log("FUCKING SHIT");
-
-    // $.fn.dataTable.ext.buttons.alert = {
-    //     text: 'alert',
-    //     className: 'buttons-alert',
-    //     action: function ( e, dt, node, config ) {
-    //       console.log("clickedRELOAD");
-    //     }
-    // };
-
-
     $(ReactDOM.findDOMNode(this.example))
       .addClass('nowrap')
     this.table = $(ReactDOM.findDOMNode(this.example)).DataTable({
@@ -135,15 +220,14 @@ class DatatableComponent extends React.Component {
 
     this.table.buttons().container()
         .appendTo( $('.dataTables_length' ) );
-      }
+  }
 
-// new 
 
   newCampaign() {
     this.NewCampaign.open();
   }
 
-  uploadPhoto(name) {
+  uploadPhoto() {
     this.UploadPhoto.open();
   }
 
@@ -153,13 +237,15 @@ class DatatableComponent extends React.Component {
   
   newedCampaign(v){
     console.log("NewedCampaign " + v);
-    this.uploadPhoto();
-    this.NewCampaign.close();
     this.setState({
       editor: {
         campaignName: v
       }
     });
+
+    this.uploadPhoto();
+    this.NewCampaign.close();
+    
   }
 
   uploadedPhoto(v) {
@@ -172,6 +258,7 @@ class DatatableComponent extends React.Component {
   }
 
   render() {
+    
     return (
       <div>
       <Grid>
@@ -180,7 +267,7 @@ class DatatableComponent extends React.Component {
         </Col> 
       </Row>
       </Grid>
-      <UploadPhoto ref={(c) => this.UploadPhoto = c} next={(v) => this.uploadedPhoto(v)}/>
+      <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} next={(v) => this.uploadedPhoto(v)}/>
       <NewCampaign ref={(c) => this.NewCampaign = c} next={(v) => this.newedCampaign(v)}/>
       <Table ref={(c) => this.example = c} className='display' cellSpacing='0' width='100%'>
         <thead>

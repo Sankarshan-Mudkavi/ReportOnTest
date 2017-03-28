@@ -77,14 +77,34 @@ import Pricing from './routes/Pricing';
 
 import Lock from './routes/Lock';
 
-
+import AddAccount from './routes/AddAccount';
 import Campaigns from './routes/Campaigns';
 
-class App extends React.Component {
+import actions from './redux/actions';
+import { connect } from 'react-redux';
 
+@connect((state) => {
+  return state
+})
+class App extends React.Component {
+  static fetchData(store) {
+    console.log("fetchingData");
+    return store.dispatch(actions.getAccounts());
+  }
   
+  // renderAccounts() {
+  //   return (
+  //     <Route path='campaigns' component={Campaigns} />
+  //     <Route path='campaigns' component={Campaigns} />
+  //     <Route path='campaigns' component={Campaigns} />
+  //     )
+  // }
 
   render() {
+    console.log("in app - accounts are " + this.props.accounts.result)
+    let { accounts, dispatch } = this.props;
+    var { result, error } = accounts;
+    result = result || []
     return (
       <MainContainer {...this.props}>
         <Sidebar />
@@ -93,6 +113,7 @@ class App extends React.Component {
           <Grid>
             <Row>
               <Col xs={12}>
+
                 {this.props.children}
               </Col>
             </Row>
@@ -107,9 +128,13 @@ class App extends React.Component {
 /**
  * Includes Sidebar, Header and Footer.
  */
-const routes = (
-  <Route component={App}>
+
+
+const routes = 
+
+(  <Route component={App}>
     <Route path='dashboard' component={Dashboard} />
+    <Route path='account/AddAccount' component={AddAccount} />
     <Route path='campaigns' component={Campaigns} />
     <Route path='mailbox/inbox' component={Inbox} />
     <Route path='mailbox/mail' component={Mail} />
