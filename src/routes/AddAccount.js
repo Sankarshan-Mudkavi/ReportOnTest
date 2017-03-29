@@ -22,7 +22,8 @@ import {
   HelpBlock,
 } from '@sketchpixy/rubix';
 import actions from '../redux/actions';
-
+// var request = require('superagent');
+// var nocache = require('superagent-no-cache');
 
 class NewAccount extends React.Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class NewAccount extends React.Component {
   getValidationState(){
     const value = this.state.value;
     var result = this.props.result.map((res) => {return res.name}) || [];
-    console.log("validation happening " + JSON.stringify(result))
+    // console.log("validation happening " + JSON.stringify(result))
 
     if (result.indexOf(value) != -1) {
       return 'error'
@@ -107,7 +108,7 @@ class UploadPhoto extends React.Component {
 
 
   close() {
-    this.setState({ showModal: false });
+    this.setState({ showModal: false, file: [], error:false, uploaded:false, base64data:null, showImage:false });
   }
 
   open() {
@@ -115,21 +116,35 @@ class UploadPhoto extends React.Component {
   }
 
   next(){
-    this.props.next(this.state.file[0]);
+    this.props.next(this.state.img);
   }
 
 
 
   onDrop(file){
+    var userScreen = this;
     console.log("dropped file " + JSON.stringify(file));
+    // console.log("dropped file type is" + (file[0].preview.type));
     if (file.length>0) {
       this.setState({
        file,
        showImage:true,
-       error:false
+       error:false,
+       uploaded:false,
       });
+      var reader = new window.FileReader();
+      // var blob = new File.createFromFileName(file[0].preview)
+      console.log("file[0].preview is " + file[0].type)
+      reader.readAsDataURL(file[0]);
+      reader.onloadend = function() {
+        var base64data=reader.result;
+        console.log( "base64 ready" );
+        userScreen.setState({
+          img:base64data
+        });
+      }
+
     } else {
-      console.log("in ondrop else");
       this.setState({
         file:[],
         showImage:false,
@@ -155,7 +170,7 @@ class UploadPhoto extends React.Component {
     return (
       <Modal  show={this.state.showModal} backdrop='static' onHide={::this.close}>
         <Modal.Header closeButton>
-          <Modal.Title>Upload a Photo for {this.state.passedProp.accountName}</Modal.Title>
+          <Modal.Title>Upload a Photo for {this.state.passedProp.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Grid>
@@ -292,10 +307,10 @@ export default class AddAccount extends React.Component {
   }
   
   newedAccount(v){
-    
+    this.props.dispatch(actions.createAccount({title: v}));
     this.setState({
       editor: {
-        accountName: v
+        title: v
       }
     });
 
@@ -307,7 +322,8 @@ export default class AddAccount extends React.Component {
   uploadedPhoto(v) {
     
     var editor = Object.assign({}, this.state.editor);
-    editor.accountPhoto = v;
+    editor.img = v;
+    this.props.dispatch(actions.createAccount(editor));
     this.setState({
       editor
     });

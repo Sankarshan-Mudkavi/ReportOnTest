@@ -7,8 +7,20 @@ import {
   
 } from './actionTypes';
 
-import axios from 'axios';
-var api='102.392.239.21';
+// import axios from 'axios';
+// var http = new XMLHttpRequest();
+var api='http://34.205.72.170:3000';
+var headers = {
+        // 'Authorization': 'Bearer ', //+ DEMO_TOKEN,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'dataType': 'json',
+        'Access-Control-Allow-Origin': '*'
+      };
+
+function login() {
+
+}
 
 function getAccounts() {
   let query = `
@@ -83,62 +95,75 @@ function getAccounts() {
   // };
 }
 
-function getAccount(variables) {
-  let query = `
-    query getTodo($_id: String!) {
-      todo(_id: $_id) {
-        _id
-        todo
-        completed
-      }
-    }
-  `;
+// function getAccount(variables) {
+//   let query = `
+//     query getTodo($_id: String!) {
+//       todo(_id: $_id) {
+//         _id
+//         todo
+//         completed
+//       }
+//     }
+//   `;
 
-  return dispatch => {
-    return axios.post(GraphQLEndpoint, {
-      query,
-      variables,
-    }).then((result) => {
-      if (result.data.errors) {
-        dispatch({
-          type: SINGLE_ACCOUNT,
-          error: result.data.errors,
-        });
-        return;
-      }
+//   return dispatch => {
+//     return axios.post(GraphQLEndpoint, {
+//       query,
+//       variables,
+//     }).then((result) => {
+//       if (result.data.errors) {
+//         dispatch({
+//           type: SINGLE_ACCOUNT,
+//           error: result.data.errors,
+//         });
+//         return;
+//       }
 
-      dispatch({
-        type: SINGLE_ACCOUNT,
-        result: result.data.data.todo,
-      });
-    })
-  };
-}
+//       dispatch({
+//         type: SINGLE_ACCOUNT,
+//         result: result.data.data.todo,
+//       });
+//     })
+//   };
+// }
 
 function createAccount(variables) {
-  let query = `
-    mutation createTodoMutation($todo: String!) {
-      createTodo(todo: $todo) {
-        _id
-        todo
-        completed
-      }
-    }
-  `;
+  // let query = `
+  //   mutation createTodoMutation($todo: String!) {
+  //     createTodo(todo: $todo) {
+  //       _id
+  //       todo
+  //       completed
+  //     }
+  //   }
+  // `;
+  // console.log( 'variables are ' + JSON.stringify(variables));
 
   return dispatch => {
-    return axios.post(GraphQLEndpoint, {
-      query,
-      variables,
-    }).then((result) => {
-      if (result.data.errors) {
+    let options = Object.assign({ method: 'POST' }, variables ? { body: JSON.stringify(variables) } : null );
+    // options.headers =  await Api.headers();
+    options.headers = headers;
+    // console.log("options are " + JSON.stringify(options));
+    let url = api+'/merchant/create.json';
+    console.log("path im sending to is " + url);
+    return fetch(url, options)
+    .then((result) => {
+      console.log("got result " + result + JSON.stringify(result));
+      console.log("got result status " + result.status );
+      let json = result.json();
+      return json;
+    })
+    .then((result) => {
+      console.log("result as json now " + JSON.stringify(result));
+      if (result.error) {
+        console.log("ERROR");
         dispatch({
           type: CREATE_ACCOUNT,
-          error: result.data.errors,
+          error: result.error,
         })
         return;
       }
-
+      // console.log("no errors. created account + " + JSON.stringify(variables));
       dispatch({
         type: CREATE_ACCOUNT,
         result: result.data.data.createTodo,
@@ -217,7 +242,7 @@ function removeAccount(variables) {
 }
 
 module.exports = {
-  getAccount,
+  // getAccount,
   getAccounts,
   createAccount,
   updateAccount,

@@ -88,7 +88,6 @@ import { connect } from 'react-redux';
 })
 class App extends React.Component {
   static fetchData(store) {
-    
     return store.dispatch(actions.getAccounts());
   }
   
