@@ -19,6 +19,7 @@ import {
   FormGroup,
   FormControl,
   ControlLabel,
+  HelpBlock,
 } from '@sketchpixy/rubix';
 import actions from '../redux/actions';
 
@@ -29,7 +30,6 @@ class NewAccount extends React.Component {
     this.state = { 
       showModal: false,
       value:''
-
      };
   }
 
@@ -45,6 +45,18 @@ class NewAccount extends React.Component {
     this.props.next(this.state.value);
   }
 
+  getValidationState(){
+    const value = this.state.value;
+    var result = this.props.result.map((res) => {return res.name}) || [];
+    console.log("validation happening " + JSON.stringify(result))
+
+    if (result.indexOf(value) != -1) {
+      return 'error'
+    } else {
+      return 'success'
+    }
+  }
+
   render() {
     return (
       <Modal backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
@@ -52,17 +64,17 @@ class NewAccount extends React.Component {
           <Modal.Title>Give your NEW Account a Name</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormGroup controlId='username'>
+          <FormGroup controlId='name' validationState={this.getValidationState()}>
             <ControlLabel>Name *</ControlLabel>
             <FormControl type='text' name='name' className='required'
               onChange={(event) => {
-                
                 var stringValue = event.target.value.replace(/[^A-Z0-9]+/ig, "_").toLowerCase();
-                
                 this.setState({
                   value:stringValue
                 })
               }} />
+              <FormControl.Feedback />
+              <HelpBlock> Please ensure the account name does not already exist</HelpBlock>
           </FormGroup>
           <p> <br/><br/>Your account will be at <br/> http://reportOn.com/accounts/{this.state.value}</p>
         </Modal.Body>
@@ -103,7 +115,7 @@ class UploadPhoto extends React.Component {
   }
 
   next(){
-    this.props.next(this.state.value.file[0]);
+    this.props.next(this.state.file[0]);
   }
 
 
@@ -177,7 +189,7 @@ class UploadPhoto extends React.Component {
           
         </Modal.Body>
         <Modal.Footer>
-          <Button bsStyle='primary' disabled={!this.state.showImage} onClick={::this.next}>Next</Button>
+          <Button bsStyle='primary' disabled={!this.state.showImage} onClick={::this.next}>Finish</Button>
         </Modal.Footer>
       </Modal>
     );
@@ -250,7 +262,6 @@ class AddAccountItem extends React.Component {
 
 
 @connect((state) => {
-  // console.log("doing some connection shit");
   return state
 })
 export default class AddAccount extends React.Component {
@@ -400,7 +411,7 @@ export default class AddAccount extends React.Component {
     return (
       <div>
       <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} next={(v) => this.uploadedPhoto(v)}/>
-      <NewAccount ref={(c) => this.NewAccount = c} next={(v) => this.newedAccount(v)}/>
+      <NewAccount ref={(c) => this.NewAccount = c} result={result} next={(v) => this.newedAccount(v)}/>
       <Row>
         <AddAccountItem
           newAccount={::this.newAccount}

@@ -38,11 +38,14 @@ class ApplicationSidebar extends React.Component {
     let { accounts, dispatch } = this.props;
     let { result, error } = accounts;
     return result.map((account, i) => {
-      return <SidebarNavItem key={i} glyph='icon-feather-layout' name={account.name} href={::this.getPath('account/'+account.name)} />
+      return <SidebarNavItem key={i} glyph='icon-feather-layout' name={account.name} href={::this.getPath('campaigns/'+account.name)} />
     })
   }
 
   render() {
+
+    let { accounts, dispatch } = this.props;
+    let { result, error } = accounts;
 
 
     return (
@@ -66,16 +69,17 @@ class ApplicationSidebar extends React.Component {
                     </SidebarNav>
                   </SidebarNavItem> */}
 
-                  <SidebarNavItem glyph='icon-stroke-gap-icons-Blog' name={<span>Accounts <Label className='bg-darkcyan fg-white'>2</Label></span>}>
+                  <SidebarNavItem glyph='icon-stroke-gap-icons-Blog' name={<span>Accounts <Label className='bg-darkcyan fg-white'>{result.length}</Label></span>}>
                     <SidebarNav>
+                     <SidebarNavItem glyph='icon-simple-line-icons-plus' name='Add New Account' href={::this.getPath('account/AddAccount')} />
                       {this.renderAccounts()}
                       {/*<SidebarNavItem glyph='icon-feather-layout' name='Posts' href={::this.getPath('blog/posts')} /> */}
-                      <SidebarNavItem glyph='icon-simple-line-icons-plus' name='Add Account' href={::this.getPath('account/AddAccount')} />
+                     
                     </SidebarNav>
                   </SidebarNavItem>
 
 
-                  <SidebarNavItem glyph='icon-feather-share' name='Campaigns' href={::this.getPath('campaigns')} />
+                  {/*<SidebarNavItem glyph='icon-feather-share' name='Campaigns' href={::this.getPath('campaigns/fucker')} /> */}
                   <SidebarNavItem glyph='icon-feather-share' name='Reports' href={::this.getPath('social')} />
                   <SidebarNavItem glyph='icon-pixelvicon-photo-gallery' name='Gallery' href={::this.getPath('gallery')} />
                   {/*<SidebarNavItem glyph='icon-feather-share' name='Social' href={::this.getPath('social')} /> */}

@@ -756,6 +756,7 @@ class DatatableComponent extends React.Component {
 
 export default class Campaigns extends React.Component {
   render() {
+    console.log("rendeirng campaigns " + this.props.routeParams.page)
     return (
       <Row>
         <Col xs={12}>

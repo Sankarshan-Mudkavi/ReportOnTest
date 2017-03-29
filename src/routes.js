@@ -88,7 +88,7 @@ import { connect } from 'react-redux';
 })
 class App extends React.Component {
   static fetchData(store) {
-    console.log("fetchingData");
+    
     return store.dispatch(actions.getAccounts());
   }
   
@@ -101,7 +101,7 @@ class App extends React.Component {
   // }
 
   render() {
-    console.log("in app - accounts are " + this.props.accounts.result)
+    
     let { accounts, dispatch } = this.props;
     var { result, error } = accounts;
     result = result || []
@@ -135,7 +135,7 @@ const routes =
 (  <Route component={App}>
     <Route path='dashboard' component={Dashboard} />
     <Route path='account/AddAccount' component={AddAccount} />
-    <Route path='campaigns' component={Campaigns} />
+    <Route path='campaigns/:page' component={Campaigns} />
     <Route path='mailbox/inbox' component={Inbox} />
     <Route path='mailbox/mail' component={Mail} />
     <Route path='mailbox/compose' component={Compose} />

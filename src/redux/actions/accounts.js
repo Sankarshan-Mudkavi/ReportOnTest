@@ -147,6 +147,13 @@ function createAccount(variables) {
   };
 }
 
+function selectAccount(account) {
+  console.log('here!');
+  return({
+    type:"ASSFUCK",
+  })
+}
+
 function updateAccount(variables) {
   let query = `
     mutation updateTodoMutation($_id: String!, $todo: String, $completed: Boolean) {
@@ -215,4 +222,5 @@ module.exports = {
   createAccount,
   updateAccount,
   removeAccount,
+  selectAccount
 };
