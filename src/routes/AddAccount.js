@@ -22,194 +22,11 @@ import {
   HelpBlock,
 } from '@sketchpixy/rubix';
 import actions from '../redux/actions';
+import Loadable from 'react-loading-overlay';
 // var request = require('superagent');
 // var nocache = require('superagent-no-cache');
 
-class NewAccount extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      showModal: false,
-      value:''
-     };
-  }
 
-  close() {
-    this.setState({ showModal: false });
-  }
-
-  open() {
-    this.setState({ showModal: true });
-  }
-
-  next(){
-    this.props.next(this.state.value);
-  }
-
-  getValidationState(){
-    const value = this.state.value;
-    var result = this.props.result.map((res) => {return res.title}) || [];
-    // console.log("validation happening " + JSON.stringify(result))
-
-    if (result.indexOf(value) != -1) {
-      return 'error'
-    } else {
-      return 'success'
-    }
-  }
-
-  render() {
-    return (
-      <Modal backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
-        <Modal.Header closeButton>
-          <Modal.Title>Give your NEW Account a Name</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormGroup controlId='name' validationState={this.getValidationState()}>
-            <ControlLabel>Name *</ControlLabel>
-            <FormControl type='text' name='name' className='required'
-              onChange={(event) => {
-                var stringValue = event.target.value.replace(/[^A-Z0-9]+/ig, "_").toLowerCase();
-                this.setState({
-                  value:stringValue
-                })
-              }} />
-              <FormControl.Feedback />
-              <HelpBlock> Please ensure the account name does not already exist</HelpBlock>
-          </FormGroup>
-          <p> <br/><br/>Your account will be at <br/> http://reportOn.com/accounts/{this.state.value}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button bsStyle='primary' disabled={(this.state.value.length < 1)} onClick={::this.next}>Next</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-}
-
-class UploadPhoto extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      showModal: false,
-      passedProp: props.passedProp || {},
-      
-    };
-  }
-  
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.passedProp != this.props.passedProp) {
-      this.setState({
-        passedProp: nextProps.passedProp
-      });
-    }
-  }
-
-
-
-  close() {
-    this.setState({ showModal: false, file: [], error:false, uploaded:false, base64data:null, showImage:false });
-  }
-
-  open() {
-    this.setState({ showModal: true });
-  }
-
-  next(){
-    this.props.next(this.state.img);
-  }
-
-
-
-  onDrop(file){
-    var userScreen = this;
-    console.log("dropped file " + JSON.stringify(file));
-    // console.log("dropped file type is" + (file[0].preview.type));
-    if (file.length>0) {
-      this.setState({
-       file,
-       showImage:true,
-       error:false,
-       uploaded:false,
-      });
-      var reader = new window.FileReader();
-      // var blob = new File.createFromFileName(file[0].preview)
-      console.log("file[0].preview is " + file[0].type)
-      reader.readAsDataURL(file[0]);
-      reader.onloadend = function() {
-        var base64data=reader.result;
-        console.log( "base64 ready" );
-        userScreen.setState({
-          img:base64data
-        });
-      }
-
-    } else {
-      this.setState({
-        file:[],
-        showImage:false,
-        error:true
-      })
-    }
-    
-  }
-
-  dropPreview(){
-    if (this.state.file) {
-      console.log("file exists now");
-      return <img src={this.state.file.preview}/> 
-    } else {
-      console.log('file doesnt exist');
-      return <div style={{textAlign:'center'}}> <br/><br/>Drag & drop an image or <br/> click here to select an image to upload</div>
-    }
-  }
-
-
-  render() {
-    
-    return (
-      <Modal  show={this.state.showModal} backdrop='static' onHide={::this.close}>
-        <Modal.Header closeButton>
-          <Modal.Title>Upload a Photo for {this.state.passedProp.title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Grid>
-            <Row>
-            
-              <Col md={6} mdOffset={3} >
-
-                <DropZone multiple={false} onDrop={this.onDrop.bind(this)} accept={'image/*'}>
-                  
-                  {this.state.showImage
-                    ? 
-                    <div style={{textAlign:'center'}}>
-                      <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={this.state.file[0].preview}/> 
-                      Click here to upload a different image...
-                    </div>
-                    :
-                    null                  
-                  }
-
-                  { !this.state.file ? <div style={{textAlign:'center'}}><br/><br/> Drag & drop an image or <br/> click here to select an image to upload</div> : null }
-                  {this.state.error
-                    ?
-                    <div style={{textAlign:'center'}}> <br/><br/><br/> Please upload a valid image. <br/> Click here to try again</div>
-                    :
-                    null
-                  }
-                </DropZone>
-              </Col>
-            </Row>
-          </Grid>
-          
-        </Modal.Body>
-        <Modal.Footer>
-          <Button bsStyle='primary' disabled={!this.state.showImage} onClick={::this.next}>Finish</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-}
 
 
 
@@ -291,7 +108,7 @@ export default class AddAccount extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // if nextProps.
+
   }
 
   newAccount() {
@@ -322,12 +139,18 @@ export default class AddAccount extends React.Component {
   }
 
   uploadedPhoto(v) {
-    
     var editor = Object.assign({}, this.state.editor);
     editor.img = v;
-    this.props.dispatch(actions.createAccount(editor));
+    var userScreen= this;
+    this.props.dispatch(actions.createAccount(editor))
+    .then(()=>{
+      userScreen.setState({
+        photoLoading: false
+      })
+    });
     this.setState({
-      editor
+      editor,
+      photoLoading:true
     });
   }
 
@@ -340,7 +163,9 @@ export default class AddAccount extends React.Component {
 
   renderAccounts(result) {
     var resLen = result.length;
+    //lets say this is 4/
     var colLen = Math.ceil(resLen /2);
+    //collen = 2
     var resArray = result.map((account, i) => {
       return (
         <PanelContainer key={i}>
@@ -369,14 +194,7 @@ export default class AddAccount extends React.Component {
     })
     var colArray=[];
     var colArrayIndex = 0;
-    //get bootstrap dimensions... 
-    //if we only have one column, we need to make the shit 12.
-    //if we have two columns, we need shit to be 6
-    //3 columns = 4
-
-    //if we have 6 columns, our shit will be maximum 4
-    var gridVar = Math.min(6,Math.max(4,12/colLen));
-
+    var gridVar = Math.min(6,Math.max(4,12/colLen)); 
     while (resArray.length > 1) {
       colArray[colArrayIndex] = (
         <Col sm={gridVar} key={colArrayIndex} >
@@ -390,15 +208,13 @@ export default class AddAccount extends React.Component {
       {resArray}
       </Col>
     )
-
-    //we have this shit split into 2's
-    //
+    var colArrayLen = 12/gridVar
     var retArray = [];
     var i = 0;
-    while (colArray.length > 3) {
+    while (colArray.length > colArrayLen) {
       retArray[i] = (
         <Row key={i}>
-        {colArray.splice(0,3)}
+        {colArray.splice(0,colArrayLen)}
         </Row>
       );
       i++;
@@ -421,8 +237,8 @@ export default class AddAccount extends React.Component {
 
     return (
       <div>
-      <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} next={(v) => this.uploadedPhoto(v)}/>
-      <NewAccount ref={(c) => this.NewAccount = c} result={result} next={(v) => this.newedAccount(v)}/>
+      <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} uploadPhoto={(v) => this.uploadedPhoto(v)}/>
+      <NewAccount ref={(c) => this.NewAccount = c} result={result} loading={this.state.photoLoading} next={(v) => this.newedAccount(v)}/>
       <Row>
         <AddAccountItem
           newAccount={::this.newAccount}
@@ -434,6 +250,212 @@ export default class AddAccount extends React.Component {
         {this.renderAccounts(result)} 
       </div>
       </div>
+    );
+  }
+}
+
+class NewAccount extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      showModal: false,
+      value:' '
+     };
+  }
+
+  close() {
+    this.setState({ showModal: false, value: ' ' });
+  }
+
+  open() {
+    this.setState({ showModal: true, value: ' ' });
+  }
+
+  next(){
+
+    this.props.next(this.state.value);
+  }
+
+  getValidationState(){
+    const value = this.state.value.replace(/[^A-Z0-9]+/ig, "_").toLowerCase();
+    // console.log("result is " + JSON.stringify(this.props.result));
+    var result = this.props.result.map((res) => {
+      var title = res.title || 'unknown';
+      return title.replace(/[^A-Z0-9]+/ig, "_").toLowerCase();
+    }) || [];
+    if (result.indexOf(value) != -1) {
+      return 'error'
+    } else {
+      return 'success'
+    }
+  }
+
+  render() {
+    return (
+     
+        <Modal backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
+          <Modal.Header closeButton>
+            <Modal.Title>Give your NEW Account a Name</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+
+            <FormGroup controlId='name' validationState={this.getValidationState()}>
+              <ControlLabel>Name *</ControlLabel>
+              <FormControl type='text' name='name' className='required'
+                onChange={(event) => {
+                  this.setState({
+                    value:event.target.value
+                  })
+                }} />
+                <FormControl.Feedback />
+                <HelpBlock> Please ensure the account name does not already exist</HelpBlock>
+            </FormGroup>
+            <p> <br/><br/>Your account will be at <br/> http://reportOn.com/accounts/{this.state.value.replace(/[^A-Z0-9]+/ig, "_").toLowerCase()}</p>
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle='primary' disabled={(this.state.value.length < 1)} onClick={::this.next}>Next</Button>
+          </Modal.Footer>
+        </Modal>
+      
+    );
+  }
+}
+
+
+
+class UploadPhoto extends React.Component {
+  constructor(props) {
+    super(props);
+    var loading = props.loading || false;
+    this.state = { 
+      showModal: false,
+      passedProp: props.passedProp || {},
+      loading
+    };
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.passedProp != this.props.passedProp) {
+      this.setState({
+        passedProp: nextProps.passedProp
+      });
+    }
+    if (nextProps.loading != this.state.loading) {
+      this.setState({
+        loading: nextProps.loading
+      });
+    }
+  }
+
+
+
+  close() {
+    this.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
+  }
+
+  open() {
+    this.setState({ showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
+  }
+
+
+
+  onDrop(file){
+    var userScreen = this;
+    console.log("dropped file " + JSON.stringify(file));
+    // console.log("dropped file type is" + (file[0].preview.type));
+    if (file.length>0) {
+      this.setState({
+       file,
+       showImage:true,
+       error:false,
+       uploaded:false,
+      });
+      var reader = new window.FileReader();
+      // var blob = new File.createFromFileName(file[0].preview)
+      console.log("file[0].preview is " + file[0].type)
+      reader.readAsDataURL(file[0]);
+      reader.onloadend = function() {
+        var base64data=reader.result;
+        console.log( "base64 ready" );
+        userScreen.setState({
+          loading:true,
+          img:base64data
+        });
+        userScreen.props.uploadPhoto(base64data);
+      }
+
+    } else {
+      this.setState({
+        file:[],
+        showImage:false,
+        error:true
+      })
+    }
+    
+  }
+
+  dropPreview(){
+    if (this.state.file) {
+      console.log("file exists now");
+      return <img src={this.state.file.preview}/> 
+    } else {
+      console.log('file doesnt exist');
+      return <div style={{textAlign:'center'}}> <br/><br/>Drag & drop an image or <br/> click here to select an image to upload</div>
+    }
+  }
+
+
+  render() {
+    return (
+      <Modal  show={this.state.showModal} backdrop='static' onHide={::this.close}>
+        <Modal.Header closeButton>
+          <Modal.Title>Upload a Photo for {this.state.passedProp.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Grid>
+            <Row>
+            
+              <Col sm={6} smOffset={3} >
+              
+            
+                  <div align='center'>
+                    <DropZone multiple={false} onDrop={this.onDrop.bind(this)} accept={'image/*'}>
+                      <Loadable
+                        active={this.state.loading}
+                        spinner
+                        text='uploading...'
+                        >
+                        {this.state.showImage
+                          ? 
+                          <div style={{textAlign:'center'}}>
+                            <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={this.state.file[0].preview}/> 
+                            Click here to upload a different image...
+                          </div>
+                          :
+                          null                  
+                        }
+                        { !this.state.file ? <div style={{textAlign:'center'}}><br/><br/> Drag & drop an image or <br/> click here to select an image to upload</div> : null }
+                        {this.state.error
+                          ?
+                          <div style={{textAlign:'center'}}> <br/><br/><br/> Please upload a valid image. <br/> Click here to try again</div>
+                          :
+                          null
+                        }
+                      </Loadable>
+                    </DropZone>
+                    </div>
+                  
+                
+              </Col>
+            </Row>
+          </Grid>
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button bsStyle='primary' disabled={!this.state.showImage} onClick={::this.close}>Finish</Button>
+        </Modal.Footer>
+      </Modal>
     );
   }
 }

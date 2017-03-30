@@ -37,7 +37,7 @@ function fetchLogin(value) {
         console.log("fetchLogin response " + JSON.stringify(resp))
         if (resp.error != null) {
           if (!resp.error.includes("sign in")) {
-            alert("Error", resp.error);
+            alert("Error" + resp.error);
           }
           dispatch(setLoginStatus('false', resp, true));
         } else {
@@ -55,7 +55,7 @@ function fetchLogin(value) {
       })
       .catch(ex => {
         console.log("FUCKING ERROR FROM FETCHLOGIN  " + ex.toString());
-        alert("🤔", ex.toString());
+        alert("🤔" + ex.toString());
         dispatch(setData("error"));
         // dispatch(setLoginStatus(false, { }, true));
       });
@@ -64,6 +64,7 @@ function fetchLogin(value) {
 
 function setLoginStatus(success, resp, error) {
   if (success == "true") {
+    console.log("setting login status! as true!");
     return {
       type: LOGIN,
       resp
@@ -80,6 +81,7 @@ function setLoginStatus(success, resp, error) {
         type: LOGIN_ER
       };
     }
+    console.log("logging out from actions!");
     return {
       type: LOGOUT
     };
@@ -91,23 +93,24 @@ function setLoginStatus(success, resp, error) {
 
 
 function fetchData(path) {
-  var userID = 3;
+  var userID = cookie.load('id') || 0;
+  // userID = 3;
   console.log("fetchData running for path " + path);
   var fullPath = "/" + path + "/show?id="+userID;
   return (dispatch, getState) => {
     return Api.get(fullPath)
-    // return Api.get("/api/test.json")
+    
       .then(resp => {
-        // console.log("fetched Data " + JSON.stringify(resp));
         if (resp.error != null) {
           if (!resp.error.includes("sign in")) {
-            alert("Error", resp.error);
+            alert("Error" + resp.error);
             dispatch(setData('error'));
           } else {
             console.log("setting loginstatus from fetchData");
             dispatch(setLoginStatus('false', resp, true));
           }
         } else {
+          
           // var resp = {
           //   resp:[
           //     {
@@ -145,12 +148,14 @@ function fetchData(path) {
           //   ] 
           // }
           // dispatch(setData(path, resp.resp));
+          dispatch(setLoginStatus('true', resp));
+          
           dispatch(setData(path, resp));
         }
       })
       .catch(ex => {
         console.log("FUCKING ERROR FROM FETCH DATA " + ex.toString());
-        alert("🤔", ex.toString());
+        alert("🤔 error fetching data... " + ex.toString());
         // throw new Error("error with network!");
         dispatch(setData("error"));
       });
@@ -208,7 +213,7 @@ function setData(type, resp) {
       };
     default:
       return {
-        type: ALL_ACCOUNTS
+        type: "DATA ERROR"
       };
   }
 }
@@ -216,10 +221,7 @@ function setData(type, resp) {
 
 function createAccount(variables) {
   return dispatch => {
-    // let options = Object.assign({ method: 'POST' }, variables ? { body: JSON.stringify(variables) } : null );
-    var body = {
-      body: variables
-    }
+    var body = variables;
     return Api.post("/merchant/create.json", body)
     .then(result => {
       if (result.error != null) {
@@ -229,13 +231,13 @@ function createAccount(variables) {
             error: result.error,
           });
         } 
-        // else {
-        //   console.log("setting loginstatus from fetchData");
-        //   dispatch(setLoginStatus('false', resp, true));
-        // }
+        else {
+          console.log("setting loginstatus from fetchData");
+          dispatch(setLoginStatus('false', resp, true));
+        }
       } else {
         // dispatch(setData(path, resp));
-        console.log("dispatching RESULT.merchant!");
+        
         dispatch({
           type: CREATE_ACCOUNT,
           result: result.merchant
@@ -244,9 +246,9 @@ function createAccount(variables) {
     })
     .catch(ex => {
       console.log("FUCKING ERROR FROM CreateAccount " + ex.toString());
-      // Alert.alert("🤔", ex.toString());
+      alert("🤔 error modifying account " + ex.toString());
       // throw new Error("error with network!");
-      // dispatch(setData("error"));
+      dispatch(setData("error"));
     });
   };
 }
@@ -328,5 +330,6 @@ module.exports = {
   removeAccount,
   selectAccount,
   fetchLogin,
-  setLoginRedirect
+  setLoginRedirect,
+  setLoginStatus
 };

@@ -23,6 +23,27 @@ import actions from '../redux/actions';
 })
 class ApplicationSidebar extends React.Component {
 
+  constructor(props) {
+    super(props);
+    let { accounts, dispatch } = props;
+    var result  = accounts.result ||  {};
+    var rendAccts = this.renderAccounts(result);
+    this.state={
+      rendAccts
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if( nextProps.accounts !=  this.props.accounts) {
+      let { accounts, dispatch } = nextProps;
+      var result  = accounts.result ||  {};
+      var rendAccts = this.renderAccounts(result);
+      this.setState({
+        rendAccts
+      });
+    }
+  }
+
   handleChange(e) {
     this._nav.search(e.target.value);
   }
@@ -34,13 +55,17 @@ class ApplicationSidebar extends React.Component {
     return path;
   }
 
-  renderAccounts(){
-    let { accounts, dispatch } = this.props;
-    let { result, error } = accounts;
-    return result.map((account, i) => {
+  renderAccounts(result){
+    console.log('render account form sidebar' + result.length);
+    var res =  result.map((account, i) => {
       return <SidebarNavItem key={i} glyph='icon-feather-layout' name={account.title} href={::this.getPath('campaigns/'+account.title)} />
-    })
+    });
+    console.log("this shit length is " + res.length);
+    return res;
   }
+
+
+
 
   render() {
 
@@ -49,8 +74,7 @@ class ApplicationSidebar extends React.Component {
     var error  = accounts.error ||  {};
     // var { result, error } = accounts || {};
     result.length = result.length || 0;
-
-
+  
     return (
       <div>
         <Grid>
@@ -73,11 +97,9 @@ class ApplicationSidebar extends React.Component {
                   </SidebarNavItem> */}
 
                   <SidebarNavItem glyph='icon-stroke-gap-icons-Blog' name={<span>Accounts <Label className='bg-darkcyan fg-white'>{result.length}</Label></span>}>
-                    <SidebarNav>
+                    <SidebarNav >
                      <SidebarNavItem glyph='icon-simple-line-icons-plus' name='Add New Account' href={::this.getPath('account/AddAccount')} />
-                      {this.renderAccounts()}
-                      {/*<SidebarNavItem glyph='icon-feather-layout' name='Posts' href={::this.getPath('blog/posts')} /> */}
-                     
+                      {this.state.rendAccts}
                     </SidebarNav>
                   </SidebarNavItem>
 

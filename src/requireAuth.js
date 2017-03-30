@@ -31,15 +31,17 @@ export default function RequireAuth(ComposedComponent) {
       var state = this.state || {};
       let userScreen = this;
       if (typeof(isLoggedIn) == 'undefined') {
-        console.log("gona try to fetchlogin()");
-        this.props.dispatch(actions.fetchLogin())
+        console.log("gona try to fetchData()");
+        this.props.dispatch(actions.fetchData('accounts'))
         .then(()=>{
+          console.log("checking login now form RequireAuth");
           userScreen.checkLogin();
         });
         return;
+      } else {
+        console.log("checking login now form RequireAuth else ");
+        userScreen.checkLogin();  
       }
-      userScreen.checkLogin();
-
     }
 
     checkLogin(props) {
@@ -47,26 +49,47 @@ export default function RequireAuth(ComposedComponent) {
       var loginStatus = props.loginStatus || {}
       var isLoggedIn = loginStatus.isLoggedIn;
       var state = this.state || {};
-      if (!isLoggedIn) {
+      var userScreen = this;
+      if (isLoggedIn == false) {
         this.props.dispatch(actions.setLoginRedirect(this.props.location.pathname));
         console.log("pushing to loginScreen");
+        if (state.isLoggedIn != isLoggedIn) {
+          userScreen.setState({
+            isLoggedIn
+          });
+        }
         this.context.router.push('/ltr/login');
+      } else {
+
+        if (state.isLoggedIn != isLoggedIn) {
+          if (isLoggedIn == true ){
+            userScreen.props.dispatch(actions.fetchData('accounts'))
+            .then(() => {
+              userScreen.setState({
+                isLoggedIn
+              });    
+            });  
+          } else {
+            userScreen.setState({
+              isLoggedIn
+            });
+          }
+        }
+
       }
-      if (state.isLoggedIn != isLoggedIn) {
-        this.setState({
-          isLoggedIn
-        });
-      }
+
+
     }
 
     componentWillUpdate(nextProps) {
-      this.checkLogin(nextProps);
+      if (nextProps.isLoggedIn != this.props.isLoggedIn) {
+        this.checkLogin(nextProps);  
+      }
     }
 
 
 
     render() {
-      console.log("fuckery");
       var state = this.state || {};
       if (state.isLoggedIn) {
         console.log("should see compposedComponent now");

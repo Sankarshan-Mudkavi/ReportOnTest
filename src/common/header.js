@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 
 import { Link, withRouter } from 'react-router';
 
@@ -23,6 +24,7 @@ import {
   Row,
   Radio,
   Col } from '@sketchpixy/rubix';
+import actions from '../redux/actions';
 
 class Brand extends React.Component {
   render() {
@@ -595,6 +597,9 @@ class RssMenu extends React.Component {
 }
 
 @withRouter
+@connect((state) => {
+  return state
+})
 class HeaderNavigation extends React.Component {
   handleSkinSwitch(e) {
     e.preventDefault();
@@ -612,6 +617,8 @@ class HeaderNavigation extends React.Component {
   }
 
   handleLogout(e) {
+    // console.log("log out called!");
+    this.props.dispatch(actions.setLoginStatus('false,'));
     this.props.router.push('/');
   }
 

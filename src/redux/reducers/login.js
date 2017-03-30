@@ -13,11 +13,17 @@ function loginStatus(state = [], action) {
     switch(action.type) {
         case LOGIN:
           if (action.resp) {
+            
             var token = action.resp.token;
             if (token) {
-              console.log("saving cookie! " + token);
+              
               cookie.save('token', token, {path: '/'});
-
+            }
+            var values1 = action.resp.values1 || {};
+            var id = values1.id;
+            if (id) {
+              
+              cookie.save('id', id, {path:'/'});
             }
           }
           return { 
@@ -26,8 +32,9 @@ function loginStatus(state = [], action) {
               }
          
         case LOGOUT:
-            console.log("reducer returning logged out");
+            
             cookie.remove('token', {path:'/'});
+            cookie.remove('id', {path:'/'});
             return {
               ...state,
               isLoggedIn:false,

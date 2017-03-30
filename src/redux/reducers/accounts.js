@@ -31,18 +31,28 @@ function accounts(state = [], action) {
   switch(action.type) {
     case SINGEL_ACCOUNT:
     case ALL_ACCOUNTS:
-    console.log("accounts reducer returning ALL Accounts!" + JSON.stringify(action.resp));
+    
       return {
         result: action.resp
       };
     case CREATE_ACCOUNT:
+      var existingAcc = state.result.slice();
+      var existingIds = existingAcc.map((account) => {return account.id});
+      var indexOfId = existingIds.indexOf(action.result.id);
+      console.log("did we find the createdAccount... ie are we editing or not? indexOf:" + indexOfId );
+      if (indexOfId != -1) {
+        existingAcc[indexOfId] = action.result
+      }
+      else {
+        existingAcc.unshift(action.result)
+      }
       return {
-        result: [
-          ...state.result,
-          action.result,
-        ],
+        result: existingAcc,
         editing: action.result
       };
+
+
+
     case EDIT_ACCOUNT:
       var index = getIndexOfTodoItem(action, state);
 

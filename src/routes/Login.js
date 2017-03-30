@@ -40,17 +40,13 @@ export default class Login extends React.Component {
       var loginStatus = userScreen.props.loginStatus || {};
       var isLoggedIn = loginStatus.isLoggedIn;
       if (isLoggedIn) {
-        // userScreen.props.router.goBack();
-        console.log("doing something with fetchingdata");
+        
         var loginRedir = loginStatus.loginRedir || '/ltr/dashboard';
         userScreen.props.dispatch(actions.fetchData('accounts'))
         .then(() => {
           console.log("pushing to loginREdix " + loginRedir);
           userScreen.props.router.push(loginRedir);
-        })
-
-        
-        
+        });
       }
     });
     // 
@@ -119,12 +115,12 @@ export default class Login extends React.Component {
                               <FormGroup>
                                 <Grid>
                                   <Row>
-                                    <Col  xs={12} md={8} style={{flex:1, alignItems:'flex-end'}} className='text-center'>
+                                    <Col  xs={12} md={12} style={{flex:1, alignItems:'flex-end'}} className='text-center'>
                                       <Button lg type='submit' style={{backgroundColor:'#4F555b'}} bsStyle='grey'>ReportON</Button>
                                     </Col>
                                   </Row>
                                   <Row>
-                                    <Col  xs={12} md={8} style={{flex:1, alignItems:'flex-end'}} className='text-center'>
+                                    <Col  xs={12} md={12} style={{flex:1, alignItems:'flex-end'}} className='text-center'>
                                       <Button lg type='submit' bsStyle='link'>Forgot Password?</Button>
                                     </Col>
                                   </Row>

@@ -59,10 +59,18 @@ class Api {
     console.log('fetching ' + url);
     let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null );
     options.headers =  await Api.headers();
-    console.log('options are ' + JSON.stringify(options));
     return timeout(time, fetch(url, options).then( respo => {
       console.log('api response for ' + url + " ");
-      let json = respo.json();
+      var json;
+      if (respo.status == 401) {
+        console.log("we have an unauthorized!");
+        json = {
+          error: 'you need to sign in'
+        }
+      } else {
+        json = respo.json();  
+      }
+      
         return json;
     })).catch(function(error){
       console.log("whats the error from API? " + error.toString());
