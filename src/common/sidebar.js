@@ -22,7 +22,7 @@ import actions from '../redux/actions';
   return state
 })
 class ApplicationSidebar extends React.Component {
-  
+
   handleChange(e) {
     this._nav.search(e.target.value);
   }
@@ -38,14 +38,17 @@ class ApplicationSidebar extends React.Component {
     let { accounts, dispatch } = this.props;
     let { result, error } = accounts;
     return result.map((account, i) => {
-      return <SidebarNavItem key={i} glyph='icon-feather-layout' name={account.name} href={::this.getPath('campaigns/'+account.name)} />
+      return <SidebarNavItem key={i} glyph='icon-feather-layout' name={account.title} href={::this.getPath('campaigns/'+account.title)} />
     })
   }
 
   render() {
 
     let { accounts, dispatch } = this.props;
-    let { result, error } = accounts;
+    var result  = accounts.result ||  {};
+    var error  = accounts.error ||  {};
+    // var { result, error } = accounts || {};
+    result.length = result.length || 0;
 
 
     return (

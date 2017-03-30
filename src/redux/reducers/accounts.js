@@ -31,16 +31,17 @@ function accounts(state = [], action) {
   switch(action.type) {
     case SINGEL_ACCOUNT:
     case ALL_ACCOUNTS:
-    // console.log("accounts reducer returning ALL Accounts!" + JSON.stringify(action.result));
+    console.log("accounts reducer returning ALL Accounts!" + JSON.stringify(action.resp));
       return {
-        result: action.result
+        result: action.resp
       };
     case CREATE_ACCOUNT:
       return {
         result: [
           ...state.result,
           action.result,
-        ]
+        ],
+        editing: action.result
       };
     case EDIT_ACCOUNT:
       var index = getIndexOfTodoItem(action, state);

@@ -3,171 +3,250 @@ import {
   EDIT_ACCOUNT,
   CREATE_ACCOUNT,
   SINGLE_ACCOUNT,
-  REMOVE_ACCOUNT
-  
+  REMOVE_ACCOUNT,
+  LOGIN,
+  LOGIN_REG,
+  LOGIN_ER,
+  LOGOUT,
+  LOGIN_REDIR
 } from './actionTypes';
+import Api from '../../api';
+import cookie from 'react-cookie';
 
-// import axios from 'axios';
-// var http = new XMLHttpRequest();
-var api='http://34.205.72.170:3000';
-var headers = {
-        // 'Authorization': 'Bearer ', //+ DEMO_TOKEN,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'dataType': 'json',
-        'Access-Control-Allow-Origin': '*'
-      };
-
-function login() {
-
+function setLoginRedirect(value) {
+  return ({
+    type:LOGIN_REDIR,
+    resp:value
+  })
 }
 
-function getAccounts() {
-  let query = `
-    query getTodos {
-      todos {
-        _id
-        todo
-        completed
+function fetchLogin(value) {
+  console.log("fetchLogin running");
+  var body = {};
+  if (value) {
+    body = {
+      user: {
+        email: value.username,
+        password: value.password
       }
+    };
+  }
+  return (dispatch) => {
+    return Api.post("/users/sign_in.json", body)
+      .then(resp => {
+        console.log("fetchLogin response " + JSON.stringify(resp))
+        if (resp.error != null) {
+          if (!resp.error.includes("sign in")) {
+            alert("Error", resp.error);
+          }
+          dispatch(setLoginStatus('false', resp, true));
+        } else {
+          
+          //THIS PART MEANS WE'RE LOGGED IN
+          // storeToken(resp.token);
+          if (value) {
+            /* ONLY IF ITS A LOGIN ---- SO WE SHOULD STORE REGISTRATION JSON*/
+            dispatch(setLoginStatus('true', resp));
+            // Actions.blankTransition({ nextScene: "registerPage1", resp });
+          } else {            
+            dispatch(setLoginStatus('true', resp));
+          }
+        }
+      })
+      .catch(ex => {
+        console.log("FUCKING ERROR FROM FETCHLOGIN  " + ex.toString());
+        alert("🤔", ex.toString());
+        dispatch(setData("error"));
+        // dispatch(setLoginStatus(false, { }, true));
+      });
+  };
+}
+
+function setLoginStatus(success, resp, error) {
+  if (success == "true") {
+    return {
+      type: LOGIN,
+      resp
+    };
+  } 
+  if (success == "register") {
+    return {
+      type: LOGIN_REG, resp 
     }
-  `;
-  console.log("getAccounts called");
+  }
+  else {
+    if (error == true) {
+      return {
+        type: LOGIN_ER
+      };
+    }
+    return {
+      type: LOGOUT
+    };
+  }
+}
 
-  return {
-    type: ALL_ACCOUNTS,
-    result:[
-      {
-        name:'Putin',
-        img_src:'http://www.fullredneck.com/wp-content/uploads/2016/04/Funny-Russia-Meme-20.jpg'
-      },
-      {
-        name:'PutinFIRE',
-        img_src:'https://s-media-cache-ak0.pinimg.com/736x/92/bd/51/92bd51939ce6e27f773aee3516b2cd6f.jpg'
-      },
-      {
-        name:"dogface",
-        img_src:'https://s-media-cache-ak0.pinimg.com/736x/e5/9c/46/e59c46a6c965ede88510c22376870642.jpg'
-      },
-      {
-        name:'humptyDumpty',
-        img_src:'https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg'
-      },
-            {
-        name:'Putin',
-        img_src:'http://www.fullredneck.com/wp-content/uploads/2016/04/Funny-Russia-Meme-20.jpg'
-      },
-      {
-        name:'PutinFIRE',
-        img_src:'https://s-media-cache-ak0.pinimg.com/736x/92/bd/51/92bd51939ce6e27f773aee3516b2cd6f.jpg'
-      },
-      {
-        name:"dogface",
-        img_src:'https://s-media-cache-ak0.pinimg.com/736x/e5/9c/46/e59c46a6c965ede88510c22376870642.jpg'
-      },
-      {
-        name:'humptyDumpty',
-        img_src:'https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg'
-      },
 
-    ] 
 
-    
+
+
+function fetchData(path) {
+  var userID = 3;
+  console.log("fetchData running for path " + path);
+  var fullPath = "/" + path + "/show?id="+userID;
+  return (dispatch, getState) => {
+    return Api.get(fullPath)
+    // return Api.get("/api/test.json")
+      .then(resp => {
+        // console.log("fetched Data " + JSON.stringify(resp));
+        if (resp.error != null) {
+          if (!resp.error.includes("sign in")) {
+            alert("Error", resp.error);
+            dispatch(setData('error'));
+          } else {
+            console.log("setting loginstatus from fetchData");
+            dispatch(setLoginStatus('false', resp, true));
+          }
+        } else {
+          // var resp = {
+          //   resp:[
+          //     {
+          //       title:'Putin',
+          //       img_url:'http://www.fullredneck.com/wp-content/uploads/2016/04/Funny-Russia-Meme-20.jpg'
+          //     },
+          //     {
+          //       title:'PutinFIRE',
+          //       img_url:'https://s-media-cache-ak0.pinimg.com/736x/92/bd/51/92bd51939ce6e27f773aee3516b2cd6f.jpg'
+          //     },
+          //     {
+          //       title:"dogface",
+          //       img_url:'https://s-media-cache-ak0.pinimg.com/736x/e5/9c/46/e59c46a6c965ede88510c22376870642.jpg'
+          //     },
+          //     {
+          //       title:'humptyDumpty',
+          //       img_url:'https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg'
+          //     },
+          //           {
+          //       title:'Putin',
+          //       img_url:'http://www.fullredneck.com/wp-content/uploads/2016/04/Funny-Russia-Meme-20.jpg'
+          //     },
+          //     {
+          //       title:'PutinFIRE',
+          //       img_url:'https://s-media-cache-ak0.pinimg.com/736x/92/bd/51/92bd51939ce6e27f773aee3516b2cd6f.jpg'
+          //     },
+          //     {
+          //       title:"dogface",
+          //       img_url:'https://s-media-cache-ak0.pinimg.com/736x/e5/9c/46/e59c46a6c965ede88510c22376870642.jpg'
+          //     },
+          //     {
+          //       title:'humptyDumpty',
+          //       img_url:'https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg'
+          //     },
+          //   ] 
+          // }
+          // dispatch(setData(path, resp.resp));
+          dispatch(setData(path, resp));
+        }
+      })
+      .catch(ex => {
+        console.log("FUCKING ERROR FROM FETCH DATA " + ex.toString());
+        alert("🤔", ex.toString());
+        // throw new Error("error with network!");
+        dispatch(setData("error"));
+      });
   };
 
-  // return dispatch => {
-  //   return axios.post(api, {
-  //     query
-  //   }).then((result) => {
-  //     if (result.data.errors) {
-  //       dispatch({
-  //         type: ALL_TODOS,
-  //         error: result.data.errors,
-  //       })
-  //       return;
-  //     }
 
-  //     dispatch({
-  //       type: ALL_TODOS,
-  //       result: result.data.data.todos,
-  //     });
-  //   });
-  // };
+  // return dispatch => {
+  //   dispatch(setData(path, {
+  //     resp:[
+  //       {
+  //         title:'Putin',
+  //         img_url:'http://www.fullredneck.com/wp-content/uploads/2016/04/Funny-Russia-Meme-20.jpg'
+  //       },
+  //       {
+  //         title:'PutinFIRE',
+  //         img_url:'https://s-media-cache-ak0.pinimg.com/736x/92/bd/51/92bd51939ce6e27f773aee3516b2cd6f.jpg'
+  //       },
+  //       {
+  //         title:"dogface",
+  //         img_url:'https://s-media-cache-ak0.pinimg.com/736x/e5/9c/46/e59c46a6c965ede88510c22376870642.jpg'
+  //       },
+  //       {
+  //         title:'humptyDumpty',
+  //         img_url:'https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg'
+  //       },
+  //             {
+  //         title:'Putin',
+  //         img_url:'http://www.fullredneck.com/wp-content/uploads/2016/04/Funny-Russia-Meme-20.jpg'
+  //       },
+  //       {
+  //         title:'PutinFIRE',
+  //         img_url:'https://s-media-cache-ak0.pinimg.com/736x/92/bd/51/92bd51939ce6e27f773aee3516b2cd6f.jpg'
+  //       },
+  //       {
+  //         title:"dogface",
+  //         img_url:'https://s-media-cache-ak0.pinimg.com/736x/e5/9c/46/e59c46a6c965ede88510c22376870642.jpg'
+  //       },
+  //       {
+  //         title:'humptyDumpty',
+  //         img_url:'https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg'
+  //       },
+  //     ] 
+
+  //   }))};
+      
 }
 
-// function getAccount(variables) {
-//   let query = `
-//     query getTodo($_id: String!) {
-//       todo(_id: $_id) {
-//         _id
-//         todo
-//         completed
-//       }
-//     }
-//   `;
+function setData(type, resp) {
+  console.log("setdata called! for type " + type);
+  switch (type) {
+    case "accounts":
+      return {
+        type: ALL_ACCOUNTS,
+        resp
+      };
+    default:
+      return {
+        type: ALL_ACCOUNTS
+      };
+  }
+}
 
-//   return dispatch => {
-//     return axios.post(GraphQLEndpoint, {
-//       query,
-//       variables,
-//     }).then((result) => {
-//       if (result.data.errors) {
-//         dispatch({
-//           type: SINGLE_ACCOUNT,
-//           error: result.data.errors,
-//         });
-//         return;
-//       }
-
-//       dispatch({
-//         type: SINGLE_ACCOUNT,
-//         result: result.data.data.todo,
-//       });
-//     })
-//   };
-// }
 
 function createAccount(variables) {
-  // let query = `
-  //   mutation createTodoMutation($todo: String!) {
-  //     createTodo(todo: $todo) {
-  //       _id
-  //       todo
-  //       completed
-  //     }
-  //   }
-  // `;
-  // console.log( 'variables are ' + JSON.stringify(variables));
-
   return dispatch => {
-    let options = Object.assign({ method: 'POST' }, variables ? { body: JSON.stringify(variables) } : null );
-    // options.headers =  await Api.headers();
-    options.headers = headers;
-    // console.log("options are " + JSON.stringify(options));
-    let url = api+'/merchant/create.json';
-    console.log("path im sending to is " + url);
-    return fetch(url, options)
-    .then((result) => {
-      console.log("got result " + result + JSON.stringify(result));
-      console.log("got result status " + result.status );
-      let json = result.json();
-      return json;
-    })
-    .then((result) => {
-      console.log("result as json now " + JSON.stringify(result));
-      if (result.error) {
-        console.log("ERROR");
+    // let options = Object.assign({ method: 'POST' }, variables ? { body: JSON.stringify(variables) } : null );
+    var body = {
+      body: variables
+    }
+    return Api.post("/merchant/create.json", body)
+    .then(result => {
+      if (result.error != null) {
+        if (!result.error.includes("sign in")) {
+          dispatch({
+            type: CREATE_ACCOUNT,
+            error: result.error,
+          });
+        } 
+        // else {
+        //   console.log("setting loginstatus from fetchData");
+        //   dispatch(setLoginStatus('false', resp, true));
+        // }
+      } else {
+        // dispatch(setData(path, resp));
+        console.log("dispatching RESULT.merchant!");
         dispatch({
           type: CREATE_ACCOUNT,
-          error: result.error,
-        })
-        return;
+          result: result.merchant
+        });
       }
-      // console.log("no errors. created account + " + JSON.stringify(variables));
-      dispatch({
-        type: CREATE_ACCOUNT,
-        result: result.data.data.createTodo,
-      });
+    })
+    .catch(ex => {
+      console.log("FUCKING ERROR FROM CreateAccount " + ex.toString());
+      // Alert.alert("🤔", ex.toString());
+      // throw new Error("error with network!");
+      // dispatch(setData("error"));
     });
   };
 }
@@ -243,9 +322,11 @@ function removeAccount(variables) {
 
 module.exports = {
   // getAccount,
-  getAccounts,
+  fetchData,
   createAccount,
   updateAccount,
   removeAccount,
-  selectAccount
+  selectAccount,
+  fetchLogin,
+  setLoginRedirect
 };

@@ -19,15 +19,41 @@ import {
   ButtonToolbar,
   PanelContainer,
 } from '@sketchpixy/rubix';
-
+import { connect } from 'react-redux';
+import actions from '../redux/actions';
+// import { push } from 'react-router';
 
 
 @withRouter
+@connect((state) => {
+  return state
+})
 export default class Login extends React.Component {
   back(e) {
+    console.log(';back?!@?!?@')
     e.preventDefault();
     e.stopPropagation();
-    this.props.router.goBack();
+    var userScreen = this;
+    this.props.dispatch(actions.fetchLogin({username: this.state.email, password: this.state.password}))
+    .then(() => {
+      console.log("something just fetched login??!?!");
+      var loginStatus = userScreen.props.loginStatus || {};
+      var isLoggedIn = loginStatus.isLoggedIn;
+      if (isLoggedIn) {
+        // userScreen.props.router.goBack();
+        console.log("doing something with fetchingdata");
+        var loginRedir = loginStatus.loginRedir || '/ltr/dashboard';
+        userScreen.props.dispatch(actions.fetchData('accounts'))
+        .then(() => {
+          console.log("pushing to loginREdix " + loginRedir);
+          userScreen.props.router.push(loginRedir);
+        })
+
+        
+        
+      }
+    });
+    // 
   }
 
   componentDidMount() {
@@ -42,6 +68,18 @@ export default class Login extends React.Component {
     var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
     path = `/${dir}/${path}`;
     return path;
+  }
+
+  handleEmailChange(e){
+    this.setState({
+      email: e.target.value
+    });
+  }
+
+  handlePasswordChange(e){
+    this.setState({
+      password: e.target.value
+    });
   }
 
   render() {
@@ -67,7 +105,7 @@ export default class Login extends React.Component {
                                   <InputGroup.Addon style={{backgroundColor:'transparent'}}>
                                     <Icon glyph='icon-fontello-mail' />
                                   </InputGroup.Addon>
-                                  <FormControl autoFocus type='email' style={{borderWidth:0, borderBottomWidth:3, padding:0}} className='border-focus-blue' placeholder='support@sketchpixy.com' />
+                                  <FormControl onChange={e => this.handleEmailChange(e)} autoFocus type='email' style={{borderWidth:0, borderBottomWidth:3, padding:0}} className='border-focus-blue' placeholder='support@sketchpixy.com' />
                                 </InputGroup>
                               </FormGroup>
                               <FormGroup controlId='password'>
@@ -75,19 +113,19 @@ export default class Login extends React.Component {
                                   <InputGroup.Addon style={{backgroundColor:'transparent'}}>
                                     <Icon glyph='icon-fontello-key' />
                                   </InputGroup.Addon>
-                                  <FormControl type='password' style={{borderWidth:0, borderBottomWidth:3, padding:0}} className='border-focus-blue' placeholder='password' />
+                                  <FormControl type='password' onChange={e => this.handlePasswordChange(e)} style={{borderWidth:0, borderBottomWidth:3, padding:0}} className='border-focus-blue' placeholder='password' />
                                 </InputGroup>
                               </FormGroup>
                               <FormGroup>
                                 <Grid>
                                   <Row>
                                     <Col  xs={12} md={8} style={{flex:1, alignItems:'flex-end'}} className='text-center'>
-                                      <Button lg type='submit' style={{backgroundColor:'#4F555b'}} bsStyle='grey' onClick={::this.back}>ReportON</Button>
+                                      <Button lg type='submit' style={{backgroundColor:'#4F555b'}} bsStyle='grey'>ReportON</Button>
                                     </Col>
                                   </Row>
                                   <Row>
                                     <Col  xs={12} md={8} style={{flex:1, alignItems:'flex-end'}} className='text-center'>
-                                      <Button lg type='submit' bsStyle='link' onClick={::this.back}>Forgot Password?</Button>
+                                      <Button lg type='submit' bsStyle='link'>Forgot Password?</Button>
                                     </Col>
                                   </Row>
                                 </Grid>

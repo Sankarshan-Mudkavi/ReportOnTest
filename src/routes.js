@@ -79,7 +79,7 @@ import Lock from './routes/Lock';
 
 import AddAccount from './routes/AddAccount';
 import Campaigns from './routes/Campaigns';
-
+import RequireAuth from './requireAuth';
 import actions from './redux/actions';
 import { connect } from 'react-redux';
 
@@ -88,19 +88,11 @@ import { connect } from 'react-redux';
 })
 class App extends React.Component {
   static fetchData(store) {
-    return store.dispatch(actions.getAccounts());
+    console.log("in app fethdata)");
+    // return store.dispatch(actions.fetchData());
   }
-  
-  // renderAccounts() {
-  //   return (
-  //     <Route path='campaigns' component={Campaigns} />
-  //     <Route path='campaigns' component={Campaigns} />
-  //     <Route path='campaigns' component={Campaigns} />
-  //     )
-  // }
 
   render() {
-    
     let { accounts, dispatch } = this.props;
     var { result, error } = accounts;
     result = result || []
@@ -131,8 +123,10 @@ class App extends React.Component {
 
 const routes = 
 
-(  <Route component={App}>
-    <Route path='dashboard' component={Dashboard} />
+(  <Route component={RequireAuth(App)} 
+    // onEnter={RequireAuth}
+    >
+    <Route path="dashboard" component={Dashboard} /> 
     <Route path='account/AddAccount' component={AddAccount} />
     <Route path='campaigns/:page' component={Campaigns} />
     <Route path='mailbox/inbox' component={Inbox} />
@@ -205,9 +199,6 @@ export default (
   <Route>
     {<Route path='/' component={Homepage} />}
   {/*<Route path='/' component={App}/>*/}
-  
-  
-
     <Route path='/ltr'>
       {combinedRoutes}
     </Route>

@@ -54,6 +54,7 @@ class HeroHeader2 extends React.Component {
 
 @withRouter
 export default class Homepage extends React.Component {
+
   handleNavigation() {
     this.props.router.push('/ltr/dashboard');
   }

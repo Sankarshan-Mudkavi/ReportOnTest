@@ -48,7 +48,7 @@ class NewAccount extends React.Component {
 
   getValidationState(){
     const value = this.state.value;
-    var result = this.props.result.map((res) => {return res.name}) || [];
+    var result = this.props.result.map((res) => {return res.title}) || [];
     // console.log("validation happening " + JSON.stringify(result))
 
     if (result.indexOf(value) != -1) {
@@ -307,16 +307,18 @@ export default class AddAccount extends React.Component {
   }
   
   newedAccount(v){
-    this.props.dispatch(actions.createAccount({title: v}));
-    this.setState({
-      editor: {
-        title: v
-      }
+    this.props.dispatch(actions.createAccount({title: v}))
+    .then((resp) => {
+      console.log('dunno what this is ' + JSON.stringify(this.props.accounts.editing));
+      this.setState({
+        editor: {
+          title: v,
+          id: this.props.accounts.editing.id
+        }
+      });
+      this.uploadPhoto();
+      this.NewAccount.close();
     });
-
-    this.uploadPhoto();
-    this.NewAccount.close();
-    
   }
 
   uploadedPhoto(v) {
@@ -338,10 +340,8 @@ export default class AddAccount extends React.Component {
 
   renderAccounts(result) {
     var resLen = result.length;
-    
     var colLen = Math.ceil(resLen /2);
     var resArray = result.map((account, i) => {
-      
       return (
         <PanelContainer key={i}>
           <Panel>
@@ -349,18 +349,15 @@ export default class AddAccount extends React.Component {
               <Grid>
                 <Row>
                   <Col xs={12}>
-                    <h3>{account.name}</h3>
-                      <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={account.img_src}/> 
-                    <Row style={{marginTop:5, marginBottom:10}}>
-                      
-                        <Col sm={7} style={{paddingTop:4, }}>
-                        <p>Campaigns: 0</p>
-                        </Col>
-                        <Col sm={3}>
-                        <Button bsStyle='primary'>Open</Button>
-                        </Col>
-                        
-
+                    <h3>{account.title}</h3>
+                      <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={account.img_url}/> 
+                      <Row style={{marginTop:5, marginBottom:10}}>
+                      <Col sm={8} style={{paddingTop:4, }}>
+                      <p>Campaigns: 0</p>
+                      </Col>
+                      <Col sm={4}>
+                      <Button className='pull-right' bsStyle='primary'>Open</Button>
+                      </Col>
                     </Row>
                   </Col>
                 </Row>
@@ -378,7 +375,7 @@ export default class AddAccount extends React.Component {
     //3 columns = 4
 
     //if we have 6 columns, our shit will be maximum 4
-    var gridVar = Math.max(4,12/colLen);
+    var gridVar = Math.min(6,Math.max(4,12/colLen));
 
     while (resArray.length > 1) {
       colArray[colArrayIndex] = (
@@ -398,9 +395,7 @@ export default class AddAccount extends React.Component {
     //
     var retArray = [];
     var i = 0;
-
     while (colArray.length > 3) {
-
       retArray[i] = (
         <Row key={i}>
         {colArray.splice(0,3)}
