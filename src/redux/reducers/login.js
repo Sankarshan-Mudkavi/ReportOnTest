@@ -29,6 +29,7 @@ function loginStatus(state = [], action) {
           return { 
               ...state, 
               isLoggedIn: true, 
+              loginError:false,
               }
          
         case LOGOUT:
@@ -38,6 +39,7 @@ function loginStatus(state = [], action) {
             return {
               ...state,
               isLoggedIn:false,
+              loginError:false,
             }
             
         case LOGIN_ER:

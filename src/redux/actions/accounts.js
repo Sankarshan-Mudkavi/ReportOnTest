@@ -38,7 +38,7 @@ function fetchLogin(value) {
         if (resp.error != null) {
           if (!resp.error.includes("sign in")) {
             alert("Error" + resp.error);
-          }
+          }   
           dispatch(setLoginStatus('false', resp, true));
         } else {
           
@@ -56,7 +56,7 @@ function fetchLogin(value) {
       .catch(ex => {
         console.log("FUCKING ERROR FROM FETCHLOGIN  " + ex.toString());
         alert("🤔" + ex.toString());
-        dispatch(setData("error"));
+        dispatch(setLoginStatus('false', { }, true));
         // dispatch(setLoginStatus(false, { }, true));
       });
   };
@@ -107,7 +107,7 @@ function fetchData(path) {
             dispatch(setData('error'));
           } else {
             console.log("setting loginstatus from fetchData");
-            dispatch(setLoginStatus('false', resp, true));
+            dispatch(setLoginStatus('false', resp));
           }
         } else {
           
@@ -233,7 +233,7 @@ function createAccount(variables) {
         } 
         else {
           console.log("setting loginstatus from fetchData");
-          dispatch(setLoginStatus('false', resp, true));
+          dispatch(setLoginStatus('false', resp));
         }
       } else {
         // dispatch(setData(path, resp));
