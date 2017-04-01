@@ -127,7 +127,7 @@ export default class Login extends React.Component {
                                     <InputGroup.Addon style={{backgroundColor:'transparent'}}>
                                       <Icon glyph='icon-fontello-mail' />
                                     </InputGroup.Addon>
-                                    <FormControl onChange={e => this.handleEmailChange(e)} autoFocus type='email' style={{borderWidth:0, borderBottomWidth:3, padding:0}} className='border-focus-blue' placeholder='support@sketchpixy.com' />
+                                    <FormControl onChange={e => this.handleEmailChange(e)} autoFocus type='email' style={{borderWidth:0, borderBottomWidth:3, padding:0}} className='border-focus-blue' placeholder='hello@okeylabs.com' />
                                   </InputGroup>
                                 </FormGroup>
                                 <FormGroup controlId='password' validationState={this.getValidationState()}>

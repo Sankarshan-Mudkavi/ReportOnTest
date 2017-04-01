@@ -92,12 +92,11 @@ class AddAccountItem extends React.Component {
 }
 
 
-
+@withRouter
 @connect((state) => {
   return state
 })
 export default class AddAccount extends React.Component {
-
 
   constructor(props) {
     super(props);
@@ -181,7 +180,9 @@ export default class AddAccount extends React.Component {
                       <p>Campaigns: 0</p>
                       </Col>
                       <Col sm={4}>
-                      <Button className='pull-right' bsStyle='primary'>Open</Button>
+                      <Button className='pull-right' onClick={() => {
+                        console.log("clicked open for account + " + account.title);
+                        this.props.router.push('/ltr/campaigns/' + account.title)}} bsStyle='primary'>Open</Button>
                       </Col>
                     </Row>
                   </Col>
@@ -419,7 +420,7 @@ class UploadPhoto extends React.Component {
               <Col sm={6} smOffset={3} >
               
             
-                  <div align='center'>
+                  <div>
                     <DropZone multiple={false} onDrop={this.onDrop.bind(this)} accept={'image/*'}>
                       <Loadable
                         active={this.state.loading}

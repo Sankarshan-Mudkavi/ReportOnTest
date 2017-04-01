@@ -2,6 +2,7 @@ import {
   ALL_ACCOUNTS,
   EDIT_ACCOUNT,
   CREATE_ACCOUNT,
+  CREATE_CAMPAIGN,
   SINGLE_ACCOUNT,
   REMOVE_ACCOUNT,
   LOGIN,
@@ -32,9 +33,8 @@ function fetchLogin(value) {
     };
   }
   return (dispatch) => {
-    return Api.post("/users/sign_in.json", body)
+    return Api.post("/users/sign_in.json?", body)
       .then(resp => {
-        console.log("fetchLogin response " + JSON.stringify(resp))
         if (resp.error != null) {
           if (!resp.error.includes("sign in")) {
             alert("Error" + resp.error);
@@ -94,7 +94,6 @@ function setLoginStatus(success, resp, error) {
 
 function fetchData(path) {
   var userID = cookie.load('id') || 0;
-  // userID = 3;
   console.log("fetchData running for path " + path);
   var fullPath = "/" + path + "/show?id="+userID;
   return (dispatch, getState) => {
@@ -149,8 +148,8 @@ function fetchData(path) {
           // }
           // dispatch(setData(path, resp.resp));
           dispatch(setLoginStatus('true', resp));
-          
           dispatch(setData(path, resp));
+          // console.log("resp from fetchData is " + JSON.stringify(resp));
         }
       })
       .catch(ex => {
@@ -225,15 +224,18 @@ function createAccount(variables) {
     return Api.post("/merchant/create.json", body)
     .then(result => {
       if (result.error != null) {
+        console.log('1h');
         if (!result.error.includes("sign in")) {
+          console.log('2h');
           dispatch({
             type: CREATE_ACCOUNT,
             error: result.error,
           });
         } 
         else {
+          console.log('3h');
           console.log("setting loginstatus from fetchData");
-          dispatch(setLoginStatus('false', resp));
+          dispatch(setLoginStatus('false', result));
         }
       } else {
         // dispatch(setData(path, resp));
@@ -260,64 +262,39 @@ function selectAccount(account) {
   })
 }
 
-function updateAccount(variables) {
-  let query = `
-    mutation updateTodoMutation($_id: String!, $todo: String, $completed: Boolean) {
-      updateTodo(_id: $_id, todo: $todo, completed: $completed) {
-        _id
-        todo
-        completed
-      }
-    }
-  `;
 
+
+
+function createCampaign(variables) {
   return dispatch => {
-    return axios.post(GraphQLEndpoint, {
-      query,
-      variables,
-    }).then((result) => {
-      if (result.data.errors) {
+    var body = variables;
+    return Api.post("/campaign/create.json", body)
+    .then(result => {
+      if (result.error != null) {
+        if (!result.error.includes("sign in")) {
+          dispatch({
+            type: CREATE_CAMPAIGN,
+            error: result.error,
+          });
+        } 
+        else {
+          console.log("setting loginstatus from fetchData");
+          dispatch(setLoginStatus('false', resp));
+        }
+      } else {
+        // dispatch(setData(path, resp));
+        console.log("campaign create response " + JSON.stringify(result));
         dispatch({
-          type: EDIT_ACCOUNT,
-          error: result.data.errors,
-        })
-        return;
+          type: CREATE_CAMPAIGN,
+          result: result.campaign
+        });
       }
-
-      dispatch({
-        type: EDIT_ACCOUNT,
-        result: result.data.data.updateTodo,
-      });
-    });
-  };
-}
-
-function removeAccount(variables) {
-  let query = `
-    mutation removeTodoMutation($_id: String!) {
-      removeTodo(_id: $_id) {
-        _id
-      }
-    }
-  `;
-
-  return dispatch => {
-    return axios.post(GraphQLEndpoint, {
-      query,
-      variables
-    }).then((result) => {
-      if (result.data.errors) {
-        dispatch({
-          type: REMOVE_ACCOUNT,
-          error: result.data.errors,
-        })
-        return;
-      }
-
-      dispatch({
-        type: REMOVE_ACCOUNT,
-        result: result.data.data.removeTodo,
-      });
+    })
+    .catch(ex => {
+      console.log("FUCKING ERROR FROM createcampaign " + ex.toString());
+      alert("🤔 error modifying account " + ex.toString());
+      // throw new Error("error with network!");
+      dispatch(setData("error"));
     });
   };
 }
@@ -326,10 +303,9 @@ module.exports = {
   // getAccount,
   fetchData,
   createAccount,
-  updateAccount,
-  removeAccount,
   selectAccount,
   fetchLogin,
+  createCampaign,
   setLoginRedirect,
   setLoginStatus
 };

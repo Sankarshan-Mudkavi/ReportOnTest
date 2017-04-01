@@ -22,8 +22,9 @@ function loginStatus(state = [], action) {
             var values1 = action.resp.values1 || {};
             var id = values1.id;
             if (id) {
-              
+              console.log('saving id' + id);
               cookie.save('id', id, {path:'/'});
+              cookie.save('name', values1.firstName + " " + values1.lastName, {path:'/'})
             }
           }
           return { 

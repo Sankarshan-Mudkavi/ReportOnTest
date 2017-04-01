@@ -15,10 +15,10 @@ import StatisticsComponent from './statistics';
 import TimelineComponent from './timeline';
 import NotificationsComponent from './notifications';
 import actions from '../redux/actions';
+import cookie from 'react-cookie';
 
 @withRouter
 @connect((state) => {
-  
   return state
 })
 class ApplicationSidebar extends React.Component {
@@ -227,6 +227,9 @@ class DummySidebar extends React.Component {
 
 
 @withRouter 
+@connect((state) => {
+  return state
+})
 export default class SidebarContainer extends React.Component {
 
   getPath(path) {
@@ -245,7 +248,7 @@ export default class SidebarContainer extends React.Component {
                 <img src='/imgs/app/avatars/avatar19.png' width='40' height='40' />
               </Col>
               <Col xs={8} collapseLeft id='avatar-col'>
-                <div style={{top: 23, fontSize: 16, lineHeight: 1, position: 'relative'}}>Brandon Campe</div>
+                <div style={{top: 23, fontSize: 16, lineHeight: 1, position: 'relative'}}>{cookie.load('name') || 'admin'}</div>
                 <div>
                   <Progress id='demo-progress' value={20} color='#ffffff'/>
                   <Link to={::this.getPath('lock')}>

@@ -21,6 +21,7 @@ class Api {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'dataType': 'json',
+        'source':'web'
       }
     } catch (error) {
       console.log("error rerieving demo token " + error);
@@ -29,6 +30,7 @@ class Api {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'dataType': 'json',
+        'source':'web'
       }
     } 
   }
@@ -54,7 +56,7 @@ class Api {
     if (!time) {
       var time = 10000;
     }
-    const host = API_URL
+    const host = API_URL;
     const url = `${host}${route}`
     console.log('fetching ' + url);
     let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null );

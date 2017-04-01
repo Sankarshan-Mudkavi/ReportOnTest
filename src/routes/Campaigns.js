@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DropZone from 'react-dropzone';
+import { connect } from 'react-redux';
 import slIcon from './fonts/simple-line-icons';
 import {
   Row,
@@ -19,186 +20,79 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 import { withRouter } from 'react-router';
+import actions from '../redux/actions';
 // var $ = require( 'jquery' );
 // $.DataTable = require('datatables.net');
 // var cunt = require( 'datatables.net-buttons' )( window, $ )
 
 
-class NewCampaign extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = { 
-      showModal: false,
-      value:''
-
-     };
-  }
-
-  close() {
-    this.setState({ showModal: false });
-  }
-
-  open() {
-    this.setState({ showModal: true });
-  }
-
-  next(){
-    this.props.next(this.state.value);
-  }
-
-  render() {
-    return (
-      <Modal backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
-        <Modal.Header closeButton>
-          <Modal.Title>Give your NEW Campaign a Name</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormGroup controlId='username'>
-            <ControlLabel>Name *</ControlLabel>
-            <FormControl type='text' name='name' className='required'
-              onChange={(event) => {
-                
-                var stringValue = event.target.value.replace(/[^A-Z0-9]+/ig, "_").toLowerCase();
-                console.log("changed name to " + stringValue);
-                this.setState({
-                  value:stringValue
-                })
-              }} />
-          </FormGroup>
-          <p> <br/><br/>Your campaign will be at <br/> http://reportOn.com/campaigns/{this.state.value}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button bsStyle='primary' disabled={(this.state.value.length < 1)} onClick={::this.next}>Next</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-}
-
-class UploadPhoto extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      showModal: false,
-      passedProp: props.passedProp || {},
-      
-    };
-  }
-  
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.passedProp != this.props.passedProp) {
-      this.setState({
-        passedProp: nextProps.passedProp
-      });
-    }
-  }
-
-
-
-  close() {
-    this.setState({ showModal: false });
-  }
-
-  open() {
-    this.setState({ showModal: true });
-  }
-
-  next(){
-    this.props.next(this.state.value.file[0]);
-  }
-
-
-
-  onDrop(file){
-    console.log("dropped file " + JSON.stringify(file));
-    if (file.length>0) {
-      this.setState({
-       file,
-       showImage:true,
-       error:false
-      });
-    } else {
-      console.log("in ondrop else");
-      this.setState({
-        file:[],
-        showImage:false,
-        error:true
-      })
-    }
-    
-  }
-
-  dropPreview(){
-    if (this.state.file) {
-      console.log("file exists now");
-      return <img src={this.state.file.preview}/> 
-    } else {
-      console.log('file doesnt exist');
-      return <div style={{textAlign:'center'}}> <br/><br/>Drag & drop an image or <br/> click here to select an image to upload</div>
-    }
-  }
-
-
-  render() {
-    
-    return (
-      <Modal  show={this.state.showModal} backdrop='static' onHide={::this.close}>
-        <Modal.Header closeButton>
-          <Modal.Title>Upload a Photo for {this.state.passedProp.campaignName}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Grid>
-            <Row>
-            
-              <Col md={6} mdOffset={3} >
-
-                <DropZone multiple={false} onDrop={this.onDrop.bind(this)} accept={'image/*'}>
-                  
-                  {this.state.showImage
-                    ? 
-                    <div style={{textAlign:'center'}}>
-                      <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={this.state.file[0].preview}/> 
-                      Click here to upload a different image...
-                    </div>
-                    :
-                    null                  
-                  }
-
-                  { !this.state.file ? <div style={{textAlign:'center'}}><br/><br/> Drag & drop an image or <br/> click here to select an image to upload</div> : null }
-                  {this.state.error
-                    ?
-                    <div style={{textAlign:'center'}}> <br/><br/><br/> Please upload a valid image. <br/> Click here to try again</div>
-                    :
-                    null
-                  }
-                </DropZone>
-              </Col>
-            </Row>
-          </Grid>
-          
-        </Modal.Body>
-        <Modal.Footer>
-          <Button bsStyle='primary' disabled={!this.state.showImage} onClick={::this.next}>Next</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-}
-
-
-
-
+@connect((state) => {
+  return state
+})
 class DatatableComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    var page = props.page;
+    var [accountID, account, campaigns, campaignsModified] = this._getAccount(page);
     this.state={
+      page,
+      accountID,
+      account,
+      campaignsModified
+    }
+  }
 
+  _getAccount(page) {
+    var accounts = this.props.accounts.result
+    var accountID ;
+    var account;
+    var campaigns;
+    var campaignsModified
+    
+    for(var i = 0; i < accounts.length; i++)
+    {
+      
+      if(accounts[i].title.replace(/[^A-Z0-9]+/ig, "_").toLowerCase() == page.toLowerCase())
+      {
+        
+        accountID = accounts[i].id;
+        account = accounts[i];
+        campaigns = account.campaigns;
+        
+        campaignsModified = campaigns.map((c) => {
+          var newsLen = c.news.length;
+          // var userLen = c.users.length;
+          var userLen = 0;
+          var storesLen = c.stores.length;
+          var manLen = 0;
+          return [c.name, c.description, newsLen, storesLen, manLen, userLen];
+        });
+        
+        break;
+      }
+    };
+    return [accountID, account, campaigns, campaignsModified];
+  }
+
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.page != this.props.page) {
+      var page = this.props.page;
+      var [accountID, account, campaigns, campaignsModified] = this._getAccount(page);
+      this.setState({
+        page,
+        accountID,
+        account,
+        campaignsModified
+      });
     }
   }
 
   componentDidMount() {
+    var userScreen = this;
+    
     $(ReactDOM.findDOMNode(this.example))
       .addClass('nowrap')
     this.table = $(ReactDOM.findDOMNode(this.example)).DataTable({
@@ -215,6 +109,15 @@ class DatatableComponent extends React.Component {
             className: 'dt-body-right', 
            }
         ],
+        columns: [
+            { title: "Name" },
+            { title: "Description" },
+            { title: "News" },
+            { title: "Stores" },
+            { title: "Mgrs" },
+            { title: "Users" }
+        ],
+        data:userScreen.state.campaignsModified
 
     });
 
@@ -235,25 +138,37 @@ class DatatableComponent extends React.Component {
     this.PickColor.open();
   }
   
-  newedCampaign(v){
-    console.log("NewedCampaign " + v);
-    this.setState({
-      editor: {
-        campaignName: v
-      }
-    });
+  newedCampaign(v, desc){
+    this.props.dispatch(actions.createCampaign({name: v, description: desc, merchant_account_id: this.state.accountID}))
+    .then((resp) => {
+      console.log('dunno what this is ' + JSON.stringify(this.props.campaigns.editing));
+      this.setState({
+        editor: {
+          name: v,
+          description:desc,
+          id: this.props.campaigns.editing.id,
+          merchant_account_id: this.state.accountID
+        }
+      });
 
     this.uploadPhoto();
     this.NewCampaign.close();
-    
+    });
   }
 
-  uploadedPhoto(v) {
-    console.log("uploadedPhoto " + v);
+    uploadedPhoto(v) {
     var editor = Object.assign({}, this.state.editor);
-    editor.campaignPhoto = v;
+    editor.img = v;
+    var userScreen= this;
+    this.props.dispatch(actions.createCampaign(editor))
+    .then(()=>{
+      userScreen.setState({
+        photoLoading: false
+      })
+    });
     this.setState({
-      editor
+      editor,
+      photoLoading:true
     });
   }
 
@@ -262,22 +177,23 @@ class DatatableComponent extends React.Component {
     return (
       <div>
       <Grid>
-      <Row><Col xs={4} xsOffset={4} >
+      <Row><Col md={6} mdOffset={3} sm={6} smOffset={3} xs={6} xsOffset={3}>
         <Button outlined lg style={{marginBottom: 2}} bsStyle='success' onClick={::this.newCampaign}>Create New Campaign</Button>
         </Col> 
       </Row>
       </Grid>
-      <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} next={(v) => this.uploadedPhoto(v)}/>
-      <NewCampaign ref={(c) => this.NewCampaign = c} next={(v) => this.newedCampaign(v)}/>
+      <br/>
+      <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} uploadPhoto={(v) => this.uploadedPhoto(v)}/>
+      <NewCampaign ref={(c) => this.NewCampaign = c} next={(v,desc) => this.newedCampaign(v, desc)}/>
       <Table ref={(c) => this.example = c} className='display' cellSpacing='0' width='100%'>
-        <thead>
+        {/*<thead>
           <tr>
             <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
+            <th>Description</th>
+            <th>News Items</th>
+            <th>Stores</th>
+            // <th>Managers</th>
+            <th>Users</th>
           </tr>
         </thead>
         <tfoot>
@@ -289,10 +205,10 @@ class DatatableComponent extends React.Component {
             <th>Start date</th>
             <th>Salary</th>
           </tr>
-        </tfoot>
+        </tfoot>*/}
         <tbody>
-          <tr>
-          {/*}  <td>Tiger Nixon</td>
+         {/* <tr>
+            <td>Tiger Nixon</td>
             <td>System Architect</td>
             <td>Edinburgh</td>
             <td>61</td>
@@ -739,14 +655,14 @@ class DatatableComponent extends React.Component {
             <td>2011/06/27</td>
             <td>$183,000</td>
           </tr>
-          <tr> */}
+          <tr> 
             <td>Donna Snider</td>
             <td>Customer Support</td>
             <td>New York</td>
             <td>27</td>
             <td>2011/01/25</td>
             <td>$112,000</td>
-          </tr>
+          </tr>*/}
         </tbody>
       </Table>
       </div>
@@ -757,6 +673,7 @@ class DatatableComponent extends React.Component {
 export default class Campaigns extends React.Component {
   render() {
     console.log("rendeirng campaigns " + this.props.routeParams.page)
+
     return (
       <Row>
         <Col xs={12}>
@@ -766,7 +683,7 @@ export default class Campaigns extends React.Component {
                 <Grid>
                   <Row>
                     <Col xs={12}>
-                      <DatatableComponent />
+                      <DatatableComponent page={this.props.routeParams.page}/>
                       <br/>
                     </Col>
                   </Row>
@@ -779,3 +696,198 @@ export default class Campaigns extends React.Component {
     );
   }
 }
+
+
+class NewCampaign extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { 
+      showModal: false,
+      value:''
+
+     };
+  }
+
+  close() {
+    this.setState({ showModal: false });
+  }
+
+  open() {
+    this.setState({ showModal: true });
+  }
+
+  next(){
+    this.props.next(this.state.value, this.state.desc);
+  }
+
+  render() {
+    return (
+      <Modal backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
+        <Modal.Header closeButton>
+          <Modal.Title>Give your NEW Campaign a Name</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FormGroup controlId='username'>
+            <ControlLabel>Name *</ControlLabel>
+            <FormControl type='text' name='name' className='required'
+              onChange={(event) => {
+                
+                var stringValue = event.target.value.replace(/[^A-Z0-9]+/ig, "_").toLowerCase();
+                console.log("changed name to " + stringValue);
+                this.setState({
+                  value:stringValue
+                })
+              }} />
+          
+
+            <ControlLabel>Description *</ControlLabel>
+            <FormControl type='text' name='descrp' className='required'
+              onChange={(event) => {
+                this.setState({
+                  desc:event.target.value
+                })
+              }} />
+          </FormGroup>
+
+
+          <p> <br/><br/>Your campaign will be at <br/> http://reportOn.com/campaigns/{this.state.value}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button bsStyle='primary' disabled={(this.state.value.length < 1)} onClick={::this.next}>Next</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
+class UploadPhoto extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      showModal: false,
+      passedProp: props.passedProp || {},
+      loading
+    };
+  }
+  
+    componentWillReceiveProps(nextProps) {
+    if (nextProps.passedProp != this.props.passedProp) {
+      this.setState({
+        passedProp: nextProps.passedProp
+      });
+    }
+    if (nextProps.loading != this.state.loading) {
+      this.setState({
+        loading: nextProps.loading
+      });
+    }
+  }
+
+
+
+close() {
+    this.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
+  }
+
+  open() {
+    this.setState({ showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
+  }
+  
+  onDrop(file){
+    var userScreen = this;
+    console.log("dropped file " + JSON.stringify(file));
+    // console.log("dropped file type is" + (file[0].preview.type));
+    if (file.length>0) {
+      this.setState({
+       file,
+       showImage:true,
+       error:false,
+       uploaded:false,
+      });
+      var reader = new window.FileReader();
+      // var blob = new File.createFromFileName(file[0].preview)
+      console.log("file[0].preview is " + file[0].type)
+      reader.readAsDataURL(file[0]);
+      reader.onloadend = function() {
+        var base64data=reader.result;
+        console.log( "base64 ready" );
+        userScreen.setState({
+          loading:true,
+          img:base64data
+        });
+        userScreen.props.uploadPhoto(base64data);
+      }
+
+    } else {
+      this.setState({
+        file:[],
+        showImage:false,
+        error:true
+      })
+    }
+    
+  }
+  dropPreview(){
+    if (this.state.file) {
+      console.log("file exists now");
+      return <img src={this.state.file.preview}/> 
+    } else {
+      console.log('file doesnt exist');
+      return <div style={{textAlign:'center'}}> <br/><br/>Drag & drop an image or <br/> click here to select an image to upload</div>
+    }
+  }
+
+
+  render() {
+    
+    return (
+      <Modal  show={this.state.showModal} backdrop='static' onHide={::this.close}>
+        <Modal.Header closeButton>
+          <Modal.Title>Upload a Photo for {this.state.passedProp.campaignName}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Grid>
+            <Row>
+            
+              <Col md={6} mdOffset={3} >
+
+                <DropZone multiple={false} onDrop={this.onDrop.bind(this)} accept={'image/*'}>
+                  <Loadable
+                  active={this.state.loading}
+                  spinner
+                  text='uploading...'
+                  >
+                  {this.state.showImage
+                    ? 
+                    <div style={{textAlign:'center'}}>
+                      <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={this.state.file[0].preview}/> 
+                      Click here to upload a different image...
+                    </div>
+                    :
+                    null                  
+                  }
+
+                  { !this.state.file ? <div style={{textAlign:'center'}}><br/><br/> Drag & drop an image or <br/> click here to select an image to upload</div> : null }
+                  {this.state.error
+                    ?
+                    <div style={{textAlign:'center'}}> <br/><br/><br/> Please upload a valid image. <br/> Click here to try again</div>
+                    :
+                    null
+                  }
+                  </Loadable>
+                </DropZone>
+              </Col>
+            </Row>
+          </Grid>
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button bsStyle='primary' disabled={!this.state.showImage} onClick={::this.close}>Finish</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
+
