@@ -105,11 +105,11 @@ class DatatableComponent extends React.Component {
   componentDidMount() {
     var userScreen = this;
     
-    $(ReactDOM.findDOMNode(this.example))
-      .addClass('nowrap')
+    // $(ReactDOM.findDOMNode(this.example))
+    //   .addClass('nowrap')
     this.table = $(ReactDOM.findDOMNode(this.example)).DataTable({
         // 'dom': "flBtrip",
-        autoWidth:false,
+        
         className:'compact',
         'buttons': [
            {
@@ -120,14 +120,15 @@ class DatatableComponent extends React.Component {
         responsive: true,
         columnDefs: [
           { targets: '_all', 
-            className: 'dt-body-justify dt-head-center', 
+            className: 'dt-body-center dt-head-center word-break', 
            }
         ],
         columns: [
             
             { 
               title: "Name",
-              width: '50px'
+              width:200,
+              
              },
             { 
               title: 'Image',
@@ -135,7 +136,8 @@ class DatatableComponent extends React.Component {
                 return '<img src="'+data+'"style="height:100px;width:100px;"/>';
               }
             },
-            { title: "Description" },
+            { title: "Description",
+            width:300 },
             { title: "News" },
             { title: "Stores" },
             { title: "Mgrs" },
@@ -258,7 +260,7 @@ class DatatableComponent extends React.Component {
             <th>Salary</th>
           </tr>
         </tfoot>*/}
-        <tbody style={{'wordBreak': 'break-word', 'verticalAlign' : 'top'}}>
+        <tbody style={{'wordBreak': 'normal', 'verticalAlign' : 'middle'}}>
          {/* <tr>
             <td>Tiger Nixon</td>
             <td>System Architect</td>
