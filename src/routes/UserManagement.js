@@ -35,42 +35,13 @@ class DatatableComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    var page = props.page;
-    var [accountID, account, campaigns, campaignsModified] = this._getAccount(page);
+    
+    var users = [['mike', 'alonso', 'mike@alonso.com', '391 charles street', 'kitchener', 'ON', '226-394-2981']];
     this.state={
-      page,
-      accountID,
-      account,
-      campaignsModified
+      users
     }
   }
 
-  _getAccount(page) {
-    var accounts = this.props.accounts.result
-    var accountID ;
-    var account;
-    var campaigns;
-    var campaignsModified = []
-    var userScreen = this;
-    for(var i = 0; i < accounts.length; i++)
-    {
-      
-      if(accounts[i].title.replace(/[^A-Z0-9]+/ig, "_").toLowerCase() == page.toLowerCase())
-      {
-        
-        accountID = accounts[i].id;
-        account = accounts[i];
-        campaigns = account.campaigns;
-        
-        campaignsModified = campaigns.map((c) => {
-          return userScreen._getModifiedCampaign(c)
-        });
-        
-        break;
-      }
-    };
-    return [accountID, account, campaigns, campaignsModified];
-  }
 
   _getModifiedCampaign(c) {
     var campaignsModified;
@@ -88,18 +59,18 @@ class DatatableComponent extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.page != this.props.page) {
-      var page = this.props.page;
-      var [accountID, account, campaigns, campaignsModified] = this._getAccount(page);
+    // if (prevProps.page != this.props.page) {
+    //   var page = this.props.page;
+    //   var [accountID, account, campaigns, campaignsModified] = this._getAccount(page);
 
-      this.setState({
-        page,
-        accountID,
-        account,
-        campaignsModified
-      });
-      this.table.clear().rows.add(campaignsModified).draw();
-    }
+    //   this.setState({
+    //     page,
+    //     accountID,
+    //     account,
+    //     campaignsModified
+    //   });
+    //   this.table.clear().rows.add(campaignsModified).draw();
+    // }
   }
 
   componentDidMount() {
@@ -125,25 +96,17 @@ class DatatableComponent extends React.Component {
         ],
         columns: [
             
-            { 
-              title: "Name",
-              width:200,
-              
-             },
-            { 
-              title: 'Image',
-              'render' : function(data,type,row) {
-                return '<img src="'+data+'"style="height:100px;width:100px;"/>';
-              }
-            },
-            { title: "Description",
-            width:300 },
-            { title: "News" },
-            { title: "Stores" },
-            { title: "Mgrs" },
-            { title: "Users" }
+            { title: "First Name" },
+            { title: "Last Name" },
+            { title: "Email" },
+            { title: "Address" },
+            { title: "City" },
+            { title: "Province" },
+            { title: "Phone" },
+            
+
         ],
-        data:userScreen.state.campaignsModified
+        data:userScreen.state.users
 
     });
 
@@ -232,7 +195,7 @@ class DatatableComponent extends React.Component {
       <div>
       <Grid>
       <Row><Col md={4} mdOffset={4} lg={2} lgOffset={5} sm={4} smOffset={4} xs={4} xsOffset={4}>
-        <Button outlined lg style={{marginBottom: 2}} bsStyle='success' className='text-center'onClick={::this.newCampaign}>Create New Campaign</Button>
+        <Button outlined lg style={{marginBottom: 2}} bsStyle='success' className='text-center'onClick={::this.newCampaign}>Invite Users</Button>
         </Col> 
       </Row>
       </Grid>
@@ -277,9 +240,9 @@ class DatatableComponent extends React.Component {
   }
 }
 
-export default class Campaigns extends React.Component {
+export default class UserManagement extends React.Component {
   render() {
-    console.log("rendeirng campaigns " + this.props.routeParams.page)
+    
 
     return (
       <Row>
@@ -290,7 +253,7 @@ export default class Campaigns extends React.Component {
                 <Grid>
                   <Row>
                     <Col xs={12}>
-                      <DatatableComponent page={this.props.routeParams.page}/>
+                      <DatatableComponent/>
                       <br/>
                     </Col>
                   </Row>
@@ -349,7 +312,7 @@ class NewCampaign extends React.Component {
           
 
             <ControlLabel>Description *</ControlLabel>
-            <FormControl type='text' componentClass='textarea' style={{resize:'none', height:100}} name='descrp' className='required'
+            <FormControl type='text' name='descrp' className='required'
               onChange={(event) => {
                 this.setState({
                   desc:event.target.value

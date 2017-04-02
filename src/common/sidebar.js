@@ -103,7 +103,7 @@ class ApplicationSidebar extends React.Component {
                     </SidebarNav>
                   </SidebarNavItem>
 
-                  <SidebarNavItem glyph='icon-simple-line-icons-users' name='User Management' href={::this.getPath('gallery')} />
+                  <SidebarNavItem glyph='icon-simple-line-icons-users' name='User Management' href={::this.getPath('usermanagement')} />
 
                   {/*<SidebarNavItem glyph='icon-feather-share' name='Campaigns' href={::this.getPath('campaigns/fucker')} /> */}
 
