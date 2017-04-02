@@ -115,8 +115,8 @@ class DatatableComponent extends React.Component {
   }
 
 
-  newCampaign() {
-    this.NewCampaign.open();
+  newUser() {
+    this.NewUser.open();
   }
 
   uploadPhoto() {
@@ -127,7 +127,7 @@ class DatatableComponent extends React.Component {
     this.PickColor.open();
   }
   
-  newedCampaign(v, desc){
+  newedUser(v, desc){
 
     this.props.dispatch(actions.createCampaign({name: v, description: desc, merchant_account_id: this.state.accountID}))
     .then((resp) => {
@@ -153,7 +153,7 @@ class DatatableComponent extends React.Component {
 
 
     this.uploadPhoto();
-    this.NewCampaign.close();
+    this.NewUser.close();
     });
   }
 
@@ -195,13 +195,20 @@ class DatatableComponent extends React.Component {
       <div>
       <Grid>
       <Row><Col md={4} mdOffset={4} lg={2} lgOffset={5} sm={4} smOffset={4} xs={4} xsOffset={4}>
-        <Button outlined lg style={{marginBottom: 2}} bsStyle='success' className='text-center'onClick={::this.newCampaign}>Invite Users</Button>
+        <Button outlined lg style={{marginBottom: 2}} bsStyle='success' className='text-center'onClick={::this.newUser}>Invite Users</Button>
         </Col> 
       </Row>
       </Grid>
       <br/>
       <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} uploadPhoto={(v) => this.uploadedPhoto(v)}/>
-      <NewCampaign ref={(c) => this.NewCampaign = c} next={(v,desc) => this.newedCampaign(v, desc)}/>
+      <NewUser ref={(c) => this.NewUser = c} 
+        next={(v,desc) => {
+          console.log("nexted bitches");
+
+          // this.newedUser(v, desc)
+          }
+        }
+        />
       <Table ref={(c) => this.example = c} className='display compact' cellSpacing='0' width='100%'>
         {/*<thead>
           <tr>
@@ -268,7 +275,7 @@ export default class UserManagement extends React.Component {
 }
 
 
-class NewCampaign extends React.Component {
+class NewUser extends React.Component {
   constructor(props) {
     super(props);
 
@@ -287,45 +294,70 @@ class NewCampaign extends React.Component {
     this.setState({ showModal: true });
   }
 
-  next(){
+  next(e){
+    e.preventDefault();
+    e.stopPropagation();
     this.props.next(this.state.value, this.state.desc);
   }
+
 
   render() {
     return (
       <Modal backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
         <Modal.Header closeButton>
-          <Modal.Title>Give your NEW Campaign a Name</Modal.Title>
+          <Modal.Title>Add Users</Modal.Title>
         </Modal.Header>
+        <Form onSubmit={::this.next}>
         <Modal.Body>
+        <h4> Let's make this personal. Complete your new user's information to create their account</h4>
+        
+
           <FormGroup controlId='username'>
-            <ControlLabel>Name *</ControlLabel>
-            <FormControl type='text' name='name' className='required'
+            <ControlLabel>Email *</ControlLabel>
+            <FormControl type='email' autoFocus name='name' className='required'
               onChange={(event) => {
-                
-                // var stringValue = event.target.value.replace(/[^A-Z0-9]+/ig, " ").toLowerCase();
-                
                 this.setState({
                   value:event.target.value
                 })
               }} />
-          
+          <br/>
+          <Grid>
+            <Row>
+              <Col xs={6} collapseLeft collapseRight>
+                <FormGroup>
+                   <ControlLabel>First Name</ControlLabel>
+                    <FormControl type='text' name='descrp' className='required'
+                      onChange={(event) => {
+                        this.setState({
+                          fname:event.target.value
+                        })
+                      }} />
+                </FormGroup>
+              </Col>
+              <Col xs={6} collapseRight>
+                <FormGroup>
+                  <ControlLabel>Last Name</ControlLabel>
+                  <FormControl type='text' name='descrp' className='required'
+                    onChange={(event) => {
+                      this.setState({
+                        lname:event.target.value
+                      })
+                    }} />
+                </FormGroup>
+              </Col>
+            </Row>
+          </Grid>
 
-            <ControlLabel>Description *</ControlLabel>
-            <FormControl type='text' name='descrp' className='required'
-              onChange={(event) => {
-                this.setState({
-                  desc:event.target.value
-                })
-              }} />
+
           </FormGroup>
-
+        
 
           {/*<p> <br/><br/>Your campaign will be at <br/> http://reportOn.com/campaigns/{this.state.value}</p>*/}
         </Modal.Body>
         <Modal.Footer>
-          <Button bsStyle='primary' disabled={(this.state.value.length < 1)} onClick={::this.next}>Next</Button>
+          <Button bsStyle='primary' disabled={(this.state.value.length < 1)} type='submit'>Next</Button>
         </Modal.Footer>
+        </Form>
       </Modal>
     );
   }

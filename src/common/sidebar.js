@@ -56,11 +56,9 @@ class ApplicationSidebar extends React.Component {
   }
 
   renderAccounts(result){
-    console.log('render account form sidebar' + result.length);
     var res =  result.map((account, i) => {
       return <SidebarNavItem key={i} glyph='icon-feather-layout' name={account.title} href={::this.getPath('campaigns/'+account.title)} />
     });
-    console.log("this shit length is " + res.length);
     return res;
   }
 
