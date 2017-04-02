@@ -266,6 +266,11 @@ function selectAccount(account) {
 
 
 function createCampaign(variables) {
+  console.log("create campaign called. Body is:");
+  console.log('variables.campaign_id is ' + variables.campaign_id);
+  console.log('variables.merchant_account.id is ' + variables.merchant_account_id);
+  console.log('variables.name is ' + variables.name);
+  console.log('variables.descp ' + variables.description);
   return dispatch => {
     var body = variables;
     return Api.post("/campaign/create.json", body)
@@ -283,7 +288,7 @@ function createCampaign(variables) {
         }
       } else {
         // dispatch(setData(path, resp));
-        console.log("campaign create response " + JSON.stringify(result));
+        // console.log("campaign create response " + JSON.stringify(result));
         dispatch({
           type: CREATE_CAMPAIGN,
           result: result.campaign

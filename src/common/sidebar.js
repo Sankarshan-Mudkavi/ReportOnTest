@@ -103,12 +103,14 @@ class ApplicationSidebar extends React.Component {
                     </SidebarNav>
                   </SidebarNavItem>
 
+                  <SidebarNavItem glyph='icon-simple-line-icons-users' name='User Management' href={::this.getPath('gallery')} />
 
                   {/*<SidebarNavItem glyph='icon-feather-share' name='Campaigns' href={::this.getPath('campaigns/fucker')} /> */}
+
                   <SidebarNavItem glyph='icon-feather-share' name='Reports' href={::this.getPath('social')} />
                   <SidebarNavItem glyph='icon-pixelvicon-photo-gallery' name='Gallery' href={::this.getPath('gallery')} />
                   {/*<SidebarNavItem glyph='icon-feather-share' name='Social' href={::this.getPath('social')} /> */}
-                  <SidebarNavItem glyph='icon-stroke-gap-icons-Blog' name={<span>Blog <Label className='bg-darkcyan fg-white'>2</Label></span>}>
+                  <SidebarNavItem glyph='icon-stroke-gap-icons-Blog' name={<span>User <Label className='bg-darkcyan fg-white'>2</Label></span>}>
                     <SidebarNav>
                       <SidebarNavItem glyph='icon-feather-layout' name='Posts' href={::this.getPath('blog/posts')} />
                       <SidebarNavItem glyph='icon-feather-paper' name='Single Post' href={::this.getPath('blog/post')} />

@@ -27,7 +27,7 @@ function campaigns(state = [], action) {
 
   switch(action.type) {
     case CREATE_CAMPAIGN:
-      console.log("campaignsREducer RESPONDING " + action.type);
+      console.log("campaignsREducer RESPONDING " + action.result);
       // var existingAcc = action.result.slice();
       // var existingIds = existingAcc.map((account) => {return account.id});
       // var indexOfId = existingIds.indexOf(action.result.id);

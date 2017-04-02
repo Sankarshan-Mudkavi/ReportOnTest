@@ -417,7 +417,7 @@ class UploadPhoto extends React.Component {
           <Grid>
             <Row>
             
-              <Col sm={6} smOffset={3} >
+              <Col sm={6} smOffset={3} xs={6} xsOffset={3} >
               
             
                   <div>
