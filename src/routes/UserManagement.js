@@ -195,7 +195,7 @@ class DatatableComponent extends React.Component {
       <div>
       <Grid>
       <Row><Col md={4} mdOffset={4} lg={2} lgOffset={5} sm={4} smOffset={4} xs={4} xsOffset={4}>
-        <Button outlined lg style={{marginBottom: 2}} bsStyle='success' className='text-center'onClick={::this.newUser}>Invite Users</Button>
+        <Button outlined lg style={{marginBottom: 2}} bsStyle='success' className='text-center'onClick={::this.newUser}>Invite New Users</Button>
         </Col> 
       </Row>
       </Grid>
@@ -281,7 +281,8 @@ class NewUser extends React.Component {
 
     this.state = { 
       showModal: false,
-      value:''
+      value:'',
+      mValue:'',
 
      };
   }
@@ -297,21 +298,18 @@ class NewUser extends React.Component {
   next(e){
     e.preventDefault();
     e.stopPropagation();
-    this.props.next(this.state.value, this.state.desc);
+    var value = this.state.multipleUsers ? this.state.mValue : this.state.value;
+    console.log("value is " + JSON.stringify(value));
+    // this.props.next(value, this.state.desc);
   }
 
-
-  render() {
-    return (
-      <Modal backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Users</Modal.Title>
-        </Modal.Header>
+  renderForm(){
+    if (!this.state.multipleUsers) {
+      //not multi user
+      return (
         <Form onSubmit={::this.next}>
         <Modal.Body>
         <h4> Let's make this personal. Complete your new user's information to create their account</h4>
-        
-
           <FormGroup controlId='username'>
             <ControlLabel>Email *</ControlLabel>
             <FormControl type='email' autoFocus name='name' className='required'
@@ -348,16 +346,50 @@ class NewUser extends React.Component {
             </Row>
           </Grid>
 
-
-          </FormGroup>
-        
-
-          {/*<p> <br/><br/>Your campaign will be at <br/> http://reportOn.com/campaigns/{this.state.value}</p>*/}
-        </Modal.Body>
+          <Button bsStyle='link' className='lightblue' onClick={()=>{this.setState({multipleUsers:true})}}>Invite Multiple Users</Button>
+            </FormGroup>
+          </Modal.Body>
         <Modal.Footer>
           <Button bsStyle='primary' disabled={(this.state.value.length < 1)} type='submit'>Next</Button>
         </Modal.Footer>
         </Form>
+      );
+    } 
+    else {
+      return (
+        <Form onSubmit={::this.next}>
+        <Modal.Body>
+        <h4> Enter Users' email addresses seperated by commas or spaces.</h4>
+          <FormGroup controlId='username'>
+            <ControlLabel>Emails *</ControlLabel>
+            <FormControl type='email' componentClass='textarea' style={{resize:'none', height:200}} autoFocus name='name' className='required'
+              onChange={(event) => {
+                this.setState({
+                  mValue:event.target.value
+                })
+              }} />
+          <br/>
+
+          <Button bsStyle='link' className='lightblue' onClick={()=>{this.setState({multipleUsers:false})}}>Invite Single User</Button>
+          </FormGroup>
+          </Modal.Body>
+        <Modal.Footer>
+          <Button bsStyle='primary' disabled={(this.state.value.length < 1)} type='submit'>Next</Button>
+        </Modal.Footer>
+        </Form>
+      );
+    }
+  }
+
+  render() {
+    return (
+      <Modal backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Users</Modal.Title>
+        </Modal.Header>
+        
+        {this.renderForm()}
+        
       </Modal>
     );
   }
