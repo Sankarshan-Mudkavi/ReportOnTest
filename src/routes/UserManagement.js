@@ -36,9 +36,28 @@ class DatatableComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    var users = [[['mike', 'alonso' , 'ass@ass.com', '391 charles street', 'Kitchener', 'ON', 'N2G 1H6', '226-394-2981'], 'Manager', '15', '2.2 hrs', '2.1', 'B-' ]];
+    // var users = [[['mike', 'alonso' , 'ass@ass.com', '391 charles street', 'Kitchener', 'ON', 'N2G 1H6', '226-394-2981'], 'Manager', '15', '2.2 hrs', '2.1', 'B-' ]];
     var users = [
     { 
+      contact:  
+      [
+        "mike",
+        "alonso",
+        "ass@ass.com",
+        "391 charles street",
+        "Kitchener",
+        "ON",
+        "N2G 1H6",
+        "226-394-2981"
+      ],
+      permissions: "Manager",
+      wage: "15",
+      aReportTime:"2.2 hrs",
+      picsPerReport:"2.1",
+      grade:"B-",
+      "DT_RowId":   "row_12",
+    },
+     { 
       contact:  
       [
         "mike",
@@ -125,7 +144,10 @@ class DatatableComponent extends React.Component {
     var table = $(ReactDOM.findDOMNode(this.example)).DataTable({
       // 'dom': "flBtrip",
       className: "compact",
-      select: true,
+      select: {
+            style:    'multi',
+            selector: 'td:first-child'
+        },
       buttons: [
         {
           extend: "print",
@@ -149,9 +171,16 @@ class DatatableComponent extends React.Component {
         }
       ],
       columns: [
+          {
+            data: null,
+            defaultContent: '',
+            className: 'select-checkbox',
+            orderable: false,
+            width:50
+        },
         {
           title: "Contact Info",
-          width: 250,
+          
           data:'contact',
           render: function(data, type, row) {
             var dataFilledOut = true;
@@ -201,16 +230,18 @@ class DatatableComponent extends React.Component {
           // width: 120,
           data:'permissions'
         },
-        { title: "Wage", data:'wage' },
-        { title: "Average <br/> Report Time", data:'aReportTime' },
-        { title: "Avg Photos <br/> per Report", data:'picsPerReport' },
+        { title: "Wage", data:'wage', width:150 },
         {
           title: "Grade",
           data:'grade',
+          width:50,
           render: function(data, type, row) {
             return '<b><font size="4">' + data + "</font></b>";
           }
-        }
+        },
+        { title: "Average <br/> Report Time", data:'aReportTime', width:80 },
+        { title: "Avg Photos <br/> per Report", data:'picsPerReport', width:80 },
+        
       ],
       data: userScreen.state.users
     });
@@ -228,7 +259,7 @@ class DatatableComponent extends React.Component {
     $(ReactDOM.findDOMNode(this.example)).on("click", 'tbody td:not(:first-child)', function(e) {
       // editor.bubble(this);
 
-      // editor.inline(this);
+      editor.inline(this);
       // table.cell( this ).edit();
       // cell.data( cell.data() + 'fuckingcuntfuck' ).draw();
     });

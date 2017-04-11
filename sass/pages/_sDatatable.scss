@@ -1,0 +1,257 @@
+//colors
+$color_lochmara_approx: #99CFEA;
+$black:  black;
+$color_pigeon_post_approx: #b0bed9;
+$white: white;
+$color_regent_st_blue_approx: #a2d4ed;
+
+//@extend-elements
+//original selectors
+//table.dataTable td.select-checkbox:before, table.dataTable td.select-checkbox:after
+%extend_1 {
+  display: block;
+  position: absolute;
+  top: 1.2em;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: border-box;
+}
+
+
+@media screen and(max-width: 640px) {
+  div.dataTables_wrapper span {
+    &.select-info {
+      margin-left: 0;
+      display: block;
+    }
+    &.select-item {
+      margin-left: 0;
+      display: block;
+    }
+  }
+}
+table.dataTable {
+  tbody {
+    > tr {
+      &.selected {
+        background-color: $color_lochmara_approx;
+      }
+      > .selected {
+        background-color: $color_lochmara_approx;
+      }
+    }
+    tr.selected {
+      color: $white;
+      a {
+        color: $color_regent_st_blue_approx;
+      }
+    }
+    th.selected {
+      color: $white;
+      a {
+        color: $color_regent_st_blue_approx;
+      }
+    }
+    td.selected {
+      color: $white;
+      a {
+        color: $color_regent_st_blue_approx;
+      }
+    }
+  }
+  &.order-column {
+    tbody > tr {
+      &.selected > {
+        .sorting_1 {
+          background-color: $color_lochmara_approx;
+        }
+        .sorting_2 {
+          background-color: $color_lochmara_approx;
+        }
+        .sorting_3 {
+          background-color: $color_lochmara_approx;
+        }
+      }
+      > .selected {
+        background-color: $color_lochmara_approx;
+      }
+    }
+    &.stripe tbody > tr {
+      &.odd {
+        &.selected > {
+          .sorting_1 {
+            background-color: $color_lochmara_approx;
+          }
+          .sorting_2 {
+            background-color: $color_lochmara_approx;
+          }
+          .sorting_3 {
+            background-color: $color_lochmara_approx;
+          }
+        }
+        > .selected {
+          background-color: $color_lochmara_approx;
+        }
+      }
+      &.even {
+        &.selected > {
+          .sorting_1 {
+            background-color: $color_lochmara_approx;
+          }
+          .sorting_2 {
+            background-color: $color_lochmara_approx;
+          }
+          .sorting_3 {
+            background-color: $color_lochmara_approx;
+          }
+        }
+        > .selected {
+          background-color: $color_lochmara_approx;
+        }
+      }
+    }
+    &.hover tbody > tr {
+      &.selected:hover > {
+        .sorting_1 {
+          background-color: $color_lochmara_approx;
+        }
+        .sorting_2 {
+          background-color: $color_lochmara_approx;
+        }
+        .sorting_3 {
+          background-color: $color_lochmara_approx;
+        }
+      }
+      &:hover > .selected {
+        background-color: $color_lochmara_approx;
+      }
+      > .selected:hover {
+        background-color: $color_lochmara_approx;
+      }
+    }
+  }
+  &.stripe tbody > tr.odd {
+    &.selected {
+      background-color: $color_lochmara_approx;
+    }
+    > .selected {
+      background-color: $color_lochmara_approx;
+    }
+  }
+  &.display tbody > tr {
+    &.odd {
+      &.selected {
+        background-color: $color_lochmara_approx;
+        > {
+          .sorting_1 {
+            background-color: $color_lochmara_approx;
+          }
+          .sorting_2 {
+            background-color: $color_lochmara_approx;
+          }
+          .sorting_3 {
+            background-color: $color_lochmara_approx;
+          }
+        }
+      }
+      > .selected {
+        background-color: $color_lochmara_approx;
+        background-color: $color_lochmara_approx;
+      }
+    }
+    &.selected {
+      &:hover {
+        background-color: $color_lochmara_approx;
+        > {
+          .sorting_1 {
+            background-color: $color_lochmara_approx;
+          }
+          .sorting_2 {
+            background-color: $color_lochmara_approx;
+          }
+          .sorting_3 {
+            background-color: $color_lochmara_approx;
+          }
+        }
+      }
+      > {
+        .sorting_1 {
+          background-color: $color_lochmara_approx;
+        }
+        .sorting_2 {
+          background-color: $color_lochmara_approx;
+        }
+        .sorting_3 {
+          background-color: $color_lochmara_approx;
+        }
+      }
+    }
+    &.even {
+      &.selected > {
+        .sorting_1 {
+          background-color: $color_lochmara_approx;
+        }
+        .sorting_2 {
+          background-color: $color_lochmara_approx;
+        }
+        .sorting_3 {
+          background-color: $color_lochmara_approx;
+        }
+      }
+      > .selected {
+        background-color: $color_lochmara_approx;
+      }
+    }
+    > .selected {
+      background-color: $color_lochmara_approx;
+      &:hover {
+        background-color: $color_lochmara_approx;
+        background-color: $color_lochmara_approx;
+      }
+    }
+    &:hover > .selected {
+      background-color: $color_lochmara_approx;
+    }
+  }
+  &.hover tbody > tr {
+    &.selected:hover {
+      background-color: $color_lochmara_approx;
+    }
+    > .selected:hover {
+      background-color: $color_lochmara_approx;
+    }
+  }
+  td.select-checkbox {
+    position: relative;
+    &:before {
+      @extend %extend_1;
+      content: ' ';
+      margin-top: -6px;
+      margin-left: -6px;
+      border: 1px solid $black;
+      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      border-radius: 3px;
+    }
+    &:after {
+      @extend %extend_1;
+    }
+  }
+  tr.selected td.select-checkbox:after {
+    content: '\2714';
+    margin-top: -11px;
+    margin-left: -4px;
+    text-align: center;
+    //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    text-shadow: 1px 1px $color_pigeon_post_approx, -1px -1px $color_pigeon_post_approx, 1px -1px $color_pigeon_post_approx, -1px 1px $color_pigeon_post_approx;
+  }
+}
+div.dataTables_wrapper span {
+  &.select-info {
+    margin-left: 0.5em;
+  }
+  &.select-item {
+    margin-left: 0.5em;
+  }
+}
