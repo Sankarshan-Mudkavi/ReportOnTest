@@ -22,6 +22,7 @@ import {
 import { withRouter } from 'react-router';
 import actions from '../redux/actions';
 import Loadable from 'react-loading-overlay';
+// import css from './editorbootstrap.css';
 // var $ = require( 'jquery' );
 // $.DataTable = require('datatables.net');
 // var cunt = require( 'datatables.net-buttons' )( window, $ )
@@ -35,8 +36,28 @@ class DatatableComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    
-    var users = [['mike', 'alonso', 'mike@alonso.com', '391 charles street', 'kitchener', 'ON', '226-394-2981']];
+    var users = [[['mike', 'alonso' , 'ass@ass.com', '391 charles street', 'Kitchener', 'ON', 'N2G 1H6', '226-394-2981'], 'Manager', '15', '2.2 hrs', '2.1', 'B-' ]];
+    var users = [
+    { 
+      contact:  
+      [
+        "mike",
+        "alonso",
+        "ass@ass.com",
+        "391 charles street",
+        "Kitchener",
+        "ON",
+        "N2G 1H6",
+        "226-394-2981"
+      ],
+      permissions: "Manager",
+      wage: "15",
+      aReportTime:"2.2 hrs",
+      picsPerReport:"2.1",
+      grade:"B-",
+      "DT_RowId":   "row_12",
+    },
+  ];
     this.state={
       users
     }
@@ -72,48 +93,149 @@ class DatatableComponent extends React.Component {
     //   this.table.clear().rows.add(campaignsModified).draw();
     // }
   }
-
   componentDidMount() {
     var userScreen = this;
-    
+
     // $(ReactDOM.findDOMNode(this.example))
     //   .addClass('nowrap')
-    this.table = $(ReactDOM.findDOMNode(this.example)).DataTable({
-        // 'dom': "flBtrip",
-        
-        className:'compact',
-        'buttons': [
-           {
-            extend: 'print',
-            className:'btn-outlined btn btn-md btn-success'
-            }
-        ],
-        responsive: true,
-        columnDefs: [
-          { targets: '_all', 
-            className: 'dt-body-center dt-head-center word-break', 
-           }
-        ],
-        columns: [
-            
-            { title: "First Name" },
-            { title: "Last Name" },
-            { title: "Email" },
-            { title: "Address" },
-            { title: "City" },
-            { title: "Province" },
-            { title: "Phone" },
-            
 
-        ],
-        data:userScreen.state.users
+    var editor = new $.fn.dataTable.Editor({
+      table: ".classTable",
+      idSrc: "DT_RowId",
+      fields: [
+        {
+          label:'Access:',
+          name: "permissions",
+          type: "select",
+          options: [
+            { label: "User", value: "user" },
+            { label: "Manager", value: "manager" },
+            { label: "Admin", value: "admin" }
+          ]
+        },
+        { name: "wage" },
+        { name: "contact" }
 
+        // etc
+      ]
     });
 
-    this.table.buttons().container()
-        .appendTo( $('.dataTables_length' ) );
-  }
+    
 
+    var table = $(ReactDOM.findDOMNode(this.example)).DataTable({
+      // 'dom': "flBtrip",
+      className: "compact",
+      select: true,
+      buttons: [
+        {
+          extend: "print",
+          className: "btn-outlined btn btn-md btn-success"
+        },
+
+        {
+          extend: "edit",
+          className: "btn-outlined btn btn-md btn-success",
+          editor: editor,
+          formButtons:[
+            {label:'save row'}
+          ]
+        }
+      ],
+      responsive: true,
+      columnDefs: [
+        {
+          targets: "_all",
+          className: "dt-body-center dt-head-center word-break"
+        }
+      ],
+      columns: [
+        {
+          title: "Contact Info",
+          width: 250,
+          data:'contact',
+          render: function(data, type, row) {
+            var dataFilledOut = true;
+            var name = "User";
+            if (data && data.length > 2) {
+              var fName = data[0] || "User";
+              name = fName + " " + data[1];
+
+              if (data.length == 8) {
+                var i;
+                for (i = 0; i < data.length; i++) {
+                  if (!(data[i] && data[i].length > 1)) {
+                    dataFilledOut = false;
+                    break;
+                  }
+                }
+                if (dataFilledOut) {
+                  //return filled out data
+                  return "<b><u>" +
+                    name +
+                    "</u></b><br/>" +
+                    data[2] +
+                    "<br/>" +
+                    data[3] +
+                    "<br/>" +
+                    data[4] +
+                    " " +
+                    data[5] +
+                    "<br/>" +
+                    data[6] +
+                    "<br/>" +
+                    data[7];
+                }
+              }
+            }
+
+            if (dataFilledOut) {
+            }
+            return "<b><u>" +
+              name +
+              "</u></b><br/>" +
+              "User has not accepted invitation or submitted their information yet.<br/>";
+          }
+        },
+        {
+          title: "Access",
+          // width: 120,
+          data:'permissions'
+        },
+        { title: "Wage", data:'wage' },
+        { title: "Average <br/> Report Time", data:'aReportTime' },
+        { title: "Avg Photos <br/> per Report", data:'picsPerReport' },
+        {
+          title: "Grade",
+          data:'grade',
+          render: function(data, type, row) {
+            return '<b><font size="4">' + data + "</font></b>";
+          }
+        }
+      ],
+      data: userScreen.state.users
+    });
+
+    table.buttons().container().appendTo($(".dataTables_length"));
+
+    $(ReactDOM.findDOMNode(this.example)).on("click", "tr", function(e) {
+      // table.row(this).edit();
+      // var row_object = table.row(this).data();
+      // var access = table.row(this).data()[0];
+      // console.log("clicked on row " + JSON.stringify(row_object));
+      // console.log("clicked on row access " + access);
+    });
+
+    $(ReactDOM.findDOMNode(this.example)).on("click", 'tbody td:not(:first-child)', function(e) {
+      // editor.bubble(this);
+
+      // editor.inline(this);
+      // table.cell( this ).edit();
+      // cell.data( cell.data() + 'fuckingcuntfuck' ).draw();
+    });
+
+    this.editor = editor;
+    this.table = table;
+  }
 
   newUser() {
     this.NewUser.open();
@@ -209,7 +331,7 @@ class DatatableComponent extends React.Component {
           }
         }
         />
-      <Table ref={(c) => this.example = c} className='display compact' cellSpacing='0' width='100%'>
+      <Table ref={(c) => this.example = c} className='display compact classTable' cellSpacing='0' width='100%'>
         {/*<thead>
           <tr>
             <th>Name</th>
@@ -303,6 +425,21 @@ class NewUser extends React.Component {
     // this.props.next(value, this.state.desc);
   }
 
+  renderAccess(){
+    return (
+      <FormControl  componentClass="select" name='accessLevel' className='required'
+                      onChange={(event) => {
+                        this.setState({
+                          accessLevel:event.target.value
+                        })
+                      }}>
+        <option value='1'>User</option>
+        <option value='2'>Manager</option>
+        <option value='3'>Admin</option>
+      </FormControl>
+    );
+  }
+
   renderForm(){
     if (!this.state.multipleUsers) {
       //not multi user
@@ -345,8 +482,27 @@ class NewUser extends React.Component {
               </Col>
             </Row>
           </Grid>
+                <FormGroup>
+                  <ControlLabel>Access Level</ControlLabel>
+                    
+                      {this.renderAccess()}
 
-          <Button bsStyle='link' className='lightblue' onClick={()=>{this.setState({multipleUsers:true})}}>Invite Multiple Users</Button>
+
+                </FormGroup>
+
+
+                <FormGroup>
+                   <ControlLabel>Wage</ControlLabel>
+                    <FormControl type='number' name='descrp' className='required'
+                     min="0.01" step="0.01" max="2500"
+                      onChange={(event) => {
+                        this.setState({
+                          wage:event.target.value
+                        })
+                      }} />
+                </FormGroup>
+
+          <Button bsStyle='link' className='lightblue' onClick={()=>{this.setState({multipleUsers:true, value:''})}}>Invite Multiple Users</Button>
             </FormGroup>
           </Modal.Body>
         <Modal.Footer>
@@ -370,11 +526,11 @@ class NewUser extends React.Component {
               }} />
           <br/>
 
-          <Button bsStyle='link' className='lightblue' onClick={()=>{this.setState({multipleUsers:false})}}>Invite Single User</Button>
+          <Button bsStyle='link' className='lightblue' onClick={()=>{this.setState({multipleUsers:false, mValue:''})}}>Invite Single User</Button>
           </FormGroup>
           </Modal.Body>
         <Modal.Footer>
-          <Button bsStyle='primary' disabled={(this.state.value.length < 1)} type='submit'>Next</Button>
+          <Button bsStyle='primary' disabled={(this.state.mValue.length < 1)} type='submit'>Next</Button>
         </Modal.Footer>
         </Form>
       );

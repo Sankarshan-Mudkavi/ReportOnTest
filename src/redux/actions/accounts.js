@@ -41,7 +41,7 @@ function fetchLogin(value) {
           }   
           dispatch(setLoginStatus('false', resp, true));
         } else {
-          
+          console.log("our answer is as follows " + JSON.stringify(resp));
           //THIS PART MEANS WE'RE LOGGED IN
           // storeToken(resp.token);
           if (value) {

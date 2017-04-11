@@ -126,6 +126,10 @@ loaders.push({
   test:  /(\/|\\)public(\/|\\)(.*?)\.js$/,
   loaders: pluginLoaders
 });
+loaders.push({ 
+  test: /\.css$/, 
+  loader: "style-loader!css-loader" 
+});
 
 delete webpackCommonConfig.module;
 
@@ -135,7 +139,10 @@ module.exports = deepmerge({
   devtool: devtool,
   entry: entry,
   module: {
-    loaders: loaders
+    loaders: loaders,
+   
+
+
   },
   postcss: function() {
     return {

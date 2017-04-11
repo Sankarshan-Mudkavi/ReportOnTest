@@ -30,7 +30,7 @@ module.exports = {
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         loader: "url?limit=10000&mimetype=application/octet-stream&name=./fonts/[hash].[ext]"
-      },
+      },      
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader: "file&name=./fonts/[hash].[ext]"
@@ -50,5 +50,6 @@ module.exports = {
       "node_modules"
     ],
     extensions: ["", ".json", ".js"]
-  }
+  },
+
 };

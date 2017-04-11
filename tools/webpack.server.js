@@ -3,6 +3,7 @@ var path = require('path');
 var webpack = require('webpack');
 var deepmerge = require('deepmerge');
 var webpackCommonConfig = require('./webpack.common');
+var extractTextPlugin = require("extract-text-webpack-plugin");
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
@@ -23,6 +24,7 @@ if (process.env.NO_OUTPUT_PATH) {
 
 var loaders = webpackCommonConfig.module.loaders.concat();
 loaders.push({ test: /\.scss$/, loader: 'null' });
+loaders.push({ test: /\.css$/, loader: "style-loader!css-loader" });
 
 delete webpackCommonConfig.module;
 
@@ -34,7 +36,7 @@ module.exports = deepmerge({
   output: output,
   target: 'node',
   module: {
-    loaders: loaders
+    loaders: loaders,
   },
   plugins: [
     new webpack.BannerPlugin(sourceMapSupportModule, {

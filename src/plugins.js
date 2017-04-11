@@ -10,6 +10,10 @@ import "js/vendor/select2/select2.js";
 import 'js/vendor/timeline/timeline.js';
 import "js/vendor/ion.rangeSlider/ion.rangeSlider.js";
 
+
+import 'bower_components/bootstrap/js/modal.js';
+import 'bower_components/bootstrap/js/transition.js';
+
 import 'bower_components/d3/d3.js';
 import "bower_components/c3/c3.js";
 import 'bower_components/Chart.js/Chart.js';
@@ -42,8 +46,26 @@ import "bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editab
 import "bower_components/x-editable/dist/inputs-ext/address/address.js";
 import "bower_components/x-editable/dist/inputs-ext/typeaheadjs/typeaheadjs.js";
 import 'bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js';
+
+
+
+
+// import 'bower_components/bootstrap/js/collapse.js';
+// import 'bower_components/bootstrap/js/popover.js';
+
+
 import "bower_components/datatables/media/js/jquery.dataTables.js";
+
 import "bower_components/datatables.net-buttons/js/dataTables.buttons.js";
+
+
+import "bower_components/datatables.net-editor/js/dataTables.editor.js";
+import "bower_components/datatables.net-editor/js/editor.bootstrap4.js";
+
+
+// import "bower_components/datatables.net-editor/css/editor.bootstrap.css";
+import "bower_components/datatables.net-select/js/dataTables.select.js";
+// import "bower_components/datatables.net-editor-1.5/js/dataTables.editor.js";
 import "bower_components/datatables.net-buttons/js/buttons.print.js";
 
 
