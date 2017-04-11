@@ -1398,6 +1398,21 @@ div {
     }
   }
 }
+div.DTE_Body div {
+  &.DTE_Body_Content div.DTE_Field {
+    float: left;
+    width: 50%;
+    padding: 5px 20px;
+    clear: none;
+    //Instead of the line below you could use @include box-sizing($bs)
+    box-sizing: border-box;
+  }
+  &.DTE_Form_Content:after {
+    content: ' ';
+    display: block;
+    clear: both;
+  }
+}
 
 @-webkit-keyframes editorProcessing {
   0%,

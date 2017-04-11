@@ -60,7 +60,7 @@ import "bower_components/datatables.net-buttons/js/dataTables.buttons.js";
 
 
 import "bower_components/datatables.net-editor/js/dataTables.editor.js";
-import "bower_components/datatables.net-editor/js/editor.bootstrap4.js";
+import "bower_components/datatables.net-editor/js/editor.bootstrap.js";
 
 
 // import "bower_components/datatables.net-editor/css/editor.bootstrap.css";

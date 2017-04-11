@@ -22,7 +22,7 @@ import {
 import { withRouter } from 'react-router';
 import actions from '../redux/actions';
 import Loadable from 'react-loading-overlay';
-// import css from './editorbootstrap.css';
+// import css from './editorbootstrap.css';8
 // var $ = require( 'jquery' );
 // $.DataTable = require('datatables.net');
 // var cunt = require( 'datatables.net-buttons' )( window, $ )
@@ -39,17 +39,14 @@ class DatatableComponent extends React.Component {
     // var users = [[['mike', 'alonso' , 'ass@ass.com', '391 charles street', 'Kitchener', 'ON', 'N2G 1H6', '226-394-2981'], 'Manager', '15', '2.2 hrs', '2.1', 'B-' ]];
     var users = [
     { 
-      contact:  
-      [
-        "mike",
-        "alonso",
-        "ass@ass.com",
-        "391 charles street",
-        "Kitchener",
-        "ON",
-        "N2G 1H6",
-        "226-394-2981"
-      ],
+      fName: 'mike',
+     lName:'alonso',
+     email:'ass@ass.com',
+     address:'391 Charles Street',
+     city: 'Kitchenr',
+     prov:'ON',
+     postal:'N2G 1H6',
+     tel: '226-808-8629',
       permissions: "Manager",
       wage: "15",
       aReportTime:"2.2 hrs",
@@ -57,18 +54,15 @@ class DatatableComponent extends React.Component {
       grade:"B-",
       "DT_RowId":   "row_12",
     },
-     { 
-      contact:  
-      [
-        "mike",
-        "alonso",
-        "ass@ass.com",
-        "391 charles street",
-        "Kitchener",
-        "ON",
-        "N2G 1H6",
-        "226-394-2981"
-      ],
+     {
+     fName: 'mike',
+     lName:'alonso',
+     email:'ass@ass.com',
+     address:'391 Charles Street',
+     city: 'Kitchenr',
+     prov:'ON',
+     postal:'N2G 1H6',
+     tel: '226-808-8629',
       permissions: "Manager",
       wage: "15",
       aReportTime:"2.2 hrs",
@@ -118,13 +112,46 @@ class DatatableComponent extends React.Component {
     // $(ReactDOM.findDOMNode(this.example))
     //   .addClass('nowrap')
 
+
     var editor = new $.fn.dataTable.Editor({
       table: ".classTable",
       idSrc: "DT_RowId",
       fields: [
+        { 
+          name: "firstName",
+          label: 'First Name'
+         },
+        { 
+          name: "lastName",
+          label: 'Last Name'
+         },
+        { 
+          name: "email",
+          label: 'Email'
+         },
+        { 
+          name: "address",
+          label: 'Address'
+         },
+        { 
+          name: "city",
+          label: 'City'
+         },
+        { 
+          name: "prov",
+          label: 'Province'
+         },
+        { 
+          name: "postal",
+          label: 'Postal Code'
+         },
+        { 
+          name: "mobilePhoneNumber",
+          label: 'Telephone'
+         },
         {
           label:'Access:',
-          name: "permissions",
+          name: "access",
           type: "select",
           options: [
             { label: "User", value: "user" },
@@ -132,9 +159,11 @@ class DatatableComponent extends React.Component {
             { label: "Admin", value: "admin" }
           ]
         },
-        { name: "wage" },
-        { name: "contact" }
+        { name: "wage",
+          label: 'Wage' 
 
+        },
+     
         // etc
       ]
     });
@@ -143,6 +172,27 @@ class DatatableComponent extends React.Component {
 
     var table = $(ReactDOM.findDOMNode(this.example)).DataTable({
       // 'dom': "flBtrip",
+      ajax: 
+
+      function (data, callback, settings) {
+       $.ajax({
+          url: 'http://34.205.72.170:3000/show.json',
+          success: function(d) {
+            console.log("ajax complet!" + typeof(d));
+            var dee = {d}
+            callback(d);  
+          },
+          dataType:'json'
+        });
+        
+        
+      },
+
+
+      // {
+      //   url:'http://34.205.72.170:3000/show.json',
+      //   type: 'GET'
+      // },
       className: "compact",
       select: {
             style:    'multi',
@@ -150,8 +200,12 @@ class DatatableComponent extends React.Component {
         },
       buttons: [
         {
-          extend: "print",
-          className: "btn-outlined btn btn-md btn-success"
+          extend: "remove",
+          className: "btn-outlined btn btn-md btn-danger",
+          editor: editor,
+          formButtons:[
+            {label:'save row'}
+          ]
         },
 
         {
@@ -161,13 +215,23 @@ class DatatableComponent extends React.Component {
           formButtons:[
             {label:'save row'}
           ]
-        }
+        },
+        {
+          extend: "print",
+          className: "btn-outlined btn btn-md btn-success"
+        },
+
       ],
       responsive: true,
       columnDefs: [
         {
           targets: "_all",
           className: "dt-body-center dt-head-center word-break"
+        },
+        {
+          targets:0,
+          className:'select-checkbox',
+          orderable:false
         }
       ],
       columns: [
@@ -179,50 +243,47 @@ class DatatableComponent extends React.Component {
             width:50
         },
         {
-          title: "Contact Info",
-          
-          data:'contact',
+          title: "Contact",
+          data: null,
+          editField: 'firstName',
           render: function(data, type, row) {
+            var name = data.firstName + ' ' + data.lastName;
+            var address = data.address;
+            var email = data.email;
+            var city= data.city;
+            var prov = data.prov;
+            var postal = data.postal;
+            var tel = data.tel;
             var dataFilledOut = true;
-            var name = "User";
-            if (data && data.length > 2) {
-              var fName = data[0] || "User";
-              name = fName + " " + data[1];
+            
 
-              if (data.length == 8) {
-                var i;
-                for (i = 0; i < data.length; i++) {
-                  if (!(data[i] && data[i].length > 1)) {
-                    dataFilledOut = false;
-                    break;
-                  }
-                }
-                if (dataFilledOut) {
-                  //return filled out data
-                  return "<b><u>" +
-                    name +
-                    "</u></b><br/>" +
-                    data[2] +
-                    "<br/>" +
-                    data[3] +
-                    "<br/>" +
-                    data[4] +
-                    " " +
-                    data[5] +
-                    "<br/>" +
-                    data[6] +
-                    "<br/>" +
-                    data[7];
-                }
-              }
+            if (!name || name.length < 2) {
+              name = "New User";
             }
+            if (!address || !tel) {
+             return "<b><u>" +
+                  name +
+                  "</u></b><br/>" +
+                  "User has not accepted invitation or submitted their information yet.<br/>";
+            }
+            
 
-            if (dataFilledOut) {
-            }
-            return "<b><u>" +
+            return (
+              "<b><u>" +
               name +
               "</u></b><br/>" +
-              "User has not accepted invitation or submitted their information yet.<br/>";
+              email +
+              "<br/>" +
+              address +
+              "<br/>" +
+              city +
+              " " +
+              prov +
+              "<br/>" +
+              postal +
+              "<br/>" +
+              tel
+            );
           }
         },
         {
@@ -257,6 +318,22 @@ class DatatableComponent extends React.Component {
     });
 
     $(ReactDOM.findDOMNode(this.example)).on("click", 'tbody td:not(:first-child)', function(e) {
+      var index = $(this).index();
+      console.log("clicked on index " + typeof(index));
+      if ([4,5,6].indexOf(index) > -1 ) {
+        console.log("returning");
+        return;
+      }
+      if (index =='1') {
+        console.log("fuck?2")
+        editor.edit(this, 
+          'Edit Entry',
+          'Save'
+         );
+        return
+      }
+
+
       // editor.bubble(this);
 
       editor.inline(this);
