@@ -27,7 +27,7 @@ import Loadable from 'react-loading-overlay';
 // $.DataTable = require('datatables.net');
 // var cunt = require( 'datatables.net-buttons' )( window, $ )
 
-
+var provinceAbbr={'Alberta' : 'AB', 'British Columbia' : 'BC', 'Manitoba' : 'MB', 'New Brunswick' : 'NB', 'Newfoundland' : 'NL', 'Nova Scotia' : 'NS', 'Northwest Territories' : 'NWT', 'Nunavut' : 'NU', 'Ontario' : 'ON', 'PEI' : 'PEI', 'Quebec' : 'QC', 'Saskatchewan' : 'SK', 'Yukon': 'YT'};
 
 @connect((state) => {
   return state
@@ -37,42 +37,9 @@ class DatatableComponent extends React.Component {
   constructor(props) {
     super(props);
     // var users = [[['mike', 'alonso' , 'ass@ass.com', '391 charles street', 'Kitchener', 'ON', 'N2G 1H6', '226-394-2981'], 'Manager', '15', '2.2 hrs', '2.1', 'B-' ]];
-    var users = [
-    { 
-      fName: 'mike',
-     lName:'alonso',
-     email:'ass@ass.com',
-     address:'391 Charles Street',
-     city: 'Kitchenr',
-     prov:'ON',
-     postal:'N2G 1H6',
-     tel: '226-808-8629',
-      permissions: "Manager",
-      wage: "15",
-      aReportTime:"2.2 hrs",
-      picsPerReport:"2.1",
-      grade:"B-",
-      "DT_RowId":   "row_12",
-    },
-     {
-     fName: 'mike',
-     lName:'alonso',
-     email:'ass@ass.com',
-     address:'391 Charles Street',
-     city: 'Kitchenr',
-     prov:'ON',
-     postal:'N2G 1H6',
-     tel: '226-808-8629',
-      permissions: "Manager",
-      wage: "15",
-      aReportTime:"2.2 hrs",
-      picsPerReport:"2.1",
-      grade:"B-",
-      "DT_RowId":   "row_12",
-    },
-  ];
+
     this.state={
-      users
+
     }
   }
 
@@ -125,6 +92,9 @@ class DatatableComponent extends React.Component {
         if (data.action == 'remove') {
           url = 'http://34.205.72.170:3000/remove';
         } 
+        if (data.action == 'create') {
+          url = 'http://34.205.72.170:3000/create';
+        } 
         console.log('url is... ' + url);
           $.ajax( {
             type: 'POST',
@@ -132,15 +102,15 @@ class DatatableComponent extends React.Component {
             data: data,
             dataType: "json",
             success: function (json) {
-                console.log("json response is " + JSON.stringify(json));
                 success( json );
+                userScreen.table.ajax.reload();
             },
             error: function (xhr, error, thrown) {
                 error( xhr, error, thrown );
             }
           } );
         
-        
+
       },
 
       idSrc: "id",
@@ -167,7 +137,23 @@ class DatatableComponent extends React.Component {
          },
         { 
           name: "residential_address.province",
-          label: 'Province'
+          label: 'Province',
+          type:"select",
+          options:[
+            'AB',
+            'BC',
+            'MB',
+            'NB',
+            'NL',
+            'NS',
+            'NWT',
+            'NU',
+            'ON',
+            'PEI',
+            'QC',
+            'SK',
+            'YT'
+          ]
          },
         { 
           name: "residential_address.postalCode",
@@ -188,7 +174,8 @@ class DatatableComponent extends React.Component {
           ]
         },
         { name: "wage",
-          label: 'Wage' 
+          label: 'Wage',
+          
 
         },
      
@@ -273,9 +260,11 @@ class DatatableComponent extends React.Component {
           editField: 'firstName',
           render: function(data, type, row) {
             var addr = data.residential_address || {};
-            var name = data.firstName + ' ' + data.lastName;
+            var fName = data.firstName || 'New'
+            var lName = data.lastName || 'User'
+            var name = fName + ' ' + lName;
             var address = addr.streetAddress;
-            var email = data.email;
+            var email = data.email || 'no email';
             var city= addr.city;
             var prov = addr.province;
             var postal = addr.postalCode;
@@ -283,15 +272,13 @@ class DatatableComponent extends React.Component {
             var dataFilledOut = true;
             
 
-            if (!name || name.length < 2) {
-              name = "New User";
-            }
-            console.log("")
             if (!address || !tel) {
              return "<b><u>" +
                   name +
                   "</u></b><br/>" +
-                  "User has not accepted invitation or submitted their information yet.<br/>";
+                  email +
+                  "<br/>" +
+                  "Pending invite acceptance.<br/>";
             }
             
 
@@ -306,8 +293,8 @@ class DatatableComponent extends React.Component {
               city +
               " " +
               prov +
-              "<br/>" +
-              postal +
+              // "<br/>" +
+              // postal +
               "<br/>" +
               tel
             );
@@ -315,10 +302,10 @@ class DatatableComponent extends React.Component {
         },
         {
           title: "Access",
-          // width: 120,
+          width: 120,
           data:'access'
         },
-        { title: "Wage", data:'wage', width:150 },
+        { title: "Wage", data:'wage', width:150, render: $.fn.dataTable.render.number( ',', '.', 2, '$' ) },
         {
           title: "Grade",
           data:'grade',
@@ -457,14 +444,28 @@ class DatatableComponent extends React.Component {
       </Row>
       </Grid>
       <br/>
-      <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} uploadPhoto={(v) => this.uploadedPhoto(v)}/>
       <NewUser ref={(c) => this.NewUser = c} 
-        next={(v,desc) => {
-          console.log("nexted bitches");
-
-          // this.newedUser(v, desc)
+        next={(v,multiUser) => {
+          console.log("nexted bitches " + v);
+          if (multiUser) {
+            var emails = v.split(/[ ,]+/).filter(Boolean);
+            console.log("emails are " + emails);
+            while (emails.length > 0) {
+              this.editor.create(false).set('email', emails[0]).submit();
+              emails.shift();
+            }
           }
-        }
+          else {
+            this.editor.create(false)
+              .set('email', v.email)
+              .set('firstName', v.firstName)
+              .set('lastName', v.lastName)
+              .set('wage', v.wage)
+              .set('access', v.access)
+              .submit();
+          }
+          this.NewUser.close();
+        }}
         />
       <Table ref={(c) => this.example = c} className='display compact classTable' cellSpacing='0' width='100%'>
         {/*<thead>
@@ -540,6 +541,7 @@ class NewUser extends React.Component {
       showModal: false,
       value:'',
       mValue:'',
+      mError: null
 
      };
   }
@@ -555,9 +557,18 @@ class NewUser extends React.Component {
   next(e){
     e.preventDefault();
     e.stopPropagation();
-    var value = this.state.multipleUsers ? this.state.mValue : this.state.value;
+    var v = {
+      firstName: this.state.fname,
+      lastName: this.state.lname,
+      wage: this.state.wage,
+      email: this.state.value,
+      access: this.state.accessLevel
+
+    }
+    var value = this.state.multipleUsers ? this.state.mValue : v;
     console.log("value is " + JSON.stringify(value));
-    // this.props.next(value, this.state.desc);
+
+    this.props.next(value, this.state.multipleUsers);
   }
 
   renderAccess(){
@@ -568,9 +579,9 @@ class NewUser extends React.Component {
                           accessLevel:event.target.value
                         })
                       }}>
-        <option value='1'>User</option>
-        <option value='2'>Manager</option>
-        <option value='3'>Admin</option>
+        <option value='User'>User</option>
+        <option value='Manager'>Manager</option>
+        <option value='Admin'>Admin</option>
       </FormControl>
     );
   }
@@ -655,12 +666,35 @@ class NewUser extends React.Component {
             <ControlLabel>Emails *</ControlLabel>
             <FormControl type='email' componentClass='textarea' style={{resize:'none', height:200}} autoFocus name='name' className='required'
               onChange={(event) => {
-                this.setState({
-                  mValue:event.target.value
-                })
-              }} />
-          <br/>
+                var v = event.target.value;
+                var emails = v.split(/[ ,]+/).filter(Boolean);
 
+                var EMAIL_REGEXP = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
+
+                var errorEmails = [];
+
+                emails.forEach(function(email) {
+                  var noError = EMAIL_REGEXP.test(email.trim());  
+                    if (!noError) {
+                      errorEmails.push(email.trim());
+                    }
+                }) ;
+                
+                if (errorEmails.length > 0) {
+                  this.setState({
+                    mError: errorEmails,
+                    mValue: ''
+                  });
+                } else {
+                  this.setState({
+                    mValue:event.target.value,
+                    mError: null
+                  });  
+                }
+              }} />
+          
+          {this.state.mError ? "There's an issue with formatting for the following email: " + this.state.mError  : null}
+          <br/>
           <Button bsStyle='link' className='lightblue' onClick={()=>{this.setState({multipleUsers:false, mValue:''})}}>Invite Single User</Button>
           </FormGroup>
           </Modal.Body>

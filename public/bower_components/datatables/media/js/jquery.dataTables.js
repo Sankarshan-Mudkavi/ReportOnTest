@@ -7529,7 +7529,8 @@
 			_fnBuildAjax( settings, [], function( json ) {
 				_fnClearTable( settings );
 	
-				var data = _fnAjaxDataSrc( settings, json );
+				// var data = _fnAjaxDataSrc( settings, json );
+				var data = json;
 				for ( var i=0, ien=data.length ; i<ien ; i++ ) {
 					_fnAddData( settings, data[i] );
 				}
