@@ -115,7 +115,7 @@ class DatatableComponent extends React.Component {
 
     var editor = new $.fn.dataTable.Editor({
       table: ".classTable",
-      idSrc: "DT_RowId",
+      idSrc: "id",
       fields: [
         { 
           name: "firstName",
@@ -130,19 +130,19 @@ class DatatableComponent extends React.Component {
           label: 'Email'
          },
         { 
-          name: "address",
+          name: "residential_address.streetAddress",
           label: 'Address'
          },
         { 
-          name: "city",
+          name: "residential_address.city",
           label: 'City'
          },
         { 
-          name: "prov",
+          name: "residential_address.province",
           label: 'Province'
          },
         { 
-          name: "postal",
+          name: "residential_address.postalCode",
           label: 'Postal Code'
          },
         { 
@@ -154,9 +154,9 @@ class DatatableComponent extends React.Component {
           name: "access",
           type: "select",
           options: [
-            { label: "User", value: "user" },
-            { label: "Manager", value: "manager" },
-            { label: "Admin", value: "admin" }
+            { label: "User", value: "User" },
+            { label: "Manager", value: "Manager" },
+            { label: "Admin", value: "Admin" }
           ]
         },
         { name: "wage",
@@ -188,11 +188,6 @@ class DatatableComponent extends React.Component {
         
       },
 
-
-      // {
-      //   url:'http://34.205.72.170:3000/show.json',
-      //   type: 'GET'
-      // },
       className: "compact",
       select: {
             style:    'multi',
@@ -247,19 +242,21 @@ class DatatableComponent extends React.Component {
           data: null,
           editField: 'firstName',
           render: function(data, type, row) {
+            var addr = data.residential_address || {};
             var name = data.firstName + ' ' + data.lastName;
-            var address = data.address;
+            var address = addr.streetAddress;
             var email = data.email;
-            var city= data.city;
-            var prov = data.prov;
-            var postal = data.postal;
-            var tel = data.tel;
+            var city= addr.city;
+            var prov = addr.province;
+            var postal = addr.postalCode;
+            var tel = data.mobilePhoneNumber;
             var dataFilledOut = true;
             
 
             if (!name || name.length < 2) {
               name = "New User";
             }
+            console.log("")
             if (!address || !tel) {
              return "<b><u>" +
                   name +
@@ -289,7 +286,7 @@ class DatatableComponent extends React.Component {
         {
           title: "Access",
           // width: 120,
-          data:'permissions'
+          data:'access'
         },
         { title: "Wage", data:'wage', width:150 },
         {
@@ -304,7 +301,7 @@ class DatatableComponent extends React.Component {
         { title: "Avg Photos <br/> per Report", data:'picsPerReport', width:80 },
         
       ],
-      data: userScreen.state.users
+      // data: userScreen.state.users
     });
 
     table.buttons().container().appendTo($(".dataTables_length"));
