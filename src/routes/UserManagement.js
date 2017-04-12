@@ -114,7 +114,27 @@ class DatatableComponent extends React.Component {
 
 
     var editor = new $.fn.dataTable.Editor({
+
       table: ".classTable",
+
+      ajax: function ( method, url, data, success, error ) {
+        console.log("method is " + method);
+        console.log("url is " + url);
+        console.log("data is " + JSON.stringify(data));
+        $.ajax( {
+            type: 'POST',
+            url: 'http://34.205.72.170:3000/show.json',
+            data: data,
+            dataType: "json",
+            success: function (json) {
+                success( json );
+            },
+            error: function (xhr, error, thrown) {
+                error( xhr, error, thrown );
+            }
+        } );
+      },
+
       idSrc: "id",
       fields: [
         { 
@@ -171,9 +191,8 @@ class DatatableComponent extends React.Component {
     
 
     var table = $(ReactDOM.findDOMNode(this.example)).DataTable({
-      // 'dom': "flBtrip",
+      'dom': "flBtrip",
       ajax: 
-
       function (data, callback, settings) {
        $.ajax({
           url: 'http://34.205.72.170:3000/show.json',

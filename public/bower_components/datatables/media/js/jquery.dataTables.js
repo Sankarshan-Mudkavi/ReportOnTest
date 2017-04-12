@@ -4713,10 +4713,10 @@
 			// if there is an ajax source load the data
 			if ( dataSrc == 'ajax' ) {
 				_fnBuildAjax( settings, [], function(json) {
-					console.log("json is " + JSON.stringify(json));
+					// console.log("json is " + JSON.stringify(json));
 					// var aData = _fnAjaxDataSrc( settings, json );
 					var aData = json;
-					console.log("ajax response is " + aData);
+					// console.log("ajax response is " + aData);
 	
 					// Got the data - add it to the table
 					for ( i=0 ; i<aData.length ; i++ ) {
