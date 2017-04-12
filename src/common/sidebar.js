@@ -36,12 +36,14 @@ class ApplicationSidebar extends React.Component {
   componentWillReceiveProps(nextProps) {
     if( nextProps.accounts !=  this.props.accounts) {
       let { accounts, dispatch } = nextProps;
+
       var result  = accounts.result ||  {};
       var rendAccts = this.renderAccounts(result);
       this.setState({
         rendAccts
       });
     }
+
   }
 
   handleChange(e) {
@@ -59,9 +61,39 @@ class ApplicationSidebar extends React.Component {
     var res =  result.map((account, i) => {
       return <SidebarNavItem key={i} glyph='icon-feather-layout' name={account.title} href={::this.getPath('campaigns/'+account.title)} />
     });
+
     return res;
   }
 
+
+  accountsNav(){
+      let { accounts, dispatch } = this.props;
+
+      var result  = accounts.result ||  [];
+
+      var res = [];
+      var i = 0;
+      while(res.length < result.length){
+        // console.log("result i " + i + ' is ' + JSON.stringify(result[i]))
+        res.push(<SidebarNavItem key={i} glyph='icon-feather-layout' name={result[i].title} href={::this.getPath('campaigns/'+result[i].title)} /> )
+        i++;
+      }
+
+    return (
+
+    <SidebarNav >
+      <SidebarNavItem glyph='icon-simple-line-icons-plus' name='Add New Account' href={::this.getPath('account/AddAccount')} />
+      {res
+      }
+      {//this.renderAccounts(result)
+      }
+      
+    </SidebarNav>
+
+    );
+
+
+  }
 
 
 
@@ -94,12 +126,18 @@ class ApplicationSidebar extends React.Component {
                     </SidebarNav>
                   </SidebarNavItem> */}
 
-                  <SidebarNavItem glyph='icon-stroke-gap-icons-Blog' name={<span>Accounts <Label className='bg-darkcyan fg-white'>{result.length}</Label></span>}>
-                    <SidebarNav >
+             <SidebarNavItem glyph='icon-stroke-gap-icons-Blog' name={<span>Accounts <Label className='bg-darkcyan fg-white'>{result.length}</Label></span>}>     
+                  {this.accountsNav()}
+{/*                    
+             <SidebarNavItem glyph='icon-stroke-gap-icons-Blog' name={<span>Accounts <Label className='bg-darkcyan fg-white'>{result.length}</Label></span>}>
+                  <SidebarNav >
                      <SidebarNavItem glyph='icon-simple-line-icons-plus' name='Add New Account' href={::this.getPath('account/AddAccount')} />
                       {this.state.rendAccts}
                     </SidebarNav>
                   </SidebarNavItem>
+
+                  */}
+</SidebarNavItem>                  
 
                   <SidebarNavItem glyph='icon-simple-line-icons-users' name='User Management' href={::this.getPath('usermanagement')} />
 

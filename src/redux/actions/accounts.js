@@ -218,6 +218,48 @@ function setData(type, resp) {
 }
 
 
+
+
+
+
+function deleteAccount(accountID) {
+  return dispatch => {
+    var body = {
+      merchant_account_id: accountID
+    };
+    return Api.post("/merchant/remove?id=1", body)
+    .then(result => {
+      console.log("results from deleteaccount is " + JSON.stringify(result));
+      if (result.error != null) {
+        if (!result.error.includes("sign in")) {
+            alert("Error" + resp.error);
+            dispatch(setData('error'));
+        } 
+        else {
+          console.log("setting loginstatus from fetchData");
+          dispatch(setLoginStatus('false', result));
+        }
+      } else {
+        console.log("returning result mother fucker" + JSON.stringify(result))
+        var resp = result;
+        dispatch({
+          type: ALL_ACCOUNTS,
+          resp
+        });
+      }
+    })
+    .catch(ex => {
+      console.log("FUCKING ERROR FROM deleteAccount " + ex.toString());
+      alert("🤔 error modifying account " + ex.toString());
+      // throw new Error("error with network!");
+      dispatch(setData("error"));
+    });
+  };
+}
+
+
+
+
 function createAccount(variables) {
   return dispatch => {
     var body = variables;
@@ -308,6 +350,7 @@ module.exports = {
   // getAccount,
   fetchData,
   createAccount,
+  deleteAccount,
   selectAccount,
   fetchLogin,
   createCampaign,

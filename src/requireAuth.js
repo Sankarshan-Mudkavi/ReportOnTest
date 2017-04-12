@@ -82,7 +82,7 @@ export default function RequireAuth(ComposedComponent) {
     }
 
     componentWillUpdate(nextProps) {
-      if (nextProps.isLoggedIn != this.props.isLoggedIn) {
+      if (nextProps.loginStatus != this.props.loginStatus) {
         this.checkLogin(nextProps);  
       }
     }

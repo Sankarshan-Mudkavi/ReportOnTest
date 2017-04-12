@@ -121,18 +121,26 @@ class DatatableComponent extends React.Component {
         console.log("method is " + method);
         console.log("url is " + url);
         console.log("data is " + JSON.stringify(data));
-        $.ajax( {
+        var url = 'http://34.205.72.170:3000/change.json';
+        if (data.action == 'remove') {
+          url = 'http://34.205.72.170:3000/remove';
+        } 
+        console.log('url is... ' + url);
+          $.ajax( {
             type: 'POST',
-            url: 'http://34.205.72.170:3000/show.json',
+            url,
             data: data,
             dataType: "json",
             success: function (json) {
+                console.log("json response is " + JSON.stringify(json));
                 success( json );
             },
             error: function (xhr, error, thrown) {
                 error( xhr, error, thrown );
             }
-        } );
+          } );
+        
+        
       },
 
       idSrc: "id",
@@ -213,12 +221,14 @@ class DatatableComponent extends React.Component {
             selector: 'td:first-child'
         },
       buttons: [
+
         {
           extend: "remove",
           className: "btn-outlined btn btn-md btn-danger",
           editor: editor,
           formButtons:[
-            {label:'save row'}
+            'remove'
+            // {label:'save row'}
           ]
         },
 
@@ -227,7 +237,8 @@ class DatatableComponent extends React.Component {
           className: "btn-outlined btn btn-md btn-success",
           editor: editor,
           formButtons:[
-            {label:'save row'}
+            'save'
+            // {label:'save row'}
           ]
         },
         {

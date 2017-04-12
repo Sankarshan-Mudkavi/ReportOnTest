@@ -31,7 +31,7 @@ function accounts(state = [], action) {
   switch(action.type) {
     case SINGEL_ACCOUNT:
     case ALL_ACCOUNTS:
-    
+    console.log("all accounts called from reducer");
       return {
         result: action.resp
       };

@@ -134,6 +134,7 @@ export default class AddAccount extends React.Component {
       });
       this.uploadPhoto();
       this.NewAccount.close();
+      // window.location.reload()
     });
   }
 
@@ -161,6 +162,7 @@ export default class AddAccount extends React.Component {
   }
 
   renderAccounts(result) {
+    // console.log("result is " + JSON.stringify(result));
     var resLen = result.length;
     //lets say this is 4/
     var colLen = Math.ceil(resLen /2);
@@ -175,15 +177,30 @@ export default class AddAccount extends React.Component {
                   <Col xs={12}>
                     <h3>{account.title}</h3>
                       <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={account.img_url}/> 
-                      <Row style={{marginTop:5, marginBottom:10}}>
-                      <Col sm={8} style={{paddingTop:4, }}>
+                      <Row style={{marginTop:10, marginBottom:7}}>
+                      <Col xs={6} style={{paddingTop:4, }}>
                       <p>Campaigns: 0</p>
                       </Col>
-                      <Col sm={4}>
-                      <Button className='pull-right' onClick={() => {
+                      <Col xs={6}>
+                      <p  className='pull-right'>
+                      <Button sm outlined onClick={() => {
                         console.log("clicked open for account + " + account.title);
                         this.props.router.push('/ltr/campaigns/' + account.title)}} bsStyle='primary'>Open</Button>
+                        {' '}
+                        <Button sm outlined  onClick={() => {
+                          console.log("clicked Delete for account + " + account.title);
+                          var answer = confirm('Delete ' + account.title + 'and all associated campaigns?');
+                          if (answer) {
+                            this.props.dispatch(actions.deleteAccount(account.id));  
+                          }
+                          
+                          //need to post: POST /merchant/remove {merchant_account_id: <merchant_account_id>}
+                          // window.location.reload();
+                        }} 
+                        bsStyle='danger'>Delete</Button>
+                        </p>
                       </Col>
+                      
                     </Row>
                   </Col>
                 </Row>
