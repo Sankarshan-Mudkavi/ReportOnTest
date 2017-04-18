@@ -160,17 +160,6 @@ class DatatableComponent extends React.Component {
           name: "address.postalCode",
           label: 'Postal Code'
          },
-        // {
-        //   label:'User',
-        //   name: "user",
-        //   type: "select",
-        //   options: [
-        //     { label: "Toby", value: "Toby" },
-        //     { label: "Chunky", value: "Chunky" },
-        //     { label: "Brandon", value: "Brandon" }
-        //   ]
-        // },
-        // etc
       ]
     });
 
@@ -183,7 +172,6 @@ class DatatableComponent extends React.Component {
        $.ajax({
           url: 'http://34.205.72.170:3000/store/show.json',
           success: function(d) {
-            console.log("ajax complet!" + typeof(d));
             var dee = {d}
             callback(d);  
           },
@@ -245,59 +233,16 @@ class DatatableComponent extends React.Component {
             orderable: false,
             width:50
         },
-        {
-          title: "Store",
-          data: null,
-          editField: 'firstName',
-          render: function(data, type, row) {
-            var addr = data.address || {};
-            var name = data.name || 'New Store'
-            var storeNumber = data.storeNumber || '123'
-            var banner = data.banner || 'New banner'
-            var address = addr.streetAddress;
-            //var email = data.email || 'no email';
-            var city= addr.city;
-            var prov = addr.province;
-            var postal = addr.postalCode;
-            //var tel = data.mobilePhoneNumber;
-            var dataFilledOut = true;
-            
-
-            if (!address) {
-             return "<b><u>" +
-                  name +
-                 "</u></b><br/>" +
-                  storeNumber +
-                  "<br/>" +
-                  banner;
-            }
-            
-
-            return (
-              "<b><u>" +
-              name +
-              "</u></b><br/>" +
-              storeNumber +
-              "<br/>" +
-              banner +
-              "<br/>" +
-              address +
-              "<br/>" +
-              city +
-              " " +
-              prov
-              // "<br/>" +
-              // postal +
-            );
-          }
-        },
-        {
-          title: "User",
-          width: 120,
-          data:'access'
-        },
+        {title: 'Banner', data: 'banner'},
+        {title: 'Store Number', data: 'storeNumber'},
+        {title: 'Name', data:'name'},
+        {title: 'Address', data:'address.streetAddress'},
+        {title: 'City', data:'address.city'},
+        {title: 'Prov', data:'address.province'},
+        {title: 'Postal', data:'address.postalCode'},
+     
       ],
-      // data: userScreen.state.users
+      
     });
 
     table.buttons().container().appendTo($(".dataTables_length"));
@@ -318,7 +263,6 @@ class DatatableComponent extends React.Component {
         return;
       }
       if (index =='1') {
-        console.log("fuck?2")
         editor.edit(this, 
           'Edit Entry',
           'Save'
@@ -380,37 +324,7 @@ class DatatableComponent extends React.Component {
     });
   }
 
-    uploadedPhoto(v) {
-    var editor = Object.assign({}, this.state.editor);
-    editor.img = v;
-    var userScreen= this;
-    this.props.dispatch(actions.createCampaign(editor))
-    .then(()=>{
-      var cIndex = userScreen.state.campaignsModified.findIndex((ele, ind)=> {
-        console.log("ele " + ind);
-        console.log("ele " + ele[0]);
-        console.log("name " + userScreen.props.campaigns.editing.name);
-        if (ele[0] == userScreen.props.campaigns.editing.name) {
-          console.log("returning index ?? " + ind);
-          return ele;
-        }
-      });
-      console.log("cindex is " + cIndex);
-      var campaignsModified = userScreen.state.campaignsModified.slice(0);
-
-      campaignsModified[cIndex][1] = userScreen.props.campaigns.editing.img_url;
-      userScreen.table.clear().rows.add(campaignsModified).draw();
-      userScreen.setState({
-        photoLoading: false,
-        campaignsModified
-      });
-    });
-
-    userScreen.setState({
-      editor,
-      photoLoading:true,
-    });
-  }
+    
 
   render() {
     
@@ -423,16 +337,13 @@ class DatatableComponent extends React.Component {
       </Row>
       </Grid>
       <br/>
-      <NewStore ref={(c) => this.NewStore = c} 
+      <NewStore ref={(c) => this.NewStore = c}
+        uploadStoreList={(l) => {
+
+        }} 
         next={(v,multiUser) => {
-          console.log("nexted bitches " + v);
           if (multiUser) {
-            var emails = v.split(/[ ,]+/).filter(Boolean);
-            console.log("emails are " + emails);
-            while (emails.length > 0) {
-              this.editor.create(false).set('email', emails[0]).submit();
-              emails.shift();
-            }
+            this.table.ajax.reload();
           }
           else {
             this.editor.create(false)
@@ -447,36 +358,9 @@ class DatatableComponent extends React.Component {
         }}
         />
       <Table ref={(c) => this.example = c} className='display compact classTable' cellSpacing='0' width='100%'>
-        {/*<thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>News Items</th>
-            <th>Stores</th>
-            // <th>Managers</th>
-            <th>Users</th>
-          </tr>
-        </thead>
-        <tfoot>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-          </tr>
-        </tfoot>*/}
+    
         <tbody style={{'wordBreak': 'normal', 'verticalAlign' : 'middle'}}>
-         {/* <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011/04/25</td>
-            <td>$320,800</td>
-          </tr>
-         */}
+  
         </tbody>
       </Table>
       </div>
@@ -577,12 +461,75 @@ class NewStore extends React.Component {
       name: this.state.value,
       storeNumber: this.state.snum,
       banner: this.state.sbanner,
-      
     }
-    var value = this.state.multipleUsers ? this.state.mValue : v;
-    console.log("value is " + JSON.stringify(value));
-
+    var value = this.state.multipleUsers ? this.state.fileData : v;
+    // console.log("value is " + JSON.stringify(value));
     this.props.next(value, this.state.multipleUsers);
+  }
+
+
+  onDrop(file){
+    var userScreen = this;
+    console.log("dropped file " + JSON.stringify(file));
+    // console.log("dropped file type is" + (file[0].preview.type));
+    if (file.length>0) {
+      this.setState({
+       file,
+       showImage:true,
+       error:false,
+       uploaded:false,
+      });
+      var reader = new window.FileReader();
+      // var blob = new File.createFromFileName(file[0].preview)
+      console.log("file[0].preview is " + file[0].type)
+      reader.readAsDataURL(file[0]);
+      reader.onloadend = function() {
+        var base64data=reader.result;
+        console.log( "base64 ready" );
+        userScreen.setState({
+          loading:true,
+          fileData:base64data
+        });
+        var url = 'http://34.205.72.170:3000/stores/uploadcsv.json';
+        $.ajax( {
+          type: 'POST',
+          url,
+          data: base64data,
+          dataType: "json",
+          success: function (json) {
+              success( json );
+              console.log('Success uploading! ' + JSON.stringify(json));
+              userScreen.setState({
+                loading:false
+              })
+          },
+          error: function (xhr, error, thrown) {
+            console.log('error uploading');
+              error( xhr, error, thrown );
+          }
+        });
+
+
+        // userScreen.props.uploadStoreList(base64data);
+      }
+
+    } else {
+      this.setState({
+        file:[],
+        showImage:false,
+        error:true
+      })
+    }
+    
+  }
+  dropPreview(){
+    if (this.state.file) {
+      console.log("file exists now");
+      return this.state.file.name
+    } else {
+      console.log('file doesnt exist');
+      return <div style={{textAlign:'center'}}> <br/><br/>Drag & drop a storelist or <br/> click here to select a storelist to upload</div>
+    }
   }
 
   renderAccess(){
@@ -607,7 +554,7 @@ class NewStore extends React.Component {
       return (
         <Form onSubmit={::this.next}>
         <Modal.Body>
-        <h4> Please enter your account information</h4>
+        <h4> Please enter your store information</h4>
           <FormGroup controlId='username'>
             <ControlLabel>Store Name *</ControlLabel>
             <FormControl type='text' autoFocus name='name' className='required'
@@ -622,7 +569,7 @@ class NewStore extends React.Component {
               <Col xs={6} collapseLeft collapseRight>
                 <FormGroup>
                    <ControlLabel>Store Number</ControlLabel>
-                    <FormControl type='text' name='descrp' className='required'
+                    <FormControl type='number' name='descrp' className='required'
                       onChange={(event) => {
                         this.setState({
                           snum:event.target.value
@@ -656,44 +603,42 @@ class NewStore extends React.Component {
       return (
         <Form onSubmit={::this.next}>
         <Modal.Body>
-        <h4> Enter Stores' names seperated by commas or spaces.</h4>
-          <FormGroup controlId='username'>
-            <ControlLabel>Stores *</ControlLabel>
-            <FormControl type='email' componentClass='textarea' style={{resize:'none', height:200}} autoFocus name='name' className='required'
-              onChange={(event) => {
-                var v = event.target.value;
-                var emails = v.split(/[ ,]+/).filter(Boolean);
+        <h4>Upload a storelist in CSV format. Click here for a template</h4>
+         <Grid>
+            <Row>
+            
+              <Col sm={6} smOffset={3} xs={4} xsOffset={4} >
 
-                var EMAIL_REGEXP = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
+                <DropZone multiple={false} onDrop={this.onDrop.bind(this)} accept={'text/csv'}>
+                  <Loadable
+                  active={this.state.loading}
+                  spinner
+                  text='uploading...'
+                  >
+                  {this.state.showImage
+                    ? 
+                    <div style={{textAlign:'center'}}>
+                      <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={this.state.file[0].preview}/> 
+                      Click here to upload a different storelist...
+                    </div>
+                    :
+                    null                  
+                  }
 
-                var errorEmails = [];
+                  { !this.state.file ? <div style={{textAlign:'center'}}><br/><br/> Drag & drop an storelist or <br/> click here to select an storelist to upload</div> : null }
+                  {this.state.error
+                    ?
+                    <div style={{textAlign:'center'}}> <br/><br/><br/> Please upload a valid storelist. <br/> Click here to try again</div>
+                    :
+                    null
+                  }
+                  </Loadable>
+                </DropZone>
+              </Col>
+            </Row>
+          </Grid>
 
-                emails.forEach(function(email) {
-                  var noError = EMAIL_REGEXP.test(email.trim());  
-                    if (!noError) {
-                      errorEmails.push(email.trim());
-                    }
-                }) ;
-
-                errorEmails = nil;
-                
-                if (errorEmails.length > 0) {
-                  this.setState({
-                    mError: errorEmails,
-                    mValue: ''
-                  });
-                } else {
-                  this.setState({
-                    mValue:event.target.value,
-                    mError: null
-                  });  
-                }
-              }} />
-          
-          {this.state.mError ? "There's an issue with formatting for the following email: " + this.state.mError  : null}
-          <br/>
           <Button bsStyle='link' className='lightblue' onClick={()=>{this.setState({multipleUsers:false, mValue:''})}}>Add a single store</Button>
-          </FormGroup>
           </Modal.Body>
         <Modal.Footer>
           <Button bsStyle='primary' disabled={(this.state.mValue.length < 1)} type='submit'>Next</Button>
