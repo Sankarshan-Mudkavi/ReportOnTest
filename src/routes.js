@@ -80,6 +80,7 @@ import Lock from './routes/Lock';
 import AddAccount from './routes/AddAccount';
 import Campaigns from './routes/Campaigns';
 import UserManagement from './routes/UserManagement';
+import StoreManagement from './routes/StoreManagement';
 import RequireAuth from './requireAuth';
 import actions from './redux/actions';
 import { connect } from 'react-redux';
@@ -131,6 +132,7 @@ const routes =
     <Route path='account/AddAccount' component={AddAccount} />
     <Route path='campaigns/:page' component={Campaigns} />
     <Route path='usermanagement' component={UserManagement} />
+    <Route path='storemanagement' component={StoreManagement} />
     <Route path='mailbox/inbox' component={Inbox} />
     <Route path='mailbox/mail' component={Mail} />
     <Route path='mailbox/compose' component={Compose} />
