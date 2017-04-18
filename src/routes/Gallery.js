@@ -67,8 +67,12 @@ export default class GalleryPage extends React.Component {
       return;
     }
     var searchText = this.state.searchText || "";
-    // '/photos/fetch.json?campaign_id=' + campaignID + "&user_id=" + userID + "&search_params=" + text+"&pagenum="+page
     var url = 'http://34.205.72.170:3000/photos/fetch.json?' +  "&search_params=" + searchText+"&pagenum="+this.state.pageNum;
+    if (searchText.length > 1) {
+       url = 'http://34.205.72.170:3000/photos/fetch.json?'+'/photos/showall'
+    }
+    // '/photos/fetch.json?campaign_id=' + campaignID + "&user_id=" + userID + "&search_params=" + text+"&pagenum="+page
+    
 
     console.log("fetching url " + url);
     $.ajax({
