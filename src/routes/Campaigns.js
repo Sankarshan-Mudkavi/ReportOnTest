@@ -803,7 +803,7 @@ class EditStores extends React.Component {
       campaign_id:this.props.campId
     }
     
-
+    console.log("sending body " + JSON.stringify(body));
     $.ajax( {
       type: 'POST',
       url,
@@ -837,16 +837,20 @@ class EditStores extends React.Component {
     var userScreen=this;
     console.log("opening shit.  stores are " + stores);
     this.setState({ stores, showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
-    var url = 'http://34.205.72.170:3000/banner/show';
+    var url = 'http://34.205.72.170:3000/banner/show?campaign_id='+this.props.campId;
     $.ajax( {
             type: 'GET',
             url,
             dataType: "json",
             success: function (json) {
-                // console.log("banners are " + JSON.stringify(json));
+                console.log("banners are " + JSON.stringify(json));
                 var bannerValues = {};
                 for (let banner of json) {
-                  bannerValues[banner.id] = false;
+                  if (typeof(banner.value) == 'undefined') {
+                    bannerValues[banner.id] = false;  
+                  } else {
+                    bannerValues[banner.id] = banner.value;
+                  }
                 }
                 userScreen.setState({banners: json, bannerValues});
 
