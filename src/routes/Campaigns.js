@@ -22,6 +22,8 @@ import {
 import { withRouter } from 'react-router';
 import actions from '../redux/actions';
 import Loadable from 'react-loading-overlay';
+import Switch from 'react-bootstrap-switch';
+import Select from 'react-select';
 // var $ = require( 'jquery' );
 // $.DataTable = require('datatables.net');
 // var cunt = require( 'datatables.net-buttons' )( window, $ )
@@ -41,7 +43,8 @@ class DatatableComponent extends React.Component {
       page,
       accountID,
       account,
-      campaignsModified
+      campaignsModified,
+      campaigns,
     }
   }
 
@@ -84,7 +87,8 @@ class DatatableComponent extends React.Component {
     var userLen = users.length;
     var storesLen = stores.length;
     var manLen = mgrs.length;
-    return [c.name,c.img_url, c.description, newsLen, storesLen, manLen, userLen];
+
+    return [c.name,c.img_url, c.description, newsLen, storesLen, manLen, userLen, c.id];
   }
 
   componentDidUpdate(prevProps) {
@@ -96,7 +100,8 @@ class DatatableComponent extends React.Component {
         page,
         accountID,
         account,
-        campaignsModified
+        campaignsModified,
+        campaigns,
       });
       this.table.clear().rows.add(campaignsModified).draw();
     }
@@ -107,23 +112,28 @@ class DatatableComponent extends React.Component {
     
     // $(ReactDOM.findDOMNode(this.example))
     //   .addClass('nowrap')
-    this.table = $(ReactDOM.findDOMNode(this.example)).DataTable({
+    var table = $(ReactDOM.findDOMNode(this.example)).DataTable({
         // 'dom': "flBtrip",
         
         className:'compact',
         'buttons': [
            {
             extend: 'print',
-            className:'btn-outlined btn btn-md btn-success'
+            className:'btn-outlined btn btn-sm btn-success'
             }
         ],
         responsive: true,
         columnDefs: [
           { targets: '_all', 
             className: 'dt-body-center dt-head-center word-break', 
+           },
+           { targets: [7],
+            visible:false,
+            searchable:false
            }
         ],
         columns: [
+
             
             { 
               title: "Name",
@@ -141,14 +151,31 @@ class DatatableComponent extends React.Component {
             { title: "News" },
             { title: "Stores" },
             { title: "Mgrs" },
-            { title: "Users" }
+            { title: "Users" },
         ],
         data:userScreen.state.campaignsModified
 
     });
 
-    this.table.buttons().container()
+
+
+    table.buttons().container()
         .appendTo( $('.dataTables_length' ) );
+
+
+    $(ReactDOM.findDOMNode(this.example)).on("click", "tr", function(e) {
+      //bring up modal to edit this row.
+      var row_object = table.row(this).data();
+      var access = table.row(this).data()[0];
+      console.log('clicked on row ' + JSON.stringify(row_object));
+      console.log("clicked on row access " + access);
+      //find the campaign being edited:
+      userScreen.setState({modifyingID:row_object[7]});
+      userScreen.CampaignEditor.open(row_object);
+    });
+
+    this.table = table
+
   }
 
 
@@ -194,7 +221,7 @@ class DatatableComponent extends React.Component {
     });
   }
 
-    uploadedPhoto(v) {
+  uploadedPhoto(v) {
     var editor = Object.assign({}, this.state.editor);
     editor.img = v;
     var userScreen= this;
@@ -237,39 +264,17 @@ class DatatableComponent extends React.Component {
       </Row>
       </Grid>
       <br/>
+
+      
+      <CampaignEditor ref={(c) => this.CampaignEditor = c} 
+        parentComp={this}>
+      </CampaignEditor>
       <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} uploadPhoto={(v) => this.uploadedPhoto(v)}/>
       <NewCampaign ref={(c) => this.NewCampaign = c} next={(v,desc) => this.newedCampaign(v, desc)}/>
       <Table ref={(c) => this.example = c} className='display compact' cellSpacing='0' width='100%'>
-        {/*<thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>News Items</th>
-            <th>Stores</th>
-            // <th>Managers</th>
-            <th>Users</th>
-          </tr>
-        </thead>
-        <tfoot>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-          </tr>
-        </tfoot>*/}
+        
         <tbody style={{'wordBreak': 'normal', 'verticalAlign' : 'middle'}}>
-         {/* <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011/04/25</td>
-            <td>$320,800</td>
-          </tr>
-         */}
+         
         </tbody>
       </Table>
       </div>
@@ -303,6 +308,609 @@ export default class Campaigns extends React.Component {
     );
   }
 }
+
+
+class CampaignEditor extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      showModal: false,
+      value:''
+     };
+  }
+
+  close() {
+    this.setState({ showModal: false });
+  }
+
+  next(){
+
+  }
+
+  open(d) {
+    var name = d[0] || "undefined";
+    var image = d[1] || 'http://shashgrewal.com/wp-content/uploads/2015/05/default-placeholder.png';
+    var desc = d[2] || 'no description set';
+    var news = parseInt(d[3]) || 0;
+    var stores = parseInt(d[4]) || 0;
+    var mgrs = parseInt(d[5]) || 0;
+    var users = parseInt(d[6]) || 0;
+    var campId = parseInt(d[7]) || 0;
+    this.setState({ 
+      name,
+      file : [
+        {
+          preview:image
+        }
+      ],
+      desc,
+      news,
+      stores,
+      mgrs,
+      campId,
+      users,
+      showModal: true,
+      showImage:true,
+    });
+  }
+
+
+  onDrop(file){
+    var userScreen = this;
+    console.log("dropped file " + JSON.stringify(file));
+    // console.log("dropped file type is" + (file[0].preview.type));
+    if (file.length>0) {
+      this.setState({
+       file,
+       showImage:true,
+       error:false,
+       uploaded:false,
+      });
+      var reader = new window.FileReader();
+      // var blob = new File.createFromFileName(file[0].preview)
+      console.log("file[0].preview is " + file[0].type)
+      reader.readAsDataURL(file[0]);
+      reader.onloadend = function() {
+        var base64data=reader.result;
+        console.log( "base64 ready" );
+        userScreen.setState({
+          loading:true,
+          img:base64data
+        });
+        // userScreen.props.uploadPhoto(base64data);
+      }
+
+    } else {
+      this.setState({
+        file:[],
+        showImage:false,
+        error:true
+      })
+    }
+  }
+
+  childClosed(){
+    this.setState({
+      overlay:1
+    });
+  }
+  childOpened(){
+    this.setState({
+      overlay:0.5
+    });
+  }
+
+  render() {
+    //assign campaign managers
+    //assign stores
+    //assign users to stores.
+    return (
+      <div>
+      
+      <Modal style={{opacity:this.state.overlay}} backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
+      <EditUsers ref={(c)=> this.EditUsers = c} stores={this.state.stores} onClose={::this.childClosed} campId={this.state.campId}
+        />
+      <EditStores ref={(c)=> this.EditStores = c} stores={this.state.stores} campId={this.state.campId} onClose={::this.childClosed}
+        />
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Campaign: {this.state.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+        <Row>
+          <Col xs={4} componentClass={ControlLabel}>Name</Col>
+          <Col xs={8}>
+            <FormControl type='text' placeholder='Enter text' className='inline' value={this.state.name} onChange={(e)=>{
+              this.setState({
+                name:e.target.value
+              })
+            }} />
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col xs={4} componentClass={ControlLabel}>Image (not hooked up)</Col>
+          <Col xs={8}>
+
+            <DropZone multiple={false} onDrop={this.onDrop.bind(this)} accept={'image/*'}>
+              <Loadable
+              active={this.state.loading}
+              spinner
+              text='uploading...'
+              >
+              {this.state.showImage
+                ? 
+                <div style={{textAlign:'center'}}>
+                  <img style={{objectFit:'contain', height:130, width: 190, margin:'auto', display:'block'}} src={this.state.file[0].preview}/> 
+                  Click here to upload a different image...
+                </div>
+                :
+                null                  
+              }
+
+              { !this.state.file ? <div style={{textAlign:'center'}}><br/><br/> Drag & drop an image or <br/> click here to select an image to upload</div> : null }
+              {this.state.error
+                ?
+                <div style={{textAlign:'center'}}> <br/><br/><br/> Please upload a valid image. <br/> Click here to try again</div>
+                :
+                null
+              }
+              </Loadable>
+            </DropZone>
+            
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col xs={4} componentClass={ControlLabel}>Description</Col>
+          <Col xs={8}>
+            <FormControl type='text' componentClass='textarea' style={{resize:'none', height:100}}placeholder='Enter text' className='inline' value={this.state.desc} onChange={(e)=>{
+              this.setState({
+                desc:e.target.value
+              })
+            }}/>
+
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col xs={4} componentClass={ControlLabel}>Stores: {this.state.stores}</Col>
+          <Col xs={8}>
+          <Button 
+            onClick={() => {
+              this.EditStores.open();
+              this.childOpened();
+            }}
+            outlined sm style={{marginBottom: 5}} bsStyle='primary' className='inline'>Edit Assigned Stores</Button>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col xs={4} componentClass={ControlLabel}>Mgrs: {this.state.mgrs}</Col>
+          <Col xs={8}>
+          <Button 
+            onClick={this.props.aManager}
+            outlined sm style={{marginBottom: 5}} bsStyle='primary' className='inline'> Edit Assigned Managers</Button>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col xs={4} componentClass={ControlLabel}>Users: {this.state.users}</Col>
+          <Col xs={8}>
+          <Button 
+            onClick={() => {
+              this.EditUsers.open();
+              this.childOpened();
+            }}
+            outlined sm style={{marginBottom: 5}} bsStyle='primary' className='inline'>Edit Assigned Users</Button>
+          </Col>
+        </Row>
+
+
+          {/*<FormGroup controlId='username'>
+            <ControlLabel>Name *</ControlLabel>
+            <FormControl type='text' name='name' className='required'
+              onChange={(event) => {
+                
+                
+                this.setState({
+                  value:event.target.value
+                })
+              }} />
+          
+
+            <ControlLabel>Description *</ControlLabel>
+            <FormControl type='text' componentClass='textarea' style={{resize:'none', height:100}} name='descrp' className='required'
+              onChange={(event) => {
+                this.setState({
+                  desc:event.target.value
+                })
+              }} />
+          </FormGroup>*/}
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button sm bsStyle='primary' onClick={::this.next}>Save</Button>
+        </Modal.Footer>
+      </Modal>
+      </div>
+    );
+  }
+}
+
+class EditUsers extends React.Component {
+  constructor(props) {
+    super(props);
+    var loading = props.loading || false;
+    this.state = { 
+      showModal: false,
+      passedProp: props.passedProp || {},
+      loading,
+      value:[]
+    };
+  }
+  
+    componentWillReceiveProps(nextProps) {
+    if (nextProps.passedProp != this.props.passedProp) {
+      this.setState({
+        passedProp: nextProps.passedProp
+      });
+    }
+    if (nextProps.loading != this.state.loading) {
+      this.setState({
+        loading: nextProps.loading
+      });
+    }
+  }
+
+  save(){
+    var url = 'http://34.205.72.170:3000/banner/selected';
+    var userScreen = this;
+    $.ajax( {
+      type: 'POST',
+      url,
+      data: this.state.value,
+      dataType: "json",
+      success: function (json) {
+        console.log("json is " + JSON.stringify(json));
+        userScreen.close(json);
+        // userScreen.props.onClose({
+        //   stores: json.stores
+        // });
+        // userScreen.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
+      },
+      error: function (xhr, error, thrown) {
+          console.log("error is " + error);
+      }
+    });
+  }
+
+
+  close(json) {
+    var json = json || {}
+    this.props.onClose({
+      stores: json.stores
+    });  
+    this.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
+  }
+
+  open() {
+    var stores = this.props.stores || [];
+    var userScreen=this;
+    console.log("opening shit.  stores are " + stores);
+    this.setState({ stores, showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
+    // var url = 'http://34.205.72.170:3000/banner/show';
+    // $.ajax( {
+    //         type: 'GET',
+    //         url,
+    //         dataType: "json",
+    //         success: function (json) {
+    //             // console.log("banners are " + JSON.stringify(json));
+    //             var bannerValues = {};
+    //             for (let banner of json) {
+    //               if (typeof(banner.value) == 'undefined') {
+    //                 bannerValues[banner.id] = false;  
+    //               } else {
+    //                 bannerValues[banner.id] = banner.value;
+    //               }
+    //             }
+    //             userScreen.setState({banners: json, bannerValues});
+
+    //         },
+    //         error: function (xhr, error, thrown) {
+    //           console.log("error !!! " + error);
+                
+    //         }
+    // });
+  }
+  
+
+  renderStores(){
+    
+    var dummyStores = [
+    {
+      id:1,
+      name:'storeName',
+      banner:'bannerName',
+      storeNumber:'19239',
+      address: {
+        streetAddress:'123 charles street',
+        city: 'kitchener',
+        prov:'ON',
+        postal:'M9R 2W5'
+      }
+    },
+    {
+      id:2,
+      name:'storeName',
+      banner:'bannerName',
+      storeNumber:'19239',
+      address: {
+        streetAddress:'123 charles street',
+        city: 'kitchener',
+        prov:'ON',
+        postal:'M9R 2W5'
+      }
+    },
+    {
+      id:3,
+      name:'storeName',
+      banner:'bannerName',
+      storeNumber:'19239',
+      address: {
+        streetAddress:'123 charles street',
+        city: 'kitchener',
+        prov:'ON',
+        postal:'M9R 2W5'
+      }
+    },
+    ]
+    // var stores = this.state.banners.map((banner) => {
+      var sampleUserList=[ 
+        {
+          value:'1', label:'Mike Spinelli'
+        },
+        {
+          value:'2', label:'Sank Mood'
+        },
+        {
+          value:'3', label:'Tooby Gooby'
+        },
+        {
+          value:'4', label:'Hoobo Aleh'
+        },
+        {
+          value:'5', label:'Doug Demuro'
+        },
+        {
+          value:'6', label:'David Tracey'
+        },
+
+      ]
+      var stores = dummyStores.map((store) => {
+      return (
+        <Row key={store.id} style={{marginBottom:5}}>
+          <Col xs={2} style={{verticalAlign:'middle'}}>
+          <h4 style={{wordWrap:'break-word'}}>{store.banner}</h4>
+          </Col>
+          <Col xs={4} componentClass={ControlLabel}>
+          <h4 style={{wordWrap:'break-word'}}>{store.name}</h4>
+          <h4 style={{wordWrap:'break-word'}}>{store.address.streetAddress}</h4>
+          <h4 style={{wordWrap:'break-word'}}>{store.address.city}</h4>
+          <h4 style={{wordWrap:'break-word'}}>{store.address.prov}</h4>
+          <h4 style={{wordWrap:'break-word'}}>{store.address.postal}</h4>
+          </Col>
+          <Col xs={6}>
+          <h4>
+            <Select
+              multi
+              simpleValue
+              name="form-field-name"
+              value={this.state.value[store.id] || ''}
+              options={sampleUserList}
+              onChange={(value)=> {
+                console.log("onchange happend! " + value);
+                this.setState({
+                  value : {
+                    ...this.state.value,
+                    [store.id] : value,
+                }})
+              }}
+              // value={this.state.bannerValues[banner.id]}
+              // onChange={(el, state) => {
+              //   var bannerValues = this.state.bannerValues;
+              //   this.setState({
+              //     bannerValues: {
+              //     ...bannerValues,
+              //     [banner.id] : state
+              //     }
+              //   });
+              //   console.log("banner values are now " + JSON.stringify(this.state.bannerValues));
+              // }}
+            />
+          </h4>
+          </Col>
+          <br/>
+        </Row>
+      );
+    });
+    return stores;
+  }
+
+
+  render() {
+    return (
+      <Modal bsSize='large' style={{paddingTop:'5%'}} show={this.state.showModal} backdrop='static' onHide={::this.close}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Assigned Users</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Grid>
+            {this.renderStores()}
+          </Grid>
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button bsStyle='primary' sm onClick={::this.save}>Finish</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
+
+
+class EditStores extends React.Component {
+  constructor(props) {
+    super(props);
+    var loading = props.loading || false;
+    this.state = { 
+      showModal: false,
+      passedProp: props.passedProp || {},
+      loading,
+      banners: [],
+      bannerValues: {},
+    };
+  }
+  
+    componentWillReceiveProps(nextProps) {
+    if (nextProps.passedProp != this.props.passedProp) {
+      this.setState({
+        passedProp: nextProps.passedProp
+      });
+    }
+    if (nextProps.loading != this.state.loading) {
+      this.setState({
+        loading: nextProps.loading
+      });
+    }
+  }
+
+  save(){
+    var url = 'http://34.205.72.170:3000/banner/selected';
+    var userScreen = this;
+    var data = []
+    var bannerValues = this.state.bannerValues;
+    for (var i in bannerValues) {
+      console.log("banner value " + i + " is " + bannerValues[i]);
+      if (bannerValues[i] == true) {
+        data.push(i);
+      }
+    }
+
+    var body = {
+      banners:data,
+      campaign_id:this.props.campId
+    }
+    
+
+    $.ajax( {
+      type: 'POST',
+      url,
+      data: body,
+      dataType: "json",
+      success: function (json) {
+        console.log("json is " + JSON.stringify(json));
+        userScreen.close(json);
+        // userScreen.props.onClose({
+        //   stores: json.stores
+        // });
+        // userScreen.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
+      },
+      error: function (xhr, error, thrown) {
+          console.log("error is " + error);
+      }
+    });
+  }
+
+
+  close(json) {
+    var json = json || {}
+    this.props.onClose({
+      stores: json.stores
+    });  
+    this.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
+  }
+
+  open() {
+    var stores = this.props.stores || [];
+    var userScreen=this;
+    console.log("opening shit.  stores are " + stores);
+    this.setState({ stores, showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
+    var url = 'http://34.205.72.170:3000/banner/show';
+    $.ajax( {
+            type: 'GET',
+            url,
+            dataType: "json",
+            success: function (json) {
+                // console.log("banners are " + JSON.stringify(json));
+                var bannerValues = {};
+                for (let banner of json) {
+                  bannerValues[banner.id] = false;
+                }
+                userScreen.setState({banners: json, bannerValues});
+
+            },
+            error: function (xhr, error, thrown) {
+              console.log("error !!! " + error);
+                
+            }
+    });
+  }
+  
+
+  renderBanners(){
+    var banners = this.state.banners.map((banner) => {
+      console.log("rendering banner " + banner.name);
+      return (
+        <Row key={banner.id} style={{marginBottom:5}}>
+          <Col xs={9} componentClass={ControlLabel}>
+          <h3>{banner.name}</h3>
+          </Col>
+          <Col xs={3}>
+          <h4>
+            <Switch bsSize='small'
+              value={this.state.bannerValues[banner.id]}
+              onChange={(el, state) => {
+                var bannerValues = this.state.bannerValues;
+                this.setState({
+                  bannerValues: {
+                  ...bannerValues,
+                  [banner.id] : state
+                  }
+                });
+              }}
+            />
+          </h4>
+          </Col>
+          <br/>
+        </Row>
+      );
+    });
+    return banners;
+  }
+
+
+  render() {
+    return (
+      <Modal style={{paddingTop:'5%'}} show={this.state.showModal} backdrop='static' onHide={::this.close}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Stores</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Grid>
+            {this.renderBanners()}
+          </Grid>
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button bsStyle='primary' sm onClick={::this.save}>Finish</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
 
 
 class NewCampaign extends React.Component {
@@ -340,7 +948,6 @@ class NewCampaign extends React.Component {
             <FormControl type='text' name='name' className='required'
               onChange={(event) => {
                 
-                // var stringValue = event.target.value.replace(/[^A-Z0-9]+/ig, " ").toLowerCase();
                 
                 this.setState({
                   value:event.target.value
@@ -357,8 +964,6 @@ class NewCampaign extends React.Component {
               }} />
           </FormGroup>
 
-
-          {/*<p> <br/><br/>Your campaign will be at <br/> http://reportOn.com/campaigns/{this.state.value}</p>*/}
         </Modal.Body>
         <Modal.Footer>
           <Button bsStyle='primary' disabled={(this.state.value.length < 1)} onClick={::this.next}>Next</Button>
@@ -394,7 +999,7 @@ class UploadPhoto extends React.Component {
 
 
 
-close() {
+  close() {
     this.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
   }
 
@@ -434,17 +1039,8 @@ close() {
         error:true
       })
     }
-    
   }
-  dropPreview(){
-    if (this.state.file) {
-      console.log("file exists now");
-      return <img src={this.state.file.preview}/> 
-    } else {
-      console.log('file doesnt exist');
-      return <div style={{textAlign:'center'}}> <br/><br/>Drag & drop an image or <br/> click here to select an image to upload</div>
-    }
-  }
+  
 
 
   render() {

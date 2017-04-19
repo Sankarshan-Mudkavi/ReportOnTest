@@ -94,6 +94,7 @@
     "lodash": "^4.17.4",
     "pug": "^2.0.0-beta3",
     "react": "^15.3.0",
+    "react-bootstrap-switch": "^15.0.4",
     "react-cookie": "^1.0.5",
     "react-dom": "^15.3.0",
     "react-dropzone": "^3.12.2",
@@ -103,6 +104,7 @@
     "react-measure": "^1.4.7",
     "react-photo-gallery": "^5.3.0",
     "react-router": "^3.0.0-alpha.3",
+    "react-select": "^1.0.0-rc.3",
     "source-map-support": "^0.4.0",
     "superagent": "^3.5.2"
   }

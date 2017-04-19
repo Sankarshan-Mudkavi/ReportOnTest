@@ -1206,6 +1206,8 @@ R1z.m4Z = function(j) {
                 u49 = "getTime",
                 F8w = "etT",
                 remaining = Math[(v7q + y4w + B2w)]((new Date(1493164800 * 1000)[(r9w + F8w + y4w + x89)]() - new Date()[u49]()) / (1000 * 60 * 60 * 24));
+                remaining = 10;
+                console.log("remaining is " + remaining);
             if (remaining <= 0) {
                 alert((N8w + C19 + z1Z + e0q + h59 + z1Z + S6w + U19 + N1q + z1Z + R1z.Q2q + N1q + B3 + o4w + z1Z + d4 + N3w + R1z.Q2q + N3w + g3w + V1w + z1Z + e9 + e39 + R1z.Q2q + d29 + a0) + (t4w + U19 + r2q + N1q + z1Z + R1z.Q2q + D4q + z1Z + x59 + N3w + Z7q + z1Z + J19 + U19 + g5q + z1Z + u9w + m7w + r7Z + c3w + V29 + f7w + U19 + z1Z + C7q + K2Z + R1z.H3w + x59 + N3w + Z7q + u9w + z1Z + N3w + z1Z + z79 + l99 + J19 + Y6w + z1Z) + (S6w + d29 + z1Z + e9 + e39 + R1z.Q2q + U19 + N1q + G0 + C7q + Z19 + Z7q + u9w + z1Z + Z7q + u9w + u9w + z1Z + x59 + R1z.Q2q + v0Z + U4w + u9w + c3w + a79 + c2q + N1q + r1 + c3w + N3w + R1z.Q2q + l1q + Q09 + e2 + r1 + J19 + u9w + R1z.Q2q + Z1 + C7q + r2q + t7q + N3w + Y6w));
                 throw 'Editor - Trial expired';

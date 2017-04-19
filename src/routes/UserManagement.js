@@ -339,17 +339,13 @@ class DatatableComponent extends React.Component {
         return;
       }
       if (index =='1') {
-        console.log("fuck?2")
         editor.edit(this, 
           'Edit Entry',
           'Save'
          );
         return
       }
-
-
       // editor.bubble(this);
-
       editor.inline(this);
       // table.cell( this ).edit();
       // cell.data( cell.data() + 'fuckingcuntfuck' ).draw();

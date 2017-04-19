@@ -109,44 +109,6 @@ function fetchData(path) {
             dispatch(setLoginStatus('false', resp));
           }
         } else {
-          
-          // var resp = {
-          //   resp:[
-          //     {
-          //       title:'Putin',
-          //       img_url:'http://www.fullredneck.com/wp-content/uploads/2016/04/Funny-Russia-Meme-20.jpg'
-          //     },
-          //     {
-          //       title:'PutinFIRE',
-          //       img_url:'https://s-media-cache-ak0.pinimg.com/736x/92/bd/51/92bd51939ce6e27f773aee3516b2cd6f.jpg'
-          //     },
-          //     {
-          //       title:"dogface",
-          //       img_url:'https://s-media-cache-ak0.pinimg.com/736x/e5/9c/46/e59c46a6c965ede88510c22376870642.jpg'
-          //     },
-          //     {
-          //       title:'humptyDumpty',
-          //       img_url:'https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg'
-          //     },
-          //           {
-          //       title:'Putin',
-          //       img_url:'http://www.fullredneck.com/wp-content/uploads/2016/04/Funny-Russia-Meme-20.jpg'
-          //     },
-          //     {
-          //       title:'PutinFIRE',
-          //       img_url:'https://s-media-cache-ak0.pinimg.com/736x/92/bd/51/92bd51939ce6e27f773aee3516b2cd6f.jpg'
-          //     },
-          //     {
-          //       title:"dogface",
-          //       img_url:'https://s-media-cache-ak0.pinimg.com/736x/e5/9c/46/e59c46a6c965ede88510c22376870642.jpg'
-          //     },
-          //     {
-          //       title:'humptyDumpty',
-          //       img_url:'https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg'
-          //     },
-          //   ] 
-          // }
-          // dispatch(setData(path, resp.resp));
           dispatch(setLoginStatus('true', resp));
           dispatch(setData(path, resp));
           // console.log("resp from fetchData is " + JSON.stringify(resp));
