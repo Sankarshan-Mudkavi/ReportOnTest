@@ -117,7 +117,7 @@ class DatatableComponent extends React.Component {
       idSrc: "id",
       fields: [
         { 
-          name: "banner",
+          name: "bannerName",
           label: 'Store Banner'
          },
         { 
@@ -233,7 +233,7 @@ class DatatableComponent extends React.Component {
             orderable: false,
             width:50
         },
-        {title: 'Banner', data: 'banner'},
+        {title: 'Banner', data: 'bannerName'},
         {title: 'Store Number', data: 'storeNumber'},
         {title: 'Name', data:'name'},
         {title: 'Address', data:'address.streetAddress'},
@@ -349,7 +349,7 @@ class DatatableComponent extends React.Component {
             this.editor.create(false)
               .set('name', v.name)
               .set('storeNumber', v.storeNumber)
-              .set('banner', v.banner)
+              .set('bannerName', v.banner)
               //.set('wage', v.wage)
               //.set('access', v.access)
               .submit();

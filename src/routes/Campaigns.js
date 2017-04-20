@@ -92,8 +92,8 @@ class DatatableComponent extends React.Component {
     var userLen = users.length;
     var storesLen = stores.length;
     var manLen = mgrs.length;
-
-    return [c.name,c.img_url, c.description, newsLen, storesLen, manLen, userLen, c.id, stores];
+    return {name:c.name,img_url:c.img_url,desc: c.description, newsLen, storesLen, manLen, userLen, id: c.id, stores};
+    // return [c.name,c.img_url, c.description, newsLen, storesLen, manLen, userLen, c.id, stores];
   }
 
   componentDidUpdate(prevProps) {
@@ -128,6 +128,66 @@ class DatatableComponent extends React.Component {
   componentDidMount() {
     var userScreen = this;
     this.getDataForCampaigns();
+
+
+
+    var editor = new $.fn.dataTable.Editor({
+
+      table: ".classTable",
+
+      ajax: function ( method, url, data, success, error ) {
+        console.log("method is " + method);
+        console.log("url is " + url);
+        console.log("data is " + JSON.stringify(data));
+        var campId = 0
+
+          for (var p in data.data) {
+            if( data.data.hasOwnProperty(p) ) {
+              campId = p;
+            } 
+          } 
+
+        var url = 'http://34.205.72.170:3000/campaigns/change.json?campaign_id='+p;
+        if (data.action == 'remove') {
+          url = 'http://34.205.72.170:3000/campaigns/remove';
+        } 
+        if (data.action == 'create') {
+          url = 'http://34.205.72.170:3000/store/create';
+        } 
+        console.log('url is... ' + url);
+          $.ajax( {
+            type: 'POST',
+            url,
+            data: data,
+            dataType: "json",
+            success: function (json) {
+                console.log("editor response ajax " + JSON.stringify(json));
+                success( json );
+                userScreen.table.ajax.reload();
+            },
+            error: function (xhr, error, thrown) {
+                error( xhr, error, thrown );
+            }
+          } );
+        
+
+      },
+
+      idSrc: "id",
+      fields: [
+        { 
+          name: 'name',
+          label: 'Name'
+         },
+        { 
+          name: 'desc',
+          label: 'Description'
+         },
+        ]
+    });
+
+
+
     // $(ReactDOM.findDOMNode(this.example))
     //   .addClass('nowrap')
     var table = $(ReactDOM.findDOMNode(this.example)).DataTable({
@@ -145,7 +205,7 @@ class DatatableComponent extends React.Component {
           { targets: '_all', 
             className: 'dt-body-center dt-head-center word-break', 
            },
-           { targets: [7,8],
+           { targets: [8],
             visible:false,
             searchable:false
            }
@@ -156,20 +216,26 @@ class DatatableComponent extends React.Component {
             { 
               title: "Name",
               width:200,
+              data:'name'
               
              },
             { 
               title: 'Image',
               'render' : function(data,type,row) {
                 return '<img src="'+data+'"style="height:100px;width:100px;"/>';
-              }
+              },
+              data:'img_url'
             },
             { title: "Description",
-            width:300 },
-            { title: "News" },
-            { title: "Stores" },
-            { title: "Mgrs" },
-            { title: "Users" },
+            width:300,
+            data:'desc' },
+            { title: "News", data:'newsLen' },
+            { title: "Stores", data:'storesLen' },
+            { title: "Mgrs", data:'manLen' },
+            { title: "Users", data:'userLen' },
+            {title:'id', data:'id'},
+            {title:'StoreList', data:'stores'},
+
         ],
         data:userScreen.state.campaignsModified
 
@@ -189,10 +255,11 @@ class DatatableComponent extends React.Component {
       console.log("clicked on row access " + access);
       //find the campaign being edited:
       userScreen.setState({modifyingID:row_object[7]});
-      userScreen.CampaignEditor.open(row_object);
+      userScreen.CampaignEditor.open(row_object, table.row(this));
     });
 
-    this.table = table
+    this.table = table;
+    this.editor = editor;
 
   }
 
@@ -287,7 +354,7 @@ class DatatableComponent extends React.Component {
       
       <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} uploadPhoto={(v) => this.uploadedPhoto(v)}/>
       <NewCampaign ref={(c) => this.NewCampaign = c} next={(v,desc) => this.newedCampaign(v, desc)}/>
-      <Table ref={(c) => this.example = c} className='display compact' cellSpacing='0' width='100%'>
+      <Table ref={(c) => this.example = c} className='display compact classTable' cellSpacing='0' width='100%'>
         
         <tbody style={{'wordBreak': 'normal', 'verticalAlign' : 'middle'}}>
          
@@ -307,7 +374,8 @@ class CampaignEditor extends React.Component {
       showModal: false,
       value:'',
       users: props.users,
-      stores: []
+      stores: [],
+      row: ''
      };
   }
 
@@ -316,20 +384,28 @@ class CampaignEditor extends React.Component {
   }
 
   next(){
-
+    var name = this.state.name;
+    var desc = this.state.desc;
+    this.props.parentComp.editor.edit(this.state.row, false)
+    .set('name', name)
+    .set('desc', desc)
+    .submit();
+    
+    // this.props.parentComp.table.ajax.reload();
+    this.setState({ showModal: false });
   }
 
-  open(d) {
-    var name = d[0] || "undefined";
-    var image = d[1] || 'http://shashgrewal.com/wp-content/uploads/2015/05/default-placeholder.png';
-    var desc = d[2] || 'no description set';
-    var news = parseInt(d[3]) || 0;
-    var storesCount = parseInt(d[4]) || 0;
-    var mgrs = parseInt(d[5]) || 0;
-    var usersCount = parseInt(d[6]) || 0;
-    var campId = parseInt(d[7]) || 0;
+  open(d, row) {
+    var name = d.name || "undefined";
+    var image = d.img_url|| 'http://shashgrewal.com/wp-content/uploads/2015/05/default-placeholder.png';
+    var desc = d.desc || 'no description set';
+    var news = parseInt(d.newsLen) || 0;
+    var storesCount = parseInt(d.storesLen) || 0;
+    var mgrs = parseInt(d.manLen) || 0;
+    var usersCount = parseInt(d.userLen) || 0;
+    var campId = parseInt(d.id) || 0;
     var users = this.props.users;
-    var stores = d[8] || [];
+    var stores = d.stores || [];
     console.log('opening campaign editor... users are ' + users.length);
     this.setState({ 
       name,
@@ -348,6 +424,7 @@ class CampaignEditor extends React.Component {
       usersCount,
       showModal: true,
       showImage:true,
+      row,
     });
   }
 
@@ -397,7 +474,6 @@ class CampaignEditor extends React.Component {
     if (value.userCount) {
       if (value.userCount != this.state.usersCount) {
         console.log("userCount is " + JSON.stringify(value.userCount));
-        console.log("stateUserCount  is " + this.state.usersCount);
         state.usersCount = value.userCount  
       }
     }
@@ -683,7 +759,7 @@ class AssignReports extends React.Component {
 
   render() {
     return (
-      <Modal bsSize='large' style={{paddingTop:'5%'}} show={this.state.showModal} backdrop='static' onHide={::this.close}>
+      <Modal bsSize='large' style={{paddingTop:'3%'}} show={this.state.showModal} backdrop='static' onHide={::this.close}>
         <Modal.Header closeButton>
           <Modal.Title>Reports for Banners:</Modal.Title>
         </Modal.Header>
@@ -735,23 +811,28 @@ class EditUsers extends React.Component {
       data[key] = resArray;
       userCount =+ resArray.length;
     }
-    console.log("saving " + JSON.stringify(data));
-    this.close(userCount);
-    // var url = 'http://34.205.72.170:3000/banner/selected';
-    // var userScreen = this;
-    // $.ajax( {
-    //   type: 'POST',
-    //   url,
-    //   data: this.state.value,
-    //   dataType: "json",
-    //   success: function (json) {
-    //     console.log("json is " + JSON.stringify(json));
-    //     userScreen.close(json);
-    //   },
-    //   error: function (xhr, error, thrown) {
-    //       console.log("error is " + error);
-    //   }
-    // });
+    var body = {
+      value:data,
+      campaign_id:this.props.campId
+    }
+    console.log("saving " + JSON.stringify(body));
+    // this.close(userCount);
+    var url = 'http://34.205.72.170:3000/store/addusers.json';
+    var userScreen = this;
+    $.ajax( {
+      type: 'POST',
+      url,
+      data:body,
+      dataType: "json",
+      success: function (json) {
+        var retVal = JSON.stringify(json);
+        console.log('retVal is ' + retVal);
+        userScreen.close(retVal);
+      },
+      error: function (xhr, error, thrown) {
+          console.log("error is " + error);
+      }
+    });
   }
 
 
@@ -760,7 +841,7 @@ class EditUsers extends React.Component {
     console.log("count is " + count);
     this.props.onClose(
     {
-      userCount: count
+      userCount: parseInt(count)
     }
     );  
     this.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
@@ -770,7 +851,7 @@ class EditUsers extends React.Component {
     var stores = this.props.stores || [];
     var users = this.props.users || [];
     var userScreen=this;
-    console.log("opening shit.  stores are " + JSON.stringify(stores));
+    
 
     var userList = [];
     
@@ -853,7 +934,7 @@ class EditUsers extends React.Component {
 
   render() {
     return (
-      <Modal bsSize='large' style={{paddingTop:'5%'}} show={this.state.showModal} backdrop='static' onHide={::this.close}>
+      <Modal bsSize='large' style={{paddingTop:'3%'}} show={this.state.showModal} backdrop={'static'} keyboard={false} onHide={::this.close}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Assigned Users</Modal.Title>
         </Modal.Header>
@@ -947,7 +1028,7 @@ class EditStores extends React.Component {
   open() {
     var stores = this.props.stores || [];
     var userScreen=this;
-    console.log("opening shit.  stores are " + JSON.stringify(stores));
+    
     this.setState({ stores, showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
     var url = 'http://34.205.72.170:3000/banner/show?campaign_id='+this.props.campId;
     $.ajax( {
@@ -1010,7 +1091,7 @@ class EditStores extends React.Component {
 
   render() {
     return (
-      <Modal style={{paddingTop:'5%'}} show={this.state.showModal} backdrop='static' onHide={::this.close}>
+      <Modal style={{paddingTop:'3%'}} backdrop={'static'} keyboard={false} show={this.state.showModal} backdrop='static' onHide={::this.close}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Stores</Modal.Title>
         </Modal.Header>
