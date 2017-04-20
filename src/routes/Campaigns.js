@@ -15,6 +15,9 @@ import {
   Modal,
   FormGroup,
   ControlLabel,
+  ButtonGroup,
+  DropdownButton,
+  MenuItem,
   Button,
   FormControl,
   PanelContainer,
@@ -37,6 +40,7 @@ class DatatableComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    var users = this.props.users || []
     var page = props.page;
     var [accountID, account, campaigns, campaignsModified] = this._getAccount(page);
     this.state={
@@ -45,6 +49,7 @@ class DatatableComponent extends React.Component {
       account,
       campaignsModified,
       campaigns,
+      users
     }
   }
 
@@ -88,14 +93,14 @@ class DatatableComponent extends React.Component {
     var storesLen = stores.length;
     var manLen = mgrs.length;
 
-    return [c.name,c.img_url, c.description, newsLen, storesLen, manLen, userLen, c.id];
+    return [c.name,c.img_url, c.description, newsLen, storesLen, manLen, userLen, c.id, stores];
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.page != this.props.page) {
+      this.getDataForCampaigns();
       var page = this.props.page;
       var [accountID, account, campaigns, campaignsModified] = this._getAccount(page);
-
       this.setState({
         page,
         accountID,
@@ -105,11 +110,24 @@ class DatatableComponent extends React.Component {
       });
       this.table.clear().rows.add(campaignsModified).draw();
     }
+    if (prevProps.users != this.props.users) {
+      console.log("users updating in datadtable component");
+      var propUsers = this.props.users || {};
+      var users = propUsers.result || [];
+      this.setState({
+        users
+      });
+    }
   }
+
+  getDataForCampaigns() {
+      this.props.dispatch(actions.fetchData('users'));
+  }
+
 
   componentDidMount() {
     var userScreen = this;
-    
+    this.getDataForCampaigns();
     // $(ReactDOM.findDOMNode(this.example))
     //   .addClass('nowrap')
     var table = $(ReactDOM.findDOMNode(this.example)).DataTable({
@@ -127,7 +145,7 @@ class DatatableComponent extends React.Component {
           { targets: '_all', 
             className: 'dt-body-center dt-head-center word-break', 
            },
-           { targets: [7],
+           { targets: [7,8],
             visible:false,
             searchable:false
            }
@@ -214,8 +232,6 @@ class DatatableComponent extends React.Component {
       });
 
       console.log('this state is now length ' + this.state.campaignsModified.length);
-
-
     this.uploadPhoto();
     this.NewCampaign.close();
     });
@@ -267,8 +283,8 @@ class DatatableComponent extends React.Component {
 
       
       <CampaignEditor ref={(c) => this.CampaignEditor = c} 
-        parentComp={this}>
-      </CampaignEditor>
+        parentComp={this} users={this.state.users}/>
+      
       <UploadPhoto ref={(c) => this.UploadPhoto = c} passedProp={this.state.editor} uploadPhoto={(v) => this.uploadedPhoto(v)}/>
       <NewCampaign ref={(c) => this.NewCampaign = c} next={(v,desc) => this.newedCampaign(v, desc)}/>
       <Table ref={(c) => this.example = c} className='display compact' cellSpacing='0' width='100%'>
@@ -282,32 +298,6 @@ class DatatableComponent extends React.Component {
   }
 }
 
-export default class Campaigns extends React.Component {
-  render() {
-    console.log("rendeirng campaigns " + this.props.routeParams.page)
-
-    return (
-      <Row>
-        <Col xs={12}>
-          <PanelContainer>
-            <Panel>
-              <PanelBody>
-                <Grid>
-                  <Row>
-                    <Col xs={12}>
-                      <DatatableComponent page={this.props.routeParams.page}/>
-                      <br/>
-                    </Col>
-                  </Row>
-                </Grid>
-              </PanelBody>
-            </Panel>
-          </PanelContainer>
-        </Col>
-      </Row>
-    );
-  }
-}
 
 
 class CampaignEditor extends React.Component {
@@ -315,7 +305,9 @@ class CampaignEditor extends React.Component {
     super(props);
     this.state = { 
       showModal: false,
-      value:''
+      value:'',
+      users: props.users,
+      stores: []
      };
   }
 
@@ -332,10 +324,13 @@ class CampaignEditor extends React.Component {
     var image = d[1] || 'http://shashgrewal.com/wp-content/uploads/2015/05/default-placeholder.png';
     var desc = d[2] || 'no description set';
     var news = parseInt(d[3]) || 0;
-    var stores = parseInt(d[4]) || 0;
+    var storesCount = parseInt(d[4]) || 0;
     var mgrs = parseInt(d[5]) || 0;
-    var users = parseInt(d[6]) || 0;
+    var usersCount = parseInt(d[6]) || 0;
     var campId = parseInt(d[7]) || 0;
+    var users = this.props.users;
+    var stores = d[8] || [];
+    console.log('opening campaign editor... users are ' + users.length);
     this.setState({ 
       name,
       file : [
@@ -345,10 +340,12 @@ class CampaignEditor extends React.Component {
       ],
       desc,
       news,
-      stores,
+      storesCount,
       mgrs,
+      stores,
       campId,
       users,
+      usersCount,
       showModal: true,
       showImage:true,
     });
@@ -389,10 +386,22 @@ class CampaignEditor extends React.Component {
     }
   }
 
-  childClosed(){
-    this.setState({
-      overlay:1
-    });
+  childClosed(value){
+    var value = value || {};
+    var state = { overlay:1 };
+    if (value.stores) {
+      state.stores = value.stores;
+      var storesCount = value.stores.length;
+      state.storesCount = storesCount
+    }
+    if (value.userCount) {
+      if (value.userCount != this.state.usersCount) {
+        console.log("userCount is " + JSON.stringify(value.userCount));
+        console.log("stateUserCount  is " + this.state.usersCount);
+        state.usersCount = value.userCount  
+      }
+    }
+    this.setState(state);
   }
   childOpened(){
     this.setState({
@@ -408,9 +417,12 @@ class CampaignEditor extends React.Component {
       <div>
       
       <Modal style={{opacity:this.state.overlay}} backdrop={'static'} keyboard={false} show={this.state.showModal} onHide={::this.close}>
-      <EditUsers ref={(c)=> this.EditUsers = c} stores={this.state.stores} onClose={::this.childClosed} campId={this.state.campId}
+
+      <AssignReports ref={(c)=> this.AssignReports = c} onClose={::this.childClosed} campId={this.state.campId} 
         />
-      <EditStores ref={(c)=> this.EditStores = c} stores={this.state.stores} campId={this.state.campId} onClose={::this.childClosed}
+      <EditUsers ref={(c)=> this.EditUsers = c} stores={this.state.stores} onClose={::this.childClosed} campId={this.state.campId} users={this.state.users}
+        />
+      <EditStores ref={(c)=> this.EditStores = c} campId={this.state.campId} onClose={::this.childClosed}
         />
         <Modal.Header closeButton>
           <Modal.Title>Edit Campaign: {this.state.name}</Modal.Title>
@@ -474,7 +486,7 @@ class CampaignEditor extends React.Component {
         </Row>
         <br/>
         <Row>
-          <Col xs={4} componentClass={ControlLabel}>Stores: {this.state.stores}</Col>
+          <Col xs={4} componentClass={ControlLabel}>Stores: {this.state.storesCount}</Col>
           <Col xs={8}>
           <Button 
             onClick={() => {
@@ -495,7 +507,7 @@ class CampaignEditor extends React.Component {
         </Row>
         <br/>
         <Row>
-          <Col xs={4} componentClass={ControlLabel}>Users: {this.state.users}</Col>
+          <Col xs={4} componentClass={ControlLabel}>Users: {this.state.usersCount}</Col>
           <Col xs={8}>
           <Button 
             onClick={() => {
@@ -505,28 +517,24 @@ class CampaignEditor extends React.Component {
             outlined sm style={{marginBottom: 5}} bsStyle='primary' className='inline'>Edit Assigned Users</Button>
           </Col>
         </Row>
+        <br/>
+        <br/>
+        <br/>
+        <Row>
+          <Col xs={3}/>
+          <Col xs={5}>
+          <div style={{float:'none'}}>
+          <Button 
+            onClick={() => {
+              this.AssignReports.open();
+              this.childOpened();
+            }}
+            outlined sm style={{marginBottom: 5}} bsStyle='success' className='inline'>Open Report Builder</Button>
+            </div>
+          </Col>
+          <Col xs={3}/>
+        </Row>
 
-
-          {/*<FormGroup controlId='username'>
-            <ControlLabel>Name *</ControlLabel>
-            <FormControl type='text' name='name' className='required'
-              onChange={(event) => {
-                
-                
-                this.setState({
-                  value:event.target.value
-                })
-              }} />
-          
-
-            <ControlLabel>Description *</ControlLabel>
-            <FormControl type='text' componentClass='textarea' style={{resize:'none', height:100}} name='descrp' className='required'
-              onChange={(event) => {
-                this.setState({
-                  desc:event.target.value
-                })
-              }} />
-          </FormGroup>*/}
 
         </Modal.Body>
         <Modal.Footer>
@@ -538,6 +546,164 @@ class CampaignEditor extends React.Component {
   }
 }
 
+
+class AssignReports extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      showModal: false,
+      banners: [],
+      bannerValues: {},
+    };
+  }
+  
+
+  save(){
+    // var url = 'http://34.205.72.170:3000/banner/selected';
+    // var userScreen = this;
+    // var data = []
+    // var bannerValues = this.state.bannerValues;
+    // for (var i in bannerValues) {
+    //   console.log("banner value " + i + " is " + bannerValues[i]);
+    //   if (bannerValues[i] == true) {
+    //     data.push(i);
+    //   }
+    // }
+    // var body = {
+    //   banners:data,
+    //   campaign_id:this.props.campId
+    // }
+    
+    // console.log("sending body " + JSON.stringify(body));
+    // $.ajax( {
+    //   type: 'POST',
+    //   url,
+    //   data: body,
+    //   dataType: "json",
+    //   success: function (json) {
+    //     console.log("json is " + json.length);
+    //     userScreen.close(json);
+    //     // userScreen.props.onClose({
+    //     //   stores: json.stores
+    //     // });
+    //     // userScreen.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
+    //   },
+    //   error: function (xhr, error, thrown) {
+    //       console.log("error is " + error);
+    //   }
+    // });
+  }
+
+
+  close(json) {
+    var json = json || []
+    this.props.onClose({
+      reports: json
+    });  
+    this.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
+  }
+
+  open() {
+    var stores = this.props.stores || [];
+    var userScreen=this;
+    this.setState({ stores, showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
+    var url = 'http://34.205.72.170:3000/banner/show?campaign_id='+this.props.campId;
+    $.ajax( {
+            type: 'GET',
+            url,
+            dataType: "json",
+            success: function (json) {
+                console.log("banners are " + JSON.stringify(json));
+                var bannerValues = {};
+                for (let banner of json) {
+                  if (typeof(banner.value) == 'undefined') {
+                    bannerValues[banner.id] = false;  
+                  } else {
+                    bannerValues[banner.id] = banner.value;
+                  }
+                }
+                userScreen.setState({banners: json, bannerValues});
+
+            },
+            error: function (xhr, error, thrown) {
+              console.log("error !!! " + error);
+                
+            }
+    });
+  }
+  
+
+  renderBanners(){
+
+    var banners = this.state.banners.map((banner) => {
+      if (banner.value == true) {
+        return (
+        <Row key={banner.id} style={{marginBottom:5}}>
+          <Col xs={6} componentClass={ControlLabel}>
+          <h3>{banner.name}</h3>
+          </Col>
+          <Col xs={6}>
+          <h3>
+
+                    <ButtonGroup>
+                      
+                      
+                      <DropdownButton sm outlined title="Reports" id="bg-nested-dropdown" bsStyle='paleblue'>
+                        
+                        <MenuItem eventKey="1">Report One</MenuItem>
+                        <MenuItem eventKey="2">Report Two</MenuItem>
+                        
+                      </DropdownButton>
+                      <Button sm outlined bsStyle='paleblue'>Create Report</Button>
+                    </ButtonGroup>
+            {/*<Switch bsSize='small'
+                          value={(this.state.bannerValues[banner.id])}
+                          onChange={(el, state) => {
+                            var bannerValues = this.state.bannerValues;
+                            console.log("changing switch value ");
+                            this.setState({
+                              bannerValues: {
+                              ...bannerValues,
+                              [banner.id] : state
+                              }
+                            });
+                          }}
+                        />*/}
+          </h3>
+          </Col>
+          <br/>
+        </Row>
+        );
+      }
+    
+    });
+    return banners;
+  }
+
+
+  render() {
+    return (
+      <Modal bsSize='large' style={{paddingTop:'5%'}} show={this.state.showModal} backdrop='static' onHide={::this.close}>
+        <Modal.Header closeButton>
+          <Modal.Title>Reports for Banners:</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Grid>
+            {this.renderBanners()}
+          </Grid>
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button bsStyle='primary' sm onClick={::this.save}>Finish</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
+
+
+
 class EditUsers extends React.Component {
   constructor(props) {
     super(props);
@@ -546,148 +712,95 @@ class EditUsers extends React.Component {
       showModal: false,
       passedProp: props.passedProp || {},
       loading,
-      value:[]
+      value:{},
+      userList: [],
     };
   }
+
   
-    componentWillReceiveProps(nextProps) {
-    if (nextProps.passedProp != this.props.passedProp) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.users != this.props.users) {
       this.setState({
-        passedProp: nextProps.passedProp
-      });
-    }
-    if (nextProps.loading != this.state.loading) {
-      this.setState({
-        loading: nextProps.loading
-      });
+        users:nextProps.users
+      })
     }
   }
 
   save(){
-    var url = 'http://34.205.72.170:3000/banner/selected';
-    var userScreen = this;
-    $.ajax( {
-      type: 'POST',
-      url,
-      data: this.state.value,
-      dataType: "json",
-      success: function (json) {
-        console.log("json is " + JSON.stringify(json));
-        userScreen.close(json);
-        // userScreen.props.onClose({
-        //   stores: json.stores
-        // });
-        // userScreen.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
-      },
-      error: function (xhr, error, thrown) {
-          console.log("error is " + error);
-      }
-    });
+    var value = this.state.value;
+    var data = {};
+    var userCount = 0;
+    for (let key in value) {
+      var resArray = value[key].split(',');
+      data[key] = resArray;
+      userCount =+ resArray.length;
+    }
+    console.log("saving " + JSON.stringify(data));
+    this.close(userCount);
+    // var url = 'http://34.205.72.170:3000/banner/selected';
+    // var userScreen = this;
+    // $.ajax( {
+    //   type: 'POST',
+    //   url,
+    //   data: this.state.value,
+    //   dataType: "json",
+    //   success: function (json) {
+    //     console.log("json is " + JSON.stringify(json));
+    //     userScreen.close(json);
+    //   },
+    //   error: function (xhr, error, thrown) {
+    //       console.log("error is " + error);
+    //   }
+    // });
   }
 
 
-  close(json) {
-    var json = json || {}
-    this.props.onClose({
-      stores: json.stores
-    });  
+  close(count) {
+    var count = count || 0;
+    console.log("count is " + count);
+    this.props.onClose(
+    {
+      userCount: count
+    }
+    );  
     this.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
   }
 
   open() {
     var stores = this.props.stores || [];
+    var users = this.props.users || [];
     var userScreen=this;
-    console.log("opening shit.  stores are " + stores);
-    this.setState({ stores, showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
-    // var url = 'http://34.205.72.170:3000/banner/show';
-    // $.ajax( {
-    //         type: 'GET',
-    //         url,
-    //         dataType: "json",
-    //         success: function (json) {
-    //             // console.log("banners are " + JSON.stringify(json));
-    //             var bannerValues = {};
-    //             for (let banner of json) {
-    //               if (typeof(banner.value) == 'undefined') {
-    //                 bannerValues[banner.id] = false;  
-    //               } else {
-    //                 bannerValues[banner.id] = banner.value;
-    //               }
-    //             }
-    //             userScreen.setState({banners: json, bannerValues});
+    console.log("opening shit.  stores are " + JSON.stringify(stores));
 
-    //         },
-    //         error: function (xhr, error, thrown) {
-    //           console.log("error !!! " + error);
-                
-    //         }
-    // });
+    var userList = [];
+    
+
+    if (users.length > 0) {
+      for (let user of users) {
+        userList.push({value: user.id.toString(), label: user.firstName + ' ' + user.lastName})
+      }
+      console.log("userList length " + userList.length + JSON.stringify(userList[0]));
+      
+    }
+
+
+  this.setState({ stores, userList, showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
+
   }
   
 
   renderStores(){
-    
-    var dummyStores = [
-    {
-      id:1,
-      name:'storeName',
-      banner:'bannerName',
-      storeNumber:'19239',
-      address: {
-        streetAddress:'123 charles street',
-        city: 'kitchener',
-        prov:'ON',
-        postal:'M9R 2W5'
-      }
-    },
-    {
-      id:2,
-      name:'storeName',
-      banner:'bannerName',
-      storeNumber:'19239',
-      address: {
-        streetAddress:'123 charles street',
-        city: 'kitchener',
-        prov:'ON',
-        postal:'M9R 2W5'
-      }
-    },
-    {
-      id:3,
-      name:'storeName',
-      banner:'bannerName',
-      storeNumber:'19239',
-      address: {
-        streetAddress:'123 charles street',
-        city: 'kitchener',
-        prov:'ON',
-        postal:'M9R 2W5'
-      }
-    },
-    ]
-    // var stores = this.state.banners.map((banner) => {
-      var sampleUserList=[ 
-        {
-          value:'1', label:'Mike Spinelli'
-        },
-        {
-          value:'2', label:'Sank Mood'
-        },
-        {
-          value:'3', label:'Tooby Gooby'
-        },
-        {
-          value:'4', label:'Hoobo Aleh'
-        },
-        {
-          value:'5', label:'Doug Demuro'
-        },
-        {
-          value:'6', label:'David Tracey'
-        },
 
-      ]
-      var stores = dummyStores.map((store) => {
+    var dummyStores= this.props.stores || [];
+    var sampleUserList = this.state.userList.slice();
+    
+    if (!(dummyStores.length > 0)) {
+      return ('There are no stores selected for this campaign yet. Cannot assign users until you assign stores!');
+    }
+    var stores = dummyStores.map((store) => {
+      var store = store || {};
+      store.address = store.address || {};
+      
       return (
         <Row key={store.id} style={{marginBottom:5}}>
           <Col xs={2} style={{verticalAlign:'middle'}}>
@@ -701,34 +814,34 @@ class EditUsers extends React.Component {
           <h4 style={{wordWrap:'break-word'}}>{store.address.postal}</h4>
           </Col>
           <Col xs={6}>
-          <h4>
-            <Select
-              multi
-              simpleValue
-              name="form-field-name"
-              value={this.state.value[store.id] || ''}
-              options={sampleUserList}
-              onChange={(value)=> {
-                console.log("onchange happend! " + value);
-                this.setState({
-                  value : {
-                    ...this.state.value,
-                    [store.id] : value,
-                }})
-              }}
-              // value={this.state.bannerValues[banner.id]}
-              // onChange={(el, state) => {
-              //   var bannerValues = this.state.bannerValues;
-              //   this.setState({
-              //     bannerValues: {
-              //     ...bannerValues,
-              //     [banner.id] : state
-              //     }
-              //   });
-              //   console.log("banner values are now " + JSON.stringify(this.state.bannerValues));
-              // }}
-            />
-          </h4>
+            <h4>
+              <Select
+                multi
+                simpleValue
+                name="form-field-name"
+                value={this.state.value[store.id] || ''}
+                options={sampleUserList}
+                onChange={(value)=> {
+                  console.log("onchange happend! " + JSON.stringify(value));
+                  this.setState({
+                    value : {
+                      ...this.state.value,
+                      [store.id] : value,
+                  }})
+                }}
+                // value={this.state.bannerValues[banner.id]}
+                // onChange={(el, state) => {
+                //   var bannerValues = this.state.bannerValues;
+                //   this.setState({
+                //     bannerValues: {
+                //     ...bannerValues,
+                //     [banner.id] : state
+                //     }
+                //   });
+                //   console.log("banner values are now " + JSON.stringify(this.state.bannerValues));
+                // }}
+              />
+            </h4>
           </Col>
           <br/>
         </Row>
@@ -797,7 +910,6 @@ class EditStores extends React.Component {
         data.push(i);
       }
     }
-
     var body = {
       banners:data,
       campaign_id:this.props.campId
@@ -810,7 +922,7 @@ class EditStores extends React.Component {
       data: body,
       dataType: "json",
       success: function (json) {
-        console.log("json is " + JSON.stringify(json));
+        console.log("json is " + json.length);
         userScreen.close(json);
         // userScreen.props.onClose({
         //   stores: json.stores
@@ -825,9 +937,9 @@ class EditStores extends React.Component {
 
 
   close(json) {
-    var json = json || {}
+    var json = json || []
     this.props.onClose({
-      stores: json.stores
+      stores: json
     });  
     this.setState({ showModal: false, file: null, error:false, uploaded:false, base64data:null, showImage:false });
   }
@@ -835,7 +947,7 @@ class EditStores extends React.Component {
   open() {
     var stores = this.props.stores || [];
     var userScreen=this;
-    console.log("opening shit.  stores are " + stores);
+    console.log("opening shit.  stores are " + JSON.stringify(stores));
     this.setState({ stores, showModal: true , file: null, error:false, uploaded:false, base64data:null, showImage:false });
     var url = 'http://34.205.72.170:3000/banner/show?campaign_id='+this.props.campId;
     $.ajax( {
@@ -864,8 +976,8 @@ class EditStores extends React.Component {
   
 
   renderBanners(){
+
     var banners = this.state.banners.map((banner) => {
-      console.log("rendering banner " + banner.name);
       return (
         <Row key={banner.id} style={{marginBottom:5}}>
           <Col xs={9} componentClass={ControlLabel}>
@@ -874,9 +986,10 @@ class EditStores extends React.Component {
           <Col xs={3}>
           <h4>
             <Switch bsSize='small'
-              value={this.state.bannerValues[banner.id]}
+              value={(this.state.bannerValues[banner.id])}
               onChange={(el, state) => {
                 var bannerValues = this.state.bannerValues;
+                console.log("changing switch value ");
                 this.setState({
                   bannerValues: {
                   ...bannerValues,
@@ -1098,4 +1211,33 @@ class UploadPhoto extends React.Component {
   }
 }
 
+export default class Campaigns extends React.Component {
+
+  componentWillReceiveProps(){
+    console.log("Campaigns will recieve new props");
+  }
+
+  render() {
+    return (
+      <Row>
+        <Col xs={12}>
+          <PanelContainer>
+            <Panel>
+              <PanelBody>
+                <Grid>
+                  <Row>
+                    <Col xs={12}>
+                      <DatatableComponent page={this.props.routeParams.page}/>
+                      <br/>
+                    </Col>
+                  </Row>
+                </Grid>
+              </PanelBody>
+            </Panel>
+          </PanelContainer>
+        </Col>
+      </Row>
+    );
+  }
+}
 

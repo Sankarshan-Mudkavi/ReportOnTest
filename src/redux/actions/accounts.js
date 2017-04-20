@@ -9,7 +9,8 @@ import {
   LOGIN_REG,
   LOGIN_ER,
   LOGOUT,
-  LOGIN_REDIR
+  LOGIN_REDIR,
+  ALL_USERS
 } from './actionTypes';
 import Api from '../../api';
 import cookie from 'react-cookie';
@@ -96,9 +97,11 @@ function fetchData(path) {
   var userID = cookie.load('id') || 0;
   console.log("fetchData running for path " + path);
   var fullPath = "/" + path + "/show?id="+userID;
+  if (path == 'users') {
+    fullPath = "/show.json";
+  }
   return (dispatch, getState) => {
     return Api.get(fullPath)
-    
       .then(resp => {
         if (resp.error != null) {
           if (!resp.error.includes("sign in")) {
@@ -170,6 +173,11 @@ function setData(type, resp) {
     case "accounts":
       return {
         type: ALL_ACCOUNTS,
+        resp
+      };
+    case "users":
+      return {
+        type: ALL_USERS,
         resp
       };
     default:

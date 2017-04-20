@@ -92,7 +92,6 @@ export default function RequireAuth(ComposedComponent) {
     render() {
       var state = this.state || {};
       if (state.isLoggedIn) {
-        console.log("should see compposedComponent now");
         return <ComposedComponent {...this.props} />;
       }
       else {
