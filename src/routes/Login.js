@@ -44,7 +44,7 @@ export default class Login extends React.Component {
       var loginStatus = userScreen.props.loginStatus || {};
       var isLoggedIn = loginStatus.isLoggedIn;
       if (isLoggedIn) {
-        var loginRedir = loginStatus.loginRedir || '/ltr/dashboard';
+        var loginRedir = loginStatus.loginRedir || '/ltr/account/AddAccount';
         userScreen.props.dispatch(actions.fetchData('accounts'))
         .then(() => {
           userScreen.setState({
@@ -147,7 +147,7 @@ export default class Login extends React.Component {
                                     </Row>
                                     <Row>
                                       <Col  xs={12} md={12} style={{flex:1, alignItems:'flex-end'}} className='text-center'>
-                                        <Button lg type='submit' bsStyle='link'>Forgot Password?</Button>
+                                        {/*<Button lg type='submit' bsStyle='link'>Forgot Password?</Button>*/}
                                       </Col>
                                     </Row>
                                   </Grid>

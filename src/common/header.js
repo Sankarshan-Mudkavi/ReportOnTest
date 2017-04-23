@@ -32,7 +32,7 @@ class Brand extends React.Component {
       <Navbar.Header {...this.props}>
         <Navbar.Brand tabIndex='-1'>
           <a href='#'>
-            <img src='/imgs/common/PremierTechAqua.jpg' alt='rubix' width='131' height='28' />
+            <img src='/imgs/common/reportOnLogo.png' style={{top:-27}}alt='rubix' width='251' height='80' />
           </a>
         </Navbar.Brand>
       </Navbar.Header>
@@ -632,6 +632,7 @@ class HeaderNavigation extends React.Component {
     return (
       <Nav pullRight>
         <Nav className='hidden-xs'>
+          {/*
           <NavItem divider />
           <NavItem eventKey={1} href='#' className='hidden-sm' onClick={::this.handleSkinSwitch}>
             <Icon glyph='icon-fontello-circle' className='fg-theme' style={{lineHeight: 1, fontSize: 24, top: 2, position: 'relative' }} />
@@ -644,7 +645,7 @@ class HeaderNavigation extends React.Component {
           <NavItem divider />
           <DirectNavItem glyph='mail-3' eventKey={5} path={::this.getPath('mailbox/inbox')} />
           <NotificationsMenu />
-          <RssMenu />
+          <RssMenu /> */}
         </Nav>
         <Nav>
           <NavItem className='logout' href='#' onClick={::this.handleLogout}>

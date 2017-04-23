@@ -49515,10 +49515,11 @@ require('source-map-support').install({environment: 'node'});
 /* 609 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(177);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(178);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(247);var _inherits3=_interopRequireDefault(_inherits2);var _dec,_class,_dec2,_class2;var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _rubix=__webpack_require__(257);var _reactRouter=__webpack_require__(256);var _reactRedux=__webpack_require__(610);var _chat=__webpack_require__(611);var _chat2=_interopRequireDefault(_chat);var _statistics=__webpack_require__(612);var _statistics2=_interopRequireDefault(_statistics);var _timeline=__webpack_require__(613);var _timeline2=_interopRequireDefault(_timeline);var _notifications=__webpack_require__(614);var _notifications2=_interopRequireDefault(_notifications);var _actions=__webpack_require__(615);var _actions2=_interopRequireDefault(_actions);var _reactCookie=__webpack_require__(636);var _reactCookie2=_interopRequireDefault(_reactCookie);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var ApplicationSidebar=(_dec=(0,_reactRedux.connect)(function(state){return state;}),(0,_reactRouter.withRouter)(_class=_dec(_class=function(_React$Component){(0,_inherits3.default)(ApplicationSidebar,_React$Component);function ApplicationSidebar(props){(0,_classCallCheck3.default)(this,ApplicationSidebar);var _this=(0,_possibleConstructorReturn3.default)(this,_React$Component.call(this,props));var accounts=props.accounts,dispatch=props.dispatch;var result=accounts.result||{};var rendAccts=_this.renderAccounts(result);_this.state={rendAccts:rendAccts};return _this;}ApplicationSidebar.prototype.componentWillReceiveProps=function componentWillReceiveProps(nextProps){if(nextProps.accounts!=this.props.accounts){var accounts=nextProps.accounts,dispatch=nextProps.dispatch;var result=accounts.result||{};var rendAccts=this.renderAccounts(result);this.setState({rendAccts:rendAccts});}};ApplicationSidebar.prototype.handleChange=function handleChange(e){this._nav.search(e.target.value);};ApplicationSidebar.prototype.getPath=function getPath(path){// console.log("in dir -- what is this.props.locagion?" + JSON.stringify(this.props.location ));
+	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(177);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(178);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(247);var _inherits3=_interopRequireDefault(_inherits2);var _dec,_class,_dec2,_class2;var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _rubix=__webpack_require__(257);var _reactRouter=__webpack_require__(256);var _reactRedux=__webpack_require__(610);var _chat=__webpack_require__(611);var _chat2=_interopRequireDefault(_chat);var _statistics=__webpack_require__(612);var _statistics2=_interopRequireDefault(_statistics);var _timeline=__webpack_require__(613);var _timeline2=_interopRequireDefault(_timeline);var _notifications=__webpack_require__(614);var _notifications2=_interopRequireDefault(_notifications);var _reactAvatar=__webpack_require__(747);var _reactAvatar2=_interopRequireDefault(_reactAvatar);var _actions=__webpack_require__(615);var _actions2=_interopRequireDefault(_actions);var _reactCookie=__webpack_require__(636);var _reactCookie2=_interopRequireDefault(_reactCookie);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var ApplicationSidebar=(_dec=(0,_reactRedux.connect)(function(state){return state;}),(0,_reactRouter.withRouter)(_class=_dec(_class=function(_React$Component){(0,_inherits3.default)(ApplicationSidebar,_React$Component);function ApplicationSidebar(props){(0,_classCallCheck3.default)(this,ApplicationSidebar);var _this=(0,_possibleConstructorReturn3.default)(this,_React$Component.call(this,props));var accounts=props.accounts,dispatch=props.dispatch;var result=accounts.result||{};var rendAccts=_this.renderAccounts(result);_this.state={rendAccts:rendAccts};return _this;}ApplicationSidebar.prototype.componentWillReceiveProps=function componentWillReceiveProps(nextProps){if(nextProps.accounts!=this.props.accounts){var accounts=nextProps.accounts,dispatch=nextProps.dispatch;var result=accounts.result||{};var rendAccts=this.renderAccounts(result);this.setState({rendAccts:rendAccts});}};ApplicationSidebar.prototype.handleChange=function handleChange(e){this._nav.search(e.target.value);};ApplicationSidebar.prototype.getPath=function getPath(path){// console.log("in dir -- what is this.props.locagion?" + JSON.stringify(this.props.location ));
 	var dir=this.props.location.pathname.search('rtl')!==-1?'rtl':'ltr';path='/'+dir+'/'+path;return path;};ApplicationSidebar.prototype.renderAccounts=function renderAccounts(result){var _this2=this;var res=result.map(function(account,i){return _react2.default.createElement(_rubix.SidebarNavItem,{key:i,glyph:'icon-feather-layout',name:account.title,href:_this2.getPath.call(_this2,'campaigns/'+account.title)});});return res;};ApplicationSidebar.prototype.accountsNav=function accountsNav(){var _props=this.props,accounts=_props.accounts,dispatch=_props.dispatch;var result=accounts.result||[];var res=[];var i=0;while(res.length<result.length){// console.log("result i " + i + ' is ' + JSON.stringify(result[i]))
 	res.push(_react2.default.createElement(_rubix.SidebarNavItem,{key:i,glyph:'icon-feather-layout',name:result[i].title,href:this.getPath.call(this,'campaigns/'+result[i].title)}));i++;}return _react2.default.createElement(_rubix.SidebarNav,null,_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-simple-line-icons-plus',name:'Add New Account',href:this.getPath.call(this,'account/AddAccount')}),res);};ApplicationSidebar.prototype.render=function render(){var _this3=this;var _props2=this.props,accounts=_props2.accounts,dispatch=_props2.dispatch;var result=accounts.result||{};var error=accounts.error||{};// var { result, error } = accounts || {};
-	result.length=result.length||0;return _react2.default.createElement('div',null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement(_rubix.FormControl,{type:'text',placeholder:'Search...',onChange:this.handleChange.bind(this),className:'sidebar-search',style:{border:'none',background:'none',margin:'10px 0 0 0',borderBottom:'1px solid #666',color:'white'}}),_react2.default.createElement('div',{className:'sidebar-nav-container'},_react2.default.createElement(_rubix.SidebarNav,{style:{marginBottom:0},ref:function ref(c){return _this3._nav=c;}},_react2.default.createElement('div',{className:'sidebar-header'},'PAGES'),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-fontello-gauge',name:'Dashboard',href:this.getPath.call(this,'dashboard')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-stroke-gap-icons-Blog',name:_react2.default.createElement('span',null,'Accounts ',_react2.default.createElement(_rubix.Label,{className:'bg-darkcyan fg-white'},result.length))},this.accountsNav()),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-simple-line-icons-users',name:'User Management',href:this.getPath.call(this,'usermanagement')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-simple-line-icons-users',name:'Store Management',href:this.getPath.call(this,'storemanagement')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-feather-share',name:'Reports',href:this.getPath.call(this,'social')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-pixelvicon-photo-gallery',name:'Gallery',href:this.getPath.call(this,'gallery')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-stroke-gap-icons-Blog',name:_react2.default.createElement('span',null,'User ',_react2.default.createElement(_rubix.Label,{className:'bg-darkcyan fg-white'},'2'))},_react2.default.createElement(_rubix.SidebarNav,null,_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-feather-layout',name:'Posts',href:this.getPath.call(this,'blog/posts')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-feather-paper',name:'Single Post',href:this.getPath.call(this,'blog/post')}))),_react2.default.createElement(_rubix.SidebarDivider,null),_react2.default.createElement('div',{className:'sidebar-header'},'COMPONENTS'),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-simple-line-icons-layers float-right-rtl',name:'Panels',href:this.getPath.call(this,'panels')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-ikons-bar-chart-2 float-right-rtl',name:_react2.default.createElement('span',null,'Charts ',_react2.default.createElement(_rubix.Label,{className:'bg-brown50 fg-white'},'4'))},_react2.default.createElement(_rubix.SidebarNav,null,_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-fontello-chart-area',name:'Rubix Charts'},_react2.default.createElement(_rubix.SidebarNav,null,_react2.default.createElement(_rubix.SidebarNavItem,{name:'Line Series',href:this.getPath.call(this,'charts/rubix/line')}),_react2.default.createElement(_rubix.SidebarNavItem,{name:'Area Series',href:this.getPath.call(this,'charts/rubix/area')}),_react2.default.createElement(_rubix.SidebarNavItem,{name:'Bar + Column Series',href:this.getPath.call(this,'charts/rubix/barcol')}),_react2.default.createElement(_rubix.SidebarNavItem,{name:'Mixed Series',href:this.getPath.call(this,'charts/rubix/mixed')}),_react2.default.createElement(_rubix.SidebarNavItem,{name:'Pie + Donut Series',href:this.getPath.call(this,'charts/rubix/piedonut')}))),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-simple-line-icons-graph',name:'Chart.JS',href:this.getPath.call(this,'charts/chartjs')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-dripicons-graph-line',name:'C3.JS',href:this.getPath.call(this,'charts/c3js')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-feather-pie-graph',name:'Morris.JS',href:this.getPath.call(this,'charts/morrisjs')}))),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'timeline'),glyph:'icon-ikons-time',name:'Static Timeline'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'interactive-timeline'),glyph:'icon-fontello-back-in-time',name:'Interactive Timeline'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'codemirror'),glyph:'icon-dripicons-code',name:'Codemirror'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'maps'),glyph:'icon-ikons-pin-2',name:'Maps'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'editor'),glyph:'icon-simple-line-icons-note',name:'Editor'}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-feather-toggle',name:_react2.default.createElement('span',null,'UI Elements ',_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'7'))},_react2.default.createElement(_rubix.SidebarNav,null,_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'ui-elements/buttons'),glyph:'icon-mfizz-oracle',name:'Buttons'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'ui-elements/dropdowns'),glyph:'icon-outlined-arrow-down',name:'Dropdowns'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'ui-elements/tabs-and-navs'),glyph:'icon-nargela-navigation',name:'Tabs & Navs'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'ui-elements/sliders'),glyph:'icon-outlined-three-stripes-horiz',name:'Sliders'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'ui-elements/knobs'),glyph:'icon-ikons-chart-3-8',name:'Knobs'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'ui-elements/modals'),glyph:'icon-pixelvicon-browser-1',name:'Modals'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'ui-elements/messenger'),glyph:'icon-dripicons-message',name:'Messenger'}))),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-stroke-gap-icons-Files float-right-rtl',name:_react2.default.createElement('span',null,'Forms ',_react2.default.createElement(_rubix.Label,{className:'bg-danger fg-white'},'3'))},_react2.default.createElement(_rubix.SidebarNav,null,_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-mfizz-fire-alt',href:this.getPath.call(this,'forms/controls'),name:'Controls'}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-stroke-gap-icons-Edit',href:this.getPath.call(this,'forms/x-editable'),name:'X-Editable'}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-simple-line-icons-magic-wand',href:this.getPath.call(this,'forms/wizard'),name:'Wizard'}))),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-fontello-table',name:_react2.default.createElement('span',null,'Tables ',_react2.default.createElement(_rubix.Label,{className:'bg-blue fg-white'},'3'))},_react2.default.createElement(_rubix.SidebarNav,null,_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'tables/bootstrap-tables'),glyph:'icon-fontello-th-thumb',name:'Bootstrap Tables'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'tables/datatables'),glyph:'icon-fontello-th-2',name:'Datatables'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'tables/tablesaw'),glyph:'icon-fontello-view-mode',name:'Tablesaw'}))),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'grid'),glyph:'icon-ikons-grid-1 float-right-rtl',name:'Grid'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'calendar'),glyph:'icon-fontello-calendar-alt',name:'Calendar'}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-fontello-folder-open-empty',name:_react2.default.createElement('span',null,'File Utilities ',_react2.default.createElement(_rubix.Label,{className:'bg-orange fg-darkbrown'},'2'))},_react2.default.createElement(_rubix.SidebarNav,null,_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'file-utilities/dropzone'),glyph:'icon-stroke-gap-icons-Download',name:'Dropzone'}),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'file-utilities/crop'),glyph:'icon-ikons-crop',name:'Image Cropping'}))),_react2.default.createElement(_rubix.SidebarNavItem,{href:this.getPath.call(this,'fonts'),glyph:'icon-fontello-fontsize',name:'Fonts'}),_react2.default.createElement(_rubix.SidebarDivider,null),_react2.default.createElement('div',{className:'sidebar-header'},'EXTRAS'),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-ikons-login',name:'Login',href:this.getPath.call(this,'login')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-simple-line-icons-users',name:'Signup',href:this.getPath.call(this,'signup')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-ikons-lock',name:'Lock Page',href:this.getPath.call(this,'lock')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-dripicons-document',name:'Invoice',href:this.getPath.call(this,'invoice')}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-feather-tag icon-rotate-135',name:'Pricing Tables',href:this.getPath.call(this,'pricing')}),_react2.default.createElement(_rubix.SidebarDivider,null),_react2.default.createElement('div',{className:'sidebar-header'},'DOCUMENTATION'),_react2.default.createElement('li',{className:'sidebar-nav-item',style:{display:'block',height:45}},_react2.default.createElement('a',{href:'http://rubix-docs.sketchpixy.com',style:{height:45}},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-install'}),_react2.default.createElement('span',{className:'name'},'Documentation')))),_react2.default.createElement('br',null),_react2.default.createElement('br',null),_react2.default.createElement('br',null))))));};return ApplicationSidebar;}(_react2.default.Component))||_class)||_class);var DummySidebar=function(_React$Component2){(0,_inherits3.default)(DummySidebar,_React$Component2);function DummySidebar(){(0,_classCallCheck3.default)(this,DummySidebar);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}DummySidebar.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement('div',{className:'sidebar-header'},'DUMMY SIDEBAR'),_react2.default.createElement(_rubix.LoremIpsum,{query:'1p'}))));};return DummySidebar;}(_react2.default.Component);var SidebarContainer=(_dec2=(0,_reactRedux.connect)(function(state){return state;}),(0,_reactRouter.withRouter)(_class2=_dec2(_class2=function(_React$Component3){(0,_inherits3.default)(SidebarContainer,_React$Component3);function SidebarContainer(){(0,_classCallCheck3.default)(this,SidebarContainer);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}SidebarContainer.prototype.getPath=function getPath(path){var dir=this.props.location.pathname.search('rtl')!==-1?'rtl':'ltr';path='/'+dir+'/'+path;return path;};SidebarContainer.prototype.render=function render(){return _react2.default.createElement('div',{id:'sidebar'},_react2.default.createElement('div',{id:'avatar'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,{className:'fg-white'},_react2.default.createElement(_rubix.Col,{xs:4,collapseRight:true},_react2.default.createElement('img',{src:'/imgs/app/avatars/avatar19.png',width:'40',height:'40'})),_react2.default.createElement(_rubix.Col,{xs:8,collapseLeft:true,id:'avatar-col'},_react2.default.createElement('div',{style:{top:23,fontSize:16,lineHeight:1,position:'relative'}},_reactCookie2.default.load('name')||'admin'),_react2.default.createElement('div',null,_react2.default.createElement(_rubix.Progress,{id:'demo-progress',value:20,color:'#ffffff'}),_react2.default.createElement(_reactRouter.Link,{to:this.getPath.call(this,'lock')},_react2.default.createElement(_rubix.Icon,{id:'demo-icon',bundle:'fontello',glyph:'lock-5'}))))))),_react2.default.createElement(_rubix.SidebarControls,null,_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'docs',sidebar:0}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'chat-1',sidebar:1}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'chart-pie-2',sidebar:2}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'th-list-2',sidebar:3}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'bell-5',sidebar:4})),_react2.default.createElement('div',{id:'sidebar-container'},_react2.default.createElement(_rubix.Sidebar,{sidebar:0},_react2.default.createElement(ApplicationSidebar,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:1},_react2.default.createElement(_chat2.default,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:2},_react2.default.createElement(_statistics2.default,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:3},_react2.default.createElement(_timeline2.default,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:4},_react2.default.createElement(_notifications2.default,null))));};return SidebarContainer;}(_react2.default.Component))||_class2)||_class2);exports.default=SidebarContainer;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(ApplicationSidebar,'ApplicationSidebar','/Users/toby/Okey/reptonWeb/src/common/sidebar.js');__REACT_HOT_LOADER__.register(DummySidebar,'DummySidebar','/Users/toby/Okey/reptonWeb/src/common/sidebar.js');__REACT_HOT_LOADER__.register(SidebarContainer,'SidebarContainer','/Users/toby/Okey/reptonWeb/src/common/sidebar.js');}();;
+	result.length=result.length||0;return _react2.default.createElement('div',null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement(_rubix.FormControl,{type:'text',placeholder:'Search...',onChange:this.handleChange.bind(this),className:'sidebar-search',style:{border:"none",background:"none",margin:"10px 0 0 0",borderBottom:"1px solid #666",color:"white"}}),_react2.default.createElement('div',{className:'sidebar-nav-container'},_react2.default.createElement(_rubix.SidebarNav,{style:{marginBottom:0},ref:function ref(c){return _this3._nav=c;}},_react2.default.createElement('div',{className:'sidebar-header'},'PAGES'),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-stroke-gap-icons-Blog',name:_react2.default.createElement('span',null,'Accounts'," ",_react2.default.createElement(_rubix.Label,{className:'bg-darkcyan fg-white'},result.length))},this.accountsNav()),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-simple-line-icons-users',name:'User Management',href:this.getPath.call(this,"usermanagement")}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-simple-line-icons-layers float-right-rtl',name:'Store Management',href:this.getPath.call(this,"storemanagement")}),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-pixelvicon-photo-gallery',name:'Gallery',href:this.getPath.call(this,"gallery")}),_react2.default.createElement(_rubix.SidebarDivider,null)),_react2.default.createElement('br',null),_react2.default.createElement('br',null),_react2.default.createElement('br',null))))));};return ApplicationSidebar;}(_react2.default.Component))||_class)||_class);var DummySidebar=function(_React$Component2){(0,_inherits3.default)(DummySidebar,_React$Component2);function DummySidebar(){(0,_classCallCheck3.default)(this,DummySidebar);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}DummySidebar.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement('div',{className:'sidebar-header'},'DUMMY SIDEBAR'),_react2.default.createElement(_rubix.LoremIpsum,{query:'1p'}))));};return DummySidebar;}(_react2.default.Component);var SidebarContainer=(_dec2=(0,_reactRedux.connect)(function(state){return state;}),(0,_reactRouter.withRouter)(_class2=_dec2(_class2=function(_React$Component3){(0,_inherits3.default)(SidebarContainer,_React$Component3);function SidebarContainer(){(0,_classCallCheck3.default)(this,SidebarContainer);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}SidebarContainer.prototype.getPath=function getPath(path){var dir=this.props.location.pathname.search('rtl')!==-1?'rtl':'ltr';path='/'+dir+'/'+path;return path;};SidebarContainer.prototype.handleLogout=function handleLogout(e){// console.log("log out called!");
+	this.props.dispatch(_actions2.default.setLoginStatus('false,'));this.props.router.push('/ltr/login');};SidebarContainer.prototype.render=function render(){var userName=_reactCookie2.default.load('name')||'admin';return _react2.default.createElement('div',{id:'sidebar'},_react2.default.createElement('div',{id:'avatar'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,{className:'fg-white'},_react2.default.createElement(_rubix.Col,{xs:4,collapseRight:true},_react2.default.createElement(_reactAvatar2.default,{name:userName,size:40,style:{marginTop:15},textSizeRatio:1.75,round:true})),_react2.default.createElement(_rubix.Col,{xs:8,collapseLeft:true,id:'avatar-col'},_react2.default.createElement('div',{style:{top:27,fontSize:19,lineHeight:1,position:'relative'}},userName),_react2.default.createElement('div',null,_react2.default.createElement('div',{onClick:this.handleLogout.bind(this)},_react2.default.createElement(_rubix.Icon,{id:'demo-icon',bundle:'fontello',glyph:'lock-5'}))))))),_react2.default.createElement('div',{id:'sidebar-container'},_react2.default.createElement(_rubix.Sidebar,{sidebar:0},_react2.default.createElement(ApplicationSidebar,null))));};return SidebarContainer;}(_react2.default.Component))||_class2)||_class2);exports.default=SidebarContainer;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(ApplicationSidebar,'ApplicationSidebar','/Users/toby/Okey/reptonWeb/src/common/sidebar.js');__REACT_HOT_LOADER__.register(DummySidebar,'DummySidebar','/Users/toby/Okey/reptonWeb/src/common/sidebar.js');__REACT_HOT_LOADER__.register(SidebarContainer,'SidebarContainer','/Users/toby/Okey/reptonWeb/src/common/sidebar.js');}();;
 
 /***/ },
 /* 610 */
@@ -50296,8 +50297,8 @@ require('source-map-support').install({environment: 'node'});
 /* 638 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';exports.__esModule=true;exports.default=undefined;var _extends2=__webpack_require__(259);var _extends3=_interopRequireDefault(_extends2);var _classCallCheck2=__webpack_require__(177);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(178);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(247);var _inherits3=_interopRequireDefault(_inherits2);var _class,_class2,_temp,_dec,_class7;var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _reactDom=__webpack_require__(272);var _reactDom2=_interopRequireDefault(_reactDom);var _classnames=__webpack_require__(255);var _classnames2=_interopRequireDefault(_classnames);var _reactRedux=__webpack_require__(610);var _reactRouter=__webpack_require__(256);var _L20n=__webpack_require__(434);var _L20n2=_interopRequireDefault(_L20n);var _rubix=__webpack_require__(257);var _actions=__webpack_require__(615);var _actions2=_interopRequireDefault(_actions);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Brand=function(_React$Component){(0,_inherits3.default)(Brand,_React$Component);function Brand(){(0,_classCallCheck3.default)(this,Brand);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Brand.prototype.render=function render(){return _react2.default.createElement(_rubix.Navbar.Header,this.props,_react2.default.createElement(_rubix.Navbar.Brand,{tabIndex:'-1'},_react2.default.createElement('a',{href:'#'},_react2.default.createElement('img',{src:'/imgs/common/PremierTechAqua.jpg',alt:'rubix',width:'131',height:'28'}))));};return Brand;}(_react2.default.Component);var DirectNavItem=(0,_reactRouter.withRouter)(_class=function(_React$Component2){(0,_inherits3.default)(DirectNavItem,_React$Component2);function DirectNavItem(){(0,_classCallCheck3.default)(this,DirectNavItem);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}DirectNavItem.prototype.render=function render(){var active=false;var currentLocation=this.props.location.pathname;if(!active&&this.props.path){active=this.props.router.isActive(this.props.path)&&currentLocation==this.props.path;}var classes=(0,_classnames2.default)({'pressed':active},this.props.className);return _react2.default.createElement(_rubix.NavItem,{className:classes,style:this.props.style,href:this.props.path,to:this.props.path,componentClass:_reactRouter.Link},_react2.default.createElement(_rubix.Icon,{bundle:this.props.bundle||'fontello',glyph:this.props.glyph}));};return DirectNavItem;}(_react2.default.Component))||_class;var Skins=(_temp=_class2=function(_React$Component3){(0,_inherits3.default)(Skins,_React$Component3);function Skins(){(0,_classCallCheck3.default)(this,Skins);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}Skins.prototype.switchSkin=function switchSkin(skin,e){e.preventDefault();e.stopPropagation();for(var i=0;i<Skins.skins.length;i++){$('html').removeClass(Skins.skins[i]);}$('html').addClass(skin);vex.close(this.props.id);};Skins.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,{style:{margin:'-2em'}},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12,className:'text-center bg-darkgrayishblue75',style:{marginBottom:25}},_react2.default.createElement('div',{className:'fg-white',style:{fontSize:24,lineHeight:1,padding:'25px 10px'}},'Choose a theme:'))),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'default')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',style:{color:'#E76049'}}))),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'green')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-darkgreen45'}))),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'blue')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-blue'})))),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'purple')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-purple'}))),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'brown')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-brown'}))),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'cyan')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-darkcyan'})))));};return Skins;}(_react2.default.Component),_class2.skins=['default','green','blue','purple','brown','cyan'],_temp);var CommitChart=function(_React$Component4){(0,_inherits3.default)(CommitChart,_React$Component4);function CommitChart(){(0,_classCallCheck3.default)(this,CommitChart);return(0,_possibleConstructorReturn3.default)(this,_React$Component4.apply(this,arguments));}CommitChart.prototype.componentDidMount=function componentDidMount(){var chart=new Rubix('#commit-column-chart',{width:'100%',height:100,hideAxisAndGrid:true,hideLegend:true,tooltip:{color:'#2EB398'},margin:{top:25,bottom:25}});var alerts=chart.column_series({name:'Commits',color:'#2EB398'});alerts.addData([{x:10,y:20},{x:11,y:50},{x:12,y:35},{x:13,y:30},{x:14,y:20},{x:15,y:25},{x:16,y:30},{x:17,y:50},{x:18,y:20},{x:19,y:30},{x:20,y:50},{x:21,y:20},{x:22,y:50},{x:23,y:35},{x:24,y:30},{x:25,y:20},{x:26,y:30}]);$(window).trigger('resize');};CommitChart.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,{style:{marginBottom:-10}},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement('div',{id:'commit-column-chart'}))));};return CommitChart;}(_react2.default.Component);var LtrRtlLayout=function(_React$Component5){(0,_inherits3.default)(LtrRtlLayout,_React$Component5);function LtrRtlLayout(){var _temp2,_this5,_ret;(0,_classCallCheck3.default)(this,LtrRtlLayout);for(var _len=arguments.length,args=Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}return _ret=(_temp2=(_this5=(0,_possibleConstructorReturn3.default)(this,_React$Component5.call.apply(_React$Component5,[this].concat(args))),_this5),_this5.state={ltr:true},_temp2),(0,_possibleConstructorReturn3.default)(_this5,_ret);}LtrRtlLayout.prototype.handleLayoutRadioChange=function handleLayoutRadioChange(e){var dir=e.target.value;var location=window.location.href;if(dir==='ltr'){location=location.replace('rtl',dir);}else{location=location.replace('ltr',dir);}window.location.href=location;};LtrRtlLayout.prototype.componentDidMount=function componentDidMount(){if($('html').attr('dir')==='ltr'){this.setState({ltr:true});}else{this.setState({ltr:false});}};LtrRtlLayout.prototype.render=function render(){var ltr=this.state.ltr;return _react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:6},_react2.default.createElement(_rubix.Radio,{ref:'ltr',value:'ltr',name:'switch-layout',checked:ltr,onChange:this.handleLayoutRadioChange.bind(this)},'LTR')),_react2.default.createElement(_rubix.Col,{xs:6,className:'text-right'},_react2.default.createElement(_rubix.Radio,{ref:'rtl',value:'rtl',name:'switch-layout',checked:!ltr,onChange:this.handleLayoutRadioChange.bind(this)},'RTL'))));};return LtrRtlLayout;}(_react2.default.Component);var BodyLayout=function(_React$Component6){(0,_inherits3.default)(BodyLayout,_React$Component6);function BodyLayout(){var _temp3,_this6,_ret2;(0,_classCallCheck3.default)(this,BodyLayout);for(var _len2=arguments.length,args=Array(_len2),_key2=0;_key2<_len2;_key2++){args[_key2]=arguments[_key2];}return _ret2=(_temp3=(_this6=(0,_possibleConstructorReturn3.default)(this,_React$Component6.call.apply(_React$Component6,[this].concat(args))),_this6),_this6.state={fixedLayout:true},_temp3),(0,_possibleConstructorReturn3.default)(_this6,_ret2);}BodyLayout.prototype.bodyLayoutRadioChange=function bodyLayoutRadioChange(value){if(!value)return;if(value==='fixed-body'){$('html').removeClass('static');localStorage.setItem('bodyLayout','fixed-body');_rubix.Dispatcher.publish('sidebar:reinitialize');this.setState({fixedLayout:true});}else if(value==='static-body'){$('html').addClass('static');localStorage.setItem('bodyLayout','static-body');_rubix.Dispatcher.publish('sidebar:destroy');this.setState({fixedLayout:false});}};BodyLayout.prototype.handleBodyLayoutRadioChange=function handleBodyLayoutRadioChange(e){this.bodyLayoutRadioChange(e.target.value);};BodyLayout.prototype.componentDidMount=function componentDidMount(){this.bodyLayoutRadioChange(localStorage.getItem('bodyLayout'));};BodyLayout.prototype.render=function render(){var fixedLayout=this.state.fixedLayout;return _react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:8},_react2.default.createElement(_rubix.Radio,{ref:'fixed-body',value:'fixed-body',name:'switch-body-layout',checked:fixedLayout,onChange:this.handleBodyLayoutRadioChange.bind(this)},'Fixed (Header + Sidebar)')),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-right'},_react2.default.createElement(_rubix.Radio,{ref:'static-body',value:'static-body',name:'switch-body-layout',checked:!fixedLayout,onChange:this.handleBodyLayoutRadioChange.bind(this)},'Static'))));};return BodyLayout;}(_react2.default.Component);var flagMenuItems=[{name:'English - U.S.',flag:'United-States',lang:'enUS'},{name:'French',flag:'France',lang:'fr'},{name:'Italian',flag:'Italy',lang:'it'},{name:'German',flag:'Germany',lang:'ge'},{name:'Arabic',flag:'Saudi-Arabia',lang:'ar'},{name:'Chinese',flag:'China',lang:'ch'}];var FlagMenu=function(_React$Component7){(0,_inherits3.default)(FlagMenu,_React$Component7);function FlagMenu(){var _temp4,_this7,_ret3;(0,_classCallCheck3.default)(this,FlagMenu);for(var _len3=arguments.length,args=Array(_len3),_key3=0;_key3<_len3;_key3++){args[_key3]=arguments[_key3];}return _ret3=(_temp4=(_this7=(0,_possibleConstructorReturn3.default)(this,_React$Component7.call.apply(_React$Component7,[this].concat(args))),_this7),_this7.state={selectedFlag:'United-States'},_temp4),(0,_possibleConstructorReturn3.default)(_this7,_ret3);}FlagMenu.prototype.handleSelect=function handleSelect(flag){var _this8=this;this.setState({selectedFlag:flag},function(){var locale=flagMenuItems.find(function(item){return item.flag===_this8.state.selectedFlag;}).lang;if(locale==='ar'){$('html').addClass('arabic');}else{$('html').removeClass('arabic');}_L20n2.default.changeLocale(locale);});};FlagMenu.prototype.render=function render(){var _this9=this;var flagIcon=_react2.default.createElement('img',{src:'/imgs/app/flags/flags/flat/32/'+this.state.selectedFlag+'.png',width:'32',height:'32'});var menuItems=flagMenuItems.map(function(_ref,i){var name=_ref.name,flag=_ref.flag,lang=_ref.lang;return _react2.default.createElement(_rubix.MenuItem,{key:name,eventKey:flag,active:_this9.state.selectedFlag===flag},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement('img',{src:'/imgs/app/flags/flags/flat/32/'+flag+'.png',alt:name,width:'32',height:'32'})),_react2.default.createElement(_rubix.Col,{xs:10},_react2.default.createElement(_L20n.Entity,{className:'lang-menu-text',entity:'languageMenu',data:{lang:lang},defaultValue:name})))));});menuItems.unshift(_react2.default.createElement(_rubix.MenuItem,{key:'flag-header',header:true},'Choose a locale'));return _react2.default.createElement(_rubix.NavDropdownHover,{noCaret:true,eventKey:2,title:flagIcon,id:'flag-menu-btn',className:'header-menu',onSelect:this.handleSelect.bind(this)},menuItems);};return FlagMenu;}(_react2.default.Component);var SettingsMenu=function(_React$Component8){(0,_inherits3.default)(SettingsMenu,_React$Component8);function SettingsMenu(){var _temp5,_this10,_ret4;(0,_classCallCheck3.default)(this,SettingsMenu);for(var _len4=arguments.length,args=Array(_len4),_key4=0;_key4<_len4;_key4++){args[_key4]=arguments[_key4];}return _ret4=(_temp5=(_this10=(0,_possibleConstructorReturn3.default)(this,_React$Component8.call.apply(_React$Component8,[this].concat(args))),_this10),_this10.state={fluidLayout:true},_temp5),(0,_possibleConstructorReturn3.default)(_this10,_ret4);}SettingsMenu.prototype.handleViewportChange=function handleViewportChange(eventKey){if(eventKey==='fluid'){localStorage.setItem('settingsMenu','fluid');$('html').removeClass('boxed');this.setState({fluidLayout:true});}else{localStorage.setItem('settingsMenu','boxed');$('html').addClass('boxed');this.setState({fluidLayout:false});}setTimeout(function(){$(window).trigger('resize');},300);};SettingsMenu.prototype.componentDidMount=function componentDidMount(){var item=localStorage.getItem('settingsMenu')||'fluid';localStorage.setItem('settingsMenu',item);this.handleViewportChange(item);};SettingsMenu.prototype.render=function render(){var cogIcon=_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'cog-7',style:{position:'relative',top:2}});var fluidLayout=this.state.fluidLayout;return _react2.default.createElement(_rubix.NavDropdownHover,{noCaret:true,eventKey:4,title:cogIcon,id:'settings-menu',className:'header-menu small-font collapse-left',onSelect:this.handleViewportChange.bind(this)},_react2.default.createElement(_rubix.MenuItem,{eventKey:'dimension',header:true},_react2.default.createElement(_L20n.Entity,{entity:'settingsMenuHeading',defaultValue:'dimension'})),_react2.default.createElement(_rubix.MenuItem,{eventKey:'fluid',active:fluidLayout},_react2.default.createElement(_L20n.Entity,{entity:'settingsMenuFluid',defaultValue:'Fluid'})),_react2.default.createElement(_rubix.MenuItem,{eventKey:'boxed',active:!fluidLayout},_react2.default.createElement(_L20n.Entity,{entity:'settingsMenuBoxed',defaultValue:'Boxed (990px)'})),_react2.default.createElement(_rubix.MenuItem,{eventKey:'layout',header:true},'Layout'),_react2.default.createElement(_rubix.MenuItem,{eventKey:'ltrRtlLayout',noHover:true},_react2.default.createElement(LtrRtlLayout,null)),_react2.default.createElement(_rubix.MenuItem,{eventKey:'bodyLayoutHeading',header:true},'Body Layout'),_react2.default.createElement(_rubix.MenuItem,{eventKey:'bodyLayout',noHover:true},_react2.default.createElement(BodyLayout,null)));};return SettingsMenu;}(_react2.default.Component);var NotificationsMenu=function(_React$Component9){(0,_inherits3.default)(NotificationsMenu,_React$Component9);function NotificationsMenu(){(0,_classCallCheck3.default)(this,NotificationsMenu);return(0,_possibleConstructorReturn3.default)(this,_React$Component9.apply(this,arguments));}NotificationsMenu.prototype.render=function render(){var bullhornIcon=_react2.default.createElement('span',null,_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'bullhorn'}),_react2.default.createElement(_rubix.Badge,{className:'fg-darkbrown bg-orange notification-badge'},'3'));return _react2.default.createElement(_rubix.NavDropdownHover,{noCaret:true,eventKey:6,title:bullhornIcon,id:'notifications-menu',className:'header-menu collapse-left'},_react2.default.createElement(_rubix.MenuItem,{header:true},_react2.default.createElement(_L20n.Entity,{entity:'notificationsMenuHeading'})),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2,className:'avatar-container',collapseRight:true},_react2.default.createElement('div',null,_react2.default.createElement('img',{src:'/imgs/app/avatars/avatar22.png',width:'40',height:'40',alt:'sarah_patchett'})),_react2.default.createElement('div',{className:'text-center'},_react2.default.createElement(_rubix.Label,{bsStyle:'info'},'NEW'))),_react2.default.createElement(_rubix.Col,{xs:10,className:'notification-container',collapseLeft:true,collapseRight:true},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'chat-5'}),_react2.default.createElement('em',null,_react2.default.createElement(_L20n.Entity,{entity:'notificationsTimeFirst'})))),_react2.default.createElement('div',{className:'message-header'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'Sarah Patchett sent you a private message')),_react2.default.createElement('div',{className:'message-details fg-text'},_react2.default.createElement('span',null,"Hey Anna! Sorry for delayed response. I've just finished reading the mail you sent couple of days ago...")))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2,className:'avatar-container',collapseRight:true},_react2.default.createElement('img',{src:'/imgs/app/avatars/avatar21.png',width:'40',height:'40',alt:'john_young'})),_react2.default.createElement(_rubix.Col,{xs:10,className:'notification-container',collapseLeft:true,collapseRight:true},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'user-add'}),_react2.default.createElement('em',null,'2 hours ago'))),_react2.default.createElement('div',{className:'message-header'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'John Young added you as a collaborator')),_react2.default.createElement('div',{className:'message-details fg-text'},_react2.default.createElement('span',null,'to the repository '),_react2.default.createElement('em',{className:'fg-darkblue'},'sketchpixy/rubix')))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2,className:'avatar-container',collapseRight:true},_react2.default.createElement('div',null,_react2.default.createElement('img',{src:'/imgs/app/github.png',width:'40',height:'40',alt:'github'})),_react2.default.createElement('div',{className:'text-center'},_react2.default.createElement(_rubix.Label,{bsStyle:'danger'},'ALERT'))),_react2.default.createElement(_rubix.Col,{xs:10,className:'notification-container',collapseLeft:true,collapseRight:true},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'attention-alt-1'}),_react2.default.createElement('em',null,'5 days ago'))),_react2.default.createElement('div',{className:'message-header'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'Github sent you a notification')),_react2.default.createElement('div',{className:'message-details fg-text'},_react2.default.createElement('span',null,'Your '),_react2.default.createElement('span',{className:'fg-darkblue'},'Large Plan'),_react2.default.createElement('span',null,' will expire in one week. Please update your billing details at our Billing center. Thank you!')))))),_react2.default.createElement(_rubix.MenuItem,{noHover:true},_react2.default.createElement(_rubix.Grid,{style:{marginBottom:-10}},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true},_react2.default.createElement(_rubix.Button,{block:true,className:'notification-footer-btn left-btn'},'MARK ALL READ')),_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true},_react2.default.createElement(_rubix.Button,{block:true,className:'notification-footer-btn right-btn'},'VIEW ALL'))))));};return NotificationsMenu;}(_react2.default.Component);var RssMenu=function(_React$Component10){(0,_inherits3.default)(RssMenu,_React$Component10);function RssMenu(){(0,_classCallCheck3.default)(this,RssMenu);return(0,_possibleConstructorReturn3.default)(this,_React$Component10.apply(this,arguments));}RssMenu.prototype.render=function render(){var rssfeedIcon=_react2.default.createElement('span',null,_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'rss-1'}),_react2.default.createElement(_rubix.Badge,{className:'fg-darkgreen bg-darkgreen40 notification-badge'},'4'));return _react2.default.createElement(_rubix.NavDropdownHover,{noCaret:true,eventKey:7,title:rssfeedIcon,id:'rss-menu',className:'header-menu collapse-left'},_react2.default.createElement(_rubix.MenuItem,{header:true},'Your news feed'),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement(_rubix.Icon,{className:'fg-text',bundle:'fontello',glyph:'star'})),_react2.default.createElement(_rubix.Col,{xs:10,collapseLeft:true,className:'notification-container',style:{width:265}},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement('em',null,'an hour ago'))),_react2.default.createElement('div',{className:'message-header fg-darkgray50'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'@johndoe'),_react2.default.createElement('strong',null,' starred '),_react2.default.createElement('strong',{className:'fg-darkblue'},'joyent/node')),_react2.default.createElement('div',{className:'message-details fg-text'},'evented I/O for v8 javascript'))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement(_rubix.Icon,{className:'fg-text',bundle:'fontello',glyph:'chat-1'})),_react2.default.createElement(_rubix.Col,{xs:10,collapseLeft:true,className:'notification-container',style:{width:265}},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement('em',null,'2 hours ago'))),_react2.default.createElement('div',{className:'message-header fg-darkgray50'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'@jackie'),_react2.default.createElement('strong',null,' commented on issue '),_react2.default.createElement('strong',{className:'fg-darkblue'},'#150')),_react2.default.createElement('div',{className:'message-details fg-text'},"Nice catch! I'll get this fixed soon. Meanwhile..."))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement(_rubix.Icon,{className:'fg-text',bundle:'fontello',glyph:'fork'})),_react2.default.createElement(_rubix.Col,{xs:10,collapseLeft:true,className:'notification-container',style:{width:265}},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement('em',null,'5 hours ago'))),_react2.default.createElement('div',{className:'message-header fg-darkgray50'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'@sketchpixy'),_react2.default.createElement('strong',null,' forked '),_react2.default.createElement('strong',{className:'fg-darkblue'},'facebook/react')),_react2.default.createElement('div',{className:'message-details fg-text'},'to sketchpixy/react'))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement(_rubix.Icon,{className:'fg-text',bundle:'fontello',glyph:'attention-alt-1'})),_react2.default.createElement(_rubix.Col,{xs:10,collapseLeft:true,className:'notification-container',style:{width:265}},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement('em',null,'2 days ago'))),_react2.default.createElement('div',{className:'message-header fg-darkgray50'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'@mario'),_react2.default.createElement('strong',null,' opened issue '),_react2.default.createElement('strong',{className:'fg-darkblue'},'twbs/bootstrap#44')),_react2.default.createElement('div',{className:'message-details fg-text'},'Request: Support RTL version'))))),_react2.default.createElement(_rubix.MenuItem,{header:true},'Your commit activity'),_react2.default.createElement(_rubix.MenuItem,{noHover:true},_react2.default.createElement(CommitChart,null)));};return RssMenu;}(_react2.default.Component);var HeaderNavigation=(_dec=(0,_reactRedux.connect)(function(state){return state;}),(0,_reactRouter.withRouter)(_class7=_dec(_class7=function(_React$Component11){(0,_inherits3.default)(HeaderNavigation,_React$Component11);function HeaderNavigation(){(0,_classCallCheck3.default)(this,HeaderNavigation);return(0,_possibleConstructorReturn3.default)(this,_React$Component11.apply(this,arguments));}HeaderNavigation.prototype.handleSkinSwitch=function handleSkinSwitch(e){e.preventDefault();e.stopPropagation();var vexContent;vex.open({afterOpen:function afterOpen($vexContent){vexContent=$vexContent;return _reactDom2.default.render(_react2.default.createElement(Skins,{id:$vexContent.data().vex.id}),$vexContent.get(0));},afterClose:function afterClose(){_reactDom2.default.unmountComponentAtNode(vexContent.get(0));}});};HeaderNavigation.prototype.handleLogout=function handleLogout(e){// console.log("log out called!");
-	this.props.dispatch(_actions2.default.setLoginStatus('false,'));this.props.router.push('/');};HeaderNavigation.prototype.getPath=function getPath(path){var dir=this.props.location.pathname.search('rtl')!==-1?'rtl':'ltr';path='/'+dir+'/'+path;return path;};HeaderNavigation.prototype.render=function render(){return _react2.default.createElement(_rubix.Nav,{pullRight:true},_react2.default.createElement(_rubix.Nav,{className:'hidden-xs'},_react2.default.createElement(_rubix.NavItem,{divider:true}),_react2.default.createElement(_rubix.NavItem,{eventKey:1,href:'#',className:'hidden-sm',onClick:this.handleSkinSwitch.bind(this)},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-circle',className:'fg-theme',style:{lineHeight:1,fontSize:24,top:2,position:'relative'}})),_react2.default.createElement(_rubix.NavItem,{divider:true}),_react2.default.createElement(FlagMenu,null),_react2.default.createElement(_rubix.NavItem,{divider:true}),_react2.default.createElement(DirectNavItem,{glyph:'user-female',eventKey:3,path:this.getPath.call(this,'social'),className:'small-font',style:{position:'relative',top:2}}),_react2.default.createElement(SettingsMenu,null),_react2.default.createElement(_rubix.NavItem,{divider:true}),_react2.default.createElement(DirectNavItem,{glyph:'mail-3',eventKey:5,path:this.getPath.call(this,'mailbox/inbox')}),_react2.default.createElement(NotificationsMenu,null),_react2.default.createElement(RssMenu,null)),_react2.default.createElement(_rubix.Nav,null,_react2.default.createElement(_rubix.NavItem,{className:'logout',href:'#',onClick:this.handleLogout.bind(this)},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'off-1'}))));};return HeaderNavigation;}(_react2.default.Component))||_class7)||_class7);var Header=function(_React$Component12){(0,_inherits3.default)(Header,_React$Component12);function Header(){(0,_classCallCheck3.default)(this,Header);return(0,_possibleConstructorReturn3.default)(this,_React$Component12.apply(this,arguments));}Header.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,(0,_extends3.default)({id:'navbar'},this.props),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement(_rubix.Navbar,{fixedTop:true,fluid:true,id:'rubix-nav-header'},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:3,visible:'xs'},_react2.default.createElement(_rubix.SidebarBtn,null)),_react2.default.createElement(_rubix.Col,{xs:6,sm:4},_react2.default.createElement(Brand,null)),_react2.default.createElement(_rubix.Col,{xs:3,sm:8,collapseRight:true,className:'text-right'},_react2.default.createElement(HeaderNavigation,null)))))));};return Header;}(_react2.default.Component);exports.default=Header;;var _temp6=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Brand,'Brand','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(DirectNavItem,'DirectNavItem','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(Skins,'Skins','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(CommitChart,'CommitChart','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(LtrRtlLayout,'LtrRtlLayout','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(BodyLayout,'BodyLayout','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(flagMenuItems,'flagMenuItems','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(FlagMenu,'FlagMenu','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(SettingsMenu,'SettingsMenu','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(NotificationsMenu,'NotificationsMenu','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(RssMenu,'RssMenu','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(HeaderNavigation,'HeaderNavigation','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(Header,'Header','/Users/toby/Okey/reptonWeb/src/common/header.js');}();;
+	'use strict';exports.__esModule=true;exports.default=undefined;var _extends2=__webpack_require__(259);var _extends3=_interopRequireDefault(_extends2);var _classCallCheck2=__webpack_require__(177);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(178);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(247);var _inherits3=_interopRequireDefault(_inherits2);var _class,_class2,_temp,_dec,_class7;var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _reactDom=__webpack_require__(272);var _reactDom2=_interopRequireDefault(_reactDom);var _classnames=__webpack_require__(255);var _classnames2=_interopRequireDefault(_classnames);var _reactRedux=__webpack_require__(610);var _reactRouter=__webpack_require__(256);var _L20n=__webpack_require__(434);var _L20n2=_interopRequireDefault(_L20n);var _rubix=__webpack_require__(257);var _actions=__webpack_require__(615);var _actions2=_interopRequireDefault(_actions);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Brand=function(_React$Component){(0,_inherits3.default)(Brand,_React$Component);function Brand(){(0,_classCallCheck3.default)(this,Brand);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Brand.prototype.render=function render(){return _react2.default.createElement(_rubix.Navbar.Header,this.props,_react2.default.createElement(_rubix.Navbar.Brand,{tabIndex:'-1'},_react2.default.createElement('a',{href:'#'},_react2.default.createElement('img',{src:'/imgs/common/reportOnLogo.png',style:{top:-27},alt:'rubix',width:'251',height:'80'}))));};return Brand;}(_react2.default.Component);var DirectNavItem=(0,_reactRouter.withRouter)(_class=function(_React$Component2){(0,_inherits3.default)(DirectNavItem,_React$Component2);function DirectNavItem(){(0,_classCallCheck3.default)(this,DirectNavItem);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}DirectNavItem.prototype.render=function render(){var active=false;var currentLocation=this.props.location.pathname;if(!active&&this.props.path){active=this.props.router.isActive(this.props.path)&&currentLocation==this.props.path;}var classes=(0,_classnames2.default)({'pressed':active},this.props.className);return _react2.default.createElement(_rubix.NavItem,{className:classes,style:this.props.style,href:this.props.path,to:this.props.path,componentClass:_reactRouter.Link},_react2.default.createElement(_rubix.Icon,{bundle:this.props.bundle||'fontello',glyph:this.props.glyph}));};return DirectNavItem;}(_react2.default.Component))||_class;var Skins=(_temp=_class2=function(_React$Component3){(0,_inherits3.default)(Skins,_React$Component3);function Skins(){(0,_classCallCheck3.default)(this,Skins);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}Skins.prototype.switchSkin=function switchSkin(skin,e){e.preventDefault();e.stopPropagation();for(var i=0;i<Skins.skins.length;i++){$('html').removeClass(Skins.skins[i]);}$('html').addClass(skin);vex.close(this.props.id);};Skins.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,{style:{margin:'-2em'}},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12,className:'text-center bg-darkgrayishblue75',style:{marginBottom:25}},_react2.default.createElement('div',{className:'fg-white',style:{fontSize:24,lineHeight:1,padding:'25px 10px'}},'Choose a theme:'))),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'default')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',style:{color:'#E76049'}}))),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'green')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-darkgreen45'}))),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'blue')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-blue'})))),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'purple')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-purple'}))),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'brown')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-brown'}))),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-center'},_react2.default.createElement('a',{href:'#',style:{border:'none'},onClick:this.switchSkin.bind(this,'cyan')},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-stop icon-4x',className:'fg-darkcyan'})))));};return Skins;}(_react2.default.Component),_class2.skins=['default','green','blue','purple','brown','cyan'],_temp);var CommitChart=function(_React$Component4){(0,_inherits3.default)(CommitChart,_React$Component4);function CommitChart(){(0,_classCallCheck3.default)(this,CommitChart);return(0,_possibleConstructorReturn3.default)(this,_React$Component4.apply(this,arguments));}CommitChart.prototype.componentDidMount=function componentDidMount(){var chart=new Rubix('#commit-column-chart',{width:'100%',height:100,hideAxisAndGrid:true,hideLegend:true,tooltip:{color:'#2EB398'},margin:{top:25,bottom:25}});var alerts=chart.column_series({name:'Commits',color:'#2EB398'});alerts.addData([{x:10,y:20},{x:11,y:50},{x:12,y:35},{x:13,y:30},{x:14,y:20},{x:15,y:25},{x:16,y:30},{x:17,y:50},{x:18,y:20},{x:19,y:30},{x:20,y:50},{x:21,y:20},{x:22,y:50},{x:23,y:35},{x:24,y:30},{x:25,y:20},{x:26,y:30}]);$(window).trigger('resize');};CommitChart.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,{style:{marginBottom:-10}},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement('div',{id:'commit-column-chart'}))));};return CommitChart;}(_react2.default.Component);var LtrRtlLayout=function(_React$Component5){(0,_inherits3.default)(LtrRtlLayout,_React$Component5);function LtrRtlLayout(){var _temp2,_this5,_ret;(0,_classCallCheck3.default)(this,LtrRtlLayout);for(var _len=arguments.length,args=Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}return _ret=(_temp2=(_this5=(0,_possibleConstructorReturn3.default)(this,_React$Component5.call.apply(_React$Component5,[this].concat(args))),_this5),_this5.state={ltr:true},_temp2),(0,_possibleConstructorReturn3.default)(_this5,_ret);}LtrRtlLayout.prototype.handleLayoutRadioChange=function handleLayoutRadioChange(e){var dir=e.target.value;var location=window.location.href;if(dir==='ltr'){location=location.replace('rtl',dir);}else{location=location.replace('ltr',dir);}window.location.href=location;};LtrRtlLayout.prototype.componentDidMount=function componentDidMount(){if($('html').attr('dir')==='ltr'){this.setState({ltr:true});}else{this.setState({ltr:false});}};LtrRtlLayout.prototype.render=function render(){var ltr=this.state.ltr;return _react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:6},_react2.default.createElement(_rubix.Radio,{ref:'ltr',value:'ltr',name:'switch-layout',checked:ltr,onChange:this.handleLayoutRadioChange.bind(this)},'LTR')),_react2.default.createElement(_rubix.Col,{xs:6,className:'text-right'},_react2.default.createElement(_rubix.Radio,{ref:'rtl',value:'rtl',name:'switch-layout',checked:!ltr,onChange:this.handleLayoutRadioChange.bind(this)},'RTL'))));};return LtrRtlLayout;}(_react2.default.Component);var BodyLayout=function(_React$Component6){(0,_inherits3.default)(BodyLayout,_React$Component6);function BodyLayout(){var _temp3,_this6,_ret2;(0,_classCallCheck3.default)(this,BodyLayout);for(var _len2=arguments.length,args=Array(_len2),_key2=0;_key2<_len2;_key2++){args[_key2]=arguments[_key2];}return _ret2=(_temp3=(_this6=(0,_possibleConstructorReturn3.default)(this,_React$Component6.call.apply(_React$Component6,[this].concat(args))),_this6),_this6.state={fixedLayout:true},_temp3),(0,_possibleConstructorReturn3.default)(_this6,_ret2);}BodyLayout.prototype.bodyLayoutRadioChange=function bodyLayoutRadioChange(value){if(!value)return;if(value==='fixed-body'){$('html').removeClass('static');localStorage.setItem('bodyLayout','fixed-body');_rubix.Dispatcher.publish('sidebar:reinitialize');this.setState({fixedLayout:true});}else if(value==='static-body'){$('html').addClass('static');localStorage.setItem('bodyLayout','static-body');_rubix.Dispatcher.publish('sidebar:destroy');this.setState({fixedLayout:false});}};BodyLayout.prototype.handleBodyLayoutRadioChange=function handleBodyLayoutRadioChange(e){this.bodyLayoutRadioChange(e.target.value);};BodyLayout.prototype.componentDidMount=function componentDidMount(){this.bodyLayoutRadioChange(localStorage.getItem('bodyLayout'));};BodyLayout.prototype.render=function render(){var fixedLayout=this.state.fixedLayout;return _react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:8},_react2.default.createElement(_rubix.Radio,{ref:'fixed-body',value:'fixed-body',name:'switch-body-layout',checked:fixedLayout,onChange:this.handleBodyLayoutRadioChange.bind(this)},'Fixed (Header + Sidebar)')),_react2.default.createElement(_rubix.Col,{xs:4,className:'text-right'},_react2.default.createElement(_rubix.Radio,{ref:'static-body',value:'static-body',name:'switch-body-layout',checked:!fixedLayout,onChange:this.handleBodyLayoutRadioChange.bind(this)},'Static'))));};return BodyLayout;}(_react2.default.Component);var flagMenuItems=[{name:'English - U.S.',flag:'United-States',lang:'enUS'},{name:'French',flag:'France',lang:'fr'},{name:'Italian',flag:'Italy',lang:'it'},{name:'German',flag:'Germany',lang:'ge'},{name:'Arabic',flag:'Saudi-Arabia',lang:'ar'},{name:'Chinese',flag:'China',lang:'ch'}];var FlagMenu=function(_React$Component7){(0,_inherits3.default)(FlagMenu,_React$Component7);function FlagMenu(){var _temp4,_this7,_ret3;(0,_classCallCheck3.default)(this,FlagMenu);for(var _len3=arguments.length,args=Array(_len3),_key3=0;_key3<_len3;_key3++){args[_key3]=arguments[_key3];}return _ret3=(_temp4=(_this7=(0,_possibleConstructorReturn3.default)(this,_React$Component7.call.apply(_React$Component7,[this].concat(args))),_this7),_this7.state={selectedFlag:'United-States'},_temp4),(0,_possibleConstructorReturn3.default)(_this7,_ret3);}FlagMenu.prototype.handleSelect=function handleSelect(flag){var _this8=this;this.setState({selectedFlag:flag},function(){var locale=flagMenuItems.find(function(item){return item.flag===_this8.state.selectedFlag;}).lang;if(locale==='ar'){$('html').addClass('arabic');}else{$('html').removeClass('arabic');}_L20n2.default.changeLocale(locale);});};FlagMenu.prototype.render=function render(){var _this9=this;var flagIcon=_react2.default.createElement('img',{src:'/imgs/app/flags/flags/flat/32/'+this.state.selectedFlag+'.png',width:'32',height:'32'});var menuItems=flagMenuItems.map(function(_ref,i){var name=_ref.name,flag=_ref.flag,lang=_ref.lang;return _react2.default.createElement(_rubix.MenuItem,{key:name,eventKey:flag,active:_this9.state.selectedFlag===flag},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement('img',{src:'/imgs/app/flags/flags/flat/32/'+flag+'.png',alt:name,width:'32',height:'32'})),_react2.default.createElement(_rubix.Col,{xs:10},_react2.default.createElement(_L20n.Entity,{className:'lang-menu-text',entity:'languageMenu',data:{lang:lang},defaultValue:name})))));});menuItems.unshift(_react2.default.createElement(_rubix.MenuItem,{key:'flag-header',header:true},'Choose a locale'));return _react2.default.createElement(_rubix.NavDropdownHover,{noCaret:true,eventKey:2,title:flagIcon,id:'flag-menu-btn',className:'header-menu',onSelect:this.handleSelect.bind(this)},menuItems);};return FlagMenu;}(_react2.default.Component);var SettingsMenu=function(_React$Component8){(0,_inherits3.default)(SettingsMenu,_React$Component8);function SettingsMenu(){var _temp5,_this10,_ret4;(0,_classCallCheck3.default)(this,SettingsMenu);for(var _len4=arguments.length,args=Array(_len4),_key4=0;_key4<_len4;_key4++){args[_key4]=arguments[_key4];}return _ret4=(_temp5=(_this10=(0,_possibleConstructorReturn3.default)(this,_React$Component8.call.apply(_React$Component8,[this].concat(args))),_this10),_this10.state={fluidLayout:true},_temp5),(0,_possibleConstructorReturn3.default)(_this10,_ret4);}SettingsMenu.prototype.handleViewportChange=function handleViewportChange(eventKey){if(eventKey==='fluid'){localStorage.setItem('settingsMenu','fluid');$('html').removeClass('boxed');this.setState({fluidLayout:true});}else{localStorage.setItem('settingsMenu','boxed');$('html').addClass('boxed');this.setState({fluidLayout:false});}setTimeout(function(){$(window).trigger('resize');},300);};SettingsMenu.prototype.componentDidMount=function componentDidMount(){var item=localStorage.getItem('settingsMenu')||'fluid';localStorage.setItem('settingsMenu',item);this.handleViewportChange(item);};SettingsMenu.prototype.render=function render(){var cogIcon=_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'cog-7',style:{position:'relative',top:2}});var fluidLayout=this.state.fluidLayout;return _react2.default.createElement(_rubix.NavDropdownHover,{noCaret:true,eventKey:4,title:cogIcon,id:'settings-menu',className:'header-menu small-font collapse-left',onSelect:this.handleViewportChange.bind(this)},_react2.default.createElement(_rubix.MenuItem,{eventKey:'dimension',header:true},_react2.default.createElement(_L20n.Entity,{entity:'settingsMenuHeading',defaultValue:'dimension'})),_react2.default.createElement(_rubix.MenuItem,{eventKey:'fluid',active:fluidLayout},_react2.default.createElement(_L20n.Entity,{entity:'settingsMenuFluid',defaultValue:'Fluid'})),_react2.default.createElement(_rubix.MenuItem,{eventKey:'boxed',active:!fluidLayout},_react2.default.createElement(_L20n.Entity,{entity:'settingsMenuBoxed',defaultValue:'Boxed (990px)'})),_react2.default.createElement(_rubix.MenuItem,{eventKey:'layout',header:true},'Layout'),_react2.default.createElement(_rubix.MenuItem,{eventKey:'ltrRtlLayout',noHover:true},_react2.default.createElement(LtrRtlLayout,null)),_react2.default.createElement(_rubix.MenuItem,{eventKey:'bodyLayoutHeading',header:true},'Body Layout'),_react2.default.createElement(_rubix.MenuItem,{eventKey:'bodyLayout',noHover:true},_react2.default.createElement(BodyLayout,null)));};return SettingsMenu;}(_react2.default.Component);var NotificationsMenu=function(_React$Component9){(0,_inherits3.default)(NotificationsMenu,_React$Component9);function NotificationsMenu(){(0,_classCallCheck3.default)(this,NotificationsMenu);return(0,_possibleConstructorReturn3.default)(this,_React$Component9.apply(this,arguments));}NotificationsMenu.prototype.render=function render(){var bullhornIcon=_react2.default.createElement('span',null,_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'bullhorn'}),_react2.default.createElement(_rubix.Badge,{className:'fg-darkbrown bg-orange notification-badge'},'3'));return _react2.default.createElement(_rubix.NavDropdownHover,{noCaret:true,eventKey:6,title:bullhornIcon,id:'notifications-menu',className:'header-menu collapse-left'},_react2.default.createElement(_rubix.MenuItem,{header:true},_react2.default.createElement(_L20n.Entity,{entity:'notificationsMenuHeading'})),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2,className:'avatar-container',collapseRight:true},_react2.default.createElement('div',null,_react2.default.createElement('img',{src:'/imgs/app/avatars/avatar22.png',width:'40',height:'40',alt:'sarah_patchett'})),_react2.default.createElement('div',{className:'text-center'},_react2.default.createElement(_rubix.Label,{bsStyle:'info'},'NEW'))),_react2.default.createElement(_rubix.Col,{xs:10,className:'notification-container',collapseLeft:true,collapseRight:true},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'chat-5'}),_react2.default.createElement('em',null,_react2.default.createElement(_L20n.Entity,{entity:'notificationsTimeFirst'})))),_react2.default.createElement('div',{className:'message-header'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'Sarah Patchett sent you a private message')),_react2.default.createElement('div',{className:'message-details fg-text'},_react2.default.createElement('span',null,"Hey Anna! Sorry for delayed response. I've just finished reading the mail you sent couple of days ago...")))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2,className:'avatar-container',collapseRight:true},_react2.default.createElement('img',{src:'/imgs/app/avatars/avatar21.png',width:'40',height:'40',alt:'john_young'})),_react2.default.createElement(_rubix.Col,{xs:10,className:'notification-container',collapseLeft:true,collapseRight:true},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'user-add'}),_react2.default.createElement('em',null,'2 hours ago'))),_react2.default.createElement('div',{className:'message-header'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'John Young added you as a collaborator')),_react2.default.createElement('div',{className:'message-details fg-text'},_react2.default.createElement('span',null,'to the repository '),_react2.default.createElement('em',{className:'fg-darkblue'},'sketchpixy/rubix')))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2,className:'avatar-container',collapseRight:true},_react2.default.createElement('div',null,_react2.default.createElement('img',{src:'/imgs/app/github.png',width:'40',height:'40',alt:'github'})),_react2.default.createElement('div',{className:'text-center'},_react2.default.createElement(_rubix.Label,{bsStyle:'danger'},'ALERT'))),_react2.default.createElement(_rubix.Col,{xs:10,className:'notification-container',collapseLeft:true,collapseRight:true},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'attention-alt-1'}),_react2.default.createElement('em',null,'5 days ago'))),_react2.default.createElement('div',{className:'message-header'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'Github sent you a notification')),_react2.default.createElement('div',{className:'message-details fg-text'},_react2.default.createElement('span',null,'Your '),_react2.default.createElement('span',{className:'fg-darkblue'},'Large Plan'),_react2.default.createElement('span',null,' will expire in one week. Please update your billing details at our Billing center. Thank you!')))))),_react2.default.createElement(_rubix.MenuItem,{noHover:true},_react2.default.createElement(_rubix.Grid,{style:{marginBottom:-10}},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true},_react2.default.createElement(_rubix.Button,{block:true,className:'notification-footer-btn left-btn'},'MARK ALL READ')),_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true},_react2.default.createElement(_rubix.Button,{block:true,className:'notification-footer-btn right-btn'},'VIEW ALL'))))));};return NotificationsMenu;}(_react2.default.Component);var RssMenu=function(_React$Component10){(0,_inherits3.default)(RssMenu,_React$Component10);function RssMenu(){(0,_classCallCheck3.default)(this,RssMenu);return(0,_possibleConstructorReturn3.default)(this,_React$Component10.apply(this,arguments));}RssMenu.prototype.render=function render(){var rssfeedIcon=_react2.default.createElement('span',null,_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'rss-1'}),_react2.default.createElement(_rubix.Badge,{className:'fg-darkgreen bg-darkgreen40 notification-badge'},'4'));return _react2.default.createElement(_rubix.NavDropdownHover,{noCaret:true,eventKey:7,title:rssfeedIcon,id:'rss-menu',className:'header-menu collapse-left'},_react2.default.createElement(_rubix.MenuItem,{header:true},'Your news feed'),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement(_rubix.Icon,{className:'fg-text',bundle:'fontello',glyph:'star'})),_react2.default.createElement(_rubix.Col,{xs:10,collapseLeft:true,className:'notification-container',style:{width:265}},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement('em',null,'an hour ago'))),_react2.default.createElement('div',{className:'message-header fg-darkgray50'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'@johndoe'),_react2.default.createElement('strong',null,' starred '),_react2.default.createElement('strong',{className:'fg-darkblue'},'joyent/node')),_react2.default.createElement('div',{className:'message-details fg-text'},'evented I/O for v8 javascript'))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement(_rubix.Icon,{className:'fg-text',bundle:'fontello',glyph:'chat-1'})),_react2.default.createElement(_rubix.Col,{xs:10,collapseLeft:true,className:'notification-container',style:{width:265}},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement('em',null,'2 hours ago'))),_react2.default.createElement('div',{className:'message-header fg-darkgray50'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'@jackie'),_react2.default.createElement('strong',null,' commented on issue '),_react2.default.createElement('strong',{className:'fg-darkblue'},'#150')),_react2.default.createElement('div',{className:'message-details fg-text'},"Nice catch! I'll get this fixed soon. Meanwhile..."))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement(_rubix.Icon,{className:'fg-text',bundle:'fontello',glyph:'fork'})),_react2.default.createElement(_rubix.Col,{xs:10,collapseLeft:true,className:'notification-container',style:{width:265}},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement('em',null,'5 hours ago'))),_react2.default.createElement('div',{className:'message-header fg-darkgray50'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'@sketchpixy'),_react2.default.createElement('strong',null,' forked '),_react2.default.createElement('strong',{className:'fg-darkblue'},'facebook/react')),_react2.default.createElement('div',{className:'message-details fg-text'},'to sketchpixy/react'))))),_react2.default.createElement(_rubix.MenuItem,{href:'#'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:2},_react2.default.createElement(_rubix.Icon,{className:'fg-text',bundle:'fontello',glyph:'attention-alt-1'})),_react2.default.createElement(_rubix.Col,{xs:10,collapseLeft:true,className:'notification-container',style:{width:265}},_react2.default.createElement('div',{className:'time'},_react2.default.createElement('strong',{className:'fg-darkgray50'},_react2.default.createElement('em',null,'2 days ago'))),_react2.default.createElement('div',{className:'message-header fg-darkgray50'},_react2.default.createElement('strong',{className:'fg-darkgreen45'},'@mario'),_react2.default.createElement('strong',null,' opened issue '),_react2.default.createElement('strong',{className:'fg-darkblue'},'twbs/bootstrap#44')),_react2.default.createElement('div',{className:'message-details fg-text'},'Request: Support RTL version'))))),_react2.default.createElement(_rubix.MenuItem,{header:true},'Your commit activity'),_react2.default.createElement(_rubix.MenuItem,{noHover:true},_react2.default.createElement(CommitChart,null)));};return RssMenu;}(_react2.default.Component);var HeaderNavigation=(_dec=(0,_reactRedux.connect)(function(state){return state;}),(0,_reactRouter.withRouter)(_class7=_dec(_class7=function(_React$Component11){(0,_inherits3.default)(HeaderNavigation,_React$Component11);function HeaderNavigation(){(0,_classCallCheck3.default)(this,HeaderNavigation);return(0,_possibleConstructorReturn3.default)(this,_React$Component11.apply(this,arguments));}HeaderNavigation.prototype.handleSkinSwitch=function handleSkinSwitch(e){e.preventDefault();e.stopPropagation();var vexContent;vex.open({afterOpen:function afterOpen($vexContent){vexContent=$vexContent;return _reactDom2.default.render(_react2.default.createElement(Skins,{id:$vexContent.data().vex.id}),$vexContent.get(0));},afterClose:function afterClose(){_reactDom2.default.unmountComponentAtNode(vexContent.get(0));}});};HeaderNavigation.prototype.handleLogout=function handleLogout(e){// console.log("log out called!");
+	this.props.dispatch(_actions2.default.setLoginStatus('false,'));this.props.router.push('/');};HeaderNavigation.prototype.getPath=function getPath(path){var dir=this.props.location.pathname.search('rtl')!==-1?'rtl':'ltr';path='/'+dir+'/'+path;return path;};HeaderNavigation.prototype.render=function render(){return _react2.default.createElement(_rubix.Nav,{pullRight:true},_react2.default.createElement(_rubix.Nav,{className:'hidden-xs'}),_react2.default.createElement(_rubix.Nav,null,_react2.default.createElement(_rubix.NavItem,{className:'logout',href:'#',onClick:this.handleLogout.bind(this)},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'off-1'}))));};return HeaderNavigation;}(_react2.default.Component))||_class7)||_class7);var Header=function(_React$Component12){(0,_inherits3.default)(Header,_React$Component12);function Header(){(0,_classCallCheck3.default)(this,Header);return(0,_possibleConstructorReturn3.default)(this,_React$Component12.apply(this,arguments));}Header.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,(0,_extends3.default)({id:'navbar'},this.props),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement(_rubix.Navbar,{fixedTop:true,fluid:true,id:'rubix-nav-header'},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:3,visible:'xs'},_react2.default.createElement(_rubix.SidebarBtn,null)),_react2.default.createElement(_rubix.Col,{xs:6,sm:4},_react2.default.createElement(Brand,null)),_react2.default.createElement(_rubix.Col,{xs:3,sm:8,collapseRight:true,className:'text-right'},_react2.default.createElement(HeaderNavigation,null)))))));};return Header;}(_react2.default.Component);exports.default=Header;;var _temp6=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Brand,'Brand','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(DirectNavItem,'DirectNavItem','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(Skins,'Skins','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(CommitChart,'CommitChart','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(LtrRtlLayout,'LtrRtlLayout','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(BodyLayout,'BodyLayout','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(flagMenuItems,'flagMenuItems','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(FlagMenu,'FlagMenu','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(SettingsMenu,'SettingsMenu','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(NotificationsMenu,'NotificationsMenu','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(RssMenu,'RssMenu','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(HeaderNavigation,'HeaderNavigation','/Users/toby/Okey/reptonWeb/src/common/header.js');__REACT_HOT_LOADER__.register(Header,'Header','/Users/toby/Okey/reptonWeb/src/common/header.js');}();;
 
 /***/ },
 /* 639 */
@@ -50309,11 +50310,12 @@ require('source-map-support').install({environment: 'node'});
 /* 640 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';exports.__esModule=true;exports.default=undefined;var _extends2=__webpack_require__(259);var _extends3=_interopRequireDefault(_extends2);var _classCallCheck2=__webpack_require__(177);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(178);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(247);var _inherits3=_interopRequireDefault(_inherits2);var _class;var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _reactRouter=__webpack_require__(256);var _classnames=__webpack_require__(255);var _classnames2=_interopRequireDefault(_classnames);var _rubix=__webpack_require__(257);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Hero=function(_React$Component){(0,_inherits3.default)(Hero,_React$Component);function Hero(){(0,_classCallCheck3.default)(this,Hero);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Hero.prototype.render=function render(){return _react2.default.createElement('div',(0,_extends3.default)({},this.props,{className:(0,_classnames2.default)(this.props.className,'homepage-hero')}),_react2.default.createElement(_rubix.Grid,{fixed:true},this.props.children));};return Hero;}(_react2.default.Component);var HeroHeader=function(_React$Component2){(0,_inherits3.default)(HeroHeader,_React$Component2);function HeroHeader(){(0,_classCallCheck3.default)(this,HeroHeader);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}HeroHeader.prototype.render=function render(){return _react2.default.createElement('div',(0,_extends3.default)({},this.props,{className:(0,_classnames2.default)(this.props.className,'homepage-hero-header')}),this.props.children);};return HeroHeader;}(_react2.default.Component);var HeroHeader2=function(_React$Component3){(0,_inherits3.default)(HeroHeader2,_React$Component3);function HeroHeader2(){(0,_classCallCheck3.default)(this,HeroHeader2);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}HeroHeader2.prototype.render=function render(){return _react2.default.createElement('div',(0,_extends3.default)({},this.props,{className:(0,_classnames2.default)(this.props.className,'homepage-hero-header2')}),this.props.children);};return HeroHeader2;}(_react2.default.Component);var Homepage=(0,_reactRouter.withRouter)(_class=function(_React$Component4){(0,_inherits3.default)(Homepage,_React$Component4);function Homepage(){(0,_classCallCheck3.default)(this,Homepage);return(0,_possibleConstructorReturn3.default)(this,_React$Component4.apply(this,arguments));}Homepage.prototype.handleNavigation=function handleNavigation(){this.props.router.push('/ltr/dashboard');};// componentDidMount() {
+	'use strict';exports.__esModule=true;exports.default=undefined;var _extends2=__webpack_require__(259);var _extends3=_interopRequireDefault(_extends2);var _classCallCheck2=__webpack_require__(177);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(178);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(247);var _inherits3=_interopRequireDefault(_inherits2);var _class;var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _reactRouter=__webpack_require__(256);var _classnames=__webpack_require__(255);var _classnames2=_interopRequireDefault(_classnames);var _rubix=__webpack_require__(257);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Hero=function(_React$Component){(0,_inherits3.default)(Hero,_React$Component);function Hero(){(0,_classCallCheck3.default)(this,Hero);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Hero.prototype.render=function render(){return _react2.default.createElement('div',(0,_extends3.default)({},this.props,{className:(0,_classnames2.default)(this.props.className,'homepage-hero')}),_react2.default.createElement(_rubix.Grid,{fixed:true},this.props.children));};return Hero;}(_react2.default.Component);var HeroHeader=function(_React$Component2){(0,_inherits3.default)(HeroHeader,_React$Component2);function HeroHeader(){(0,_classCallCheck3.default)(this,HeroHeader);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}HeroHeader.prototype.render=function render(){return _react2.default.createElement('div',(0,_extends3.default)({},this.props,{className:(0,_classnames2.default)(this.props.className,'homepage-hero-header')}),this.props.children);};return HeroHeader;}(_react2.default.Component);var HeroHeader2=function(_React$Component3){(0,_inherits3.default)(HeroHeader2,_React$Component3);function HeroHeader2(){(0,_classCallCheck3.default)(this,HeroHeader2);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}HeroHeader2.prototype.render=function render(){return _react2.default.createElement('div',(0,_extends3.default)({},this.props,{className:(0,_classnames2.default)(this.props.className,'homepage-hero-header2')}),this.props.children);};return HeroHeader2;}(_react2.default.Component);var Homepage=(0,_reactRouter.withRouter)(_class=function(_React$Component4){(0,_inherits3.default)(Homepage,_React$Component4);function Homepage(){(0,_classCallCheck3.default)(this,Homepage);return(0,_possibleConstructorReturn3.default)(this,_React$Component4.apply(this,arguments));}Homepage.prototype.handleNavigation=function handleNavigation(){this.props.router.push('/ltr/account/AddAccount');// this.props.router.push('/ltr/dashboard');
+	};// componentDidMount() {
 	//   console.log("just mounted app. Lets see how it is...")
 	//   this.props.router.push('/ltr/dashboard');
 	// }
-	Homepage.prototype.render=function render(){return _react2.default.createElement('div',{id:'homepage-container'},_react2.default.createElement(_rubix.Button,{bsStyle:'deepred',id:'demo-btn',onClick:this.handleNavigation.bind(this)},'View Demo'),_react2.default.createElement('div',null,_react2.default.createElement(Hero,{className:'text-center hidden-xs',style:{height:475,backgroundImage:'url(/imgs/app/homepage/background.png)',backgroundRepeat:'no-repeat',backgroundSize:'cover',overflow:'hidden'}},_react2.default.createElement('img',{src:'/imgs/app/homepage/simplepowerful.png',style:{marginTop:5}})),_react2.default.createElement(Hero,{className:'text-center visible-xs',style:{height:270,backgroundImage:'url(/imgs/app/homepage/background.png)',backgroundRepeat:'no-repeat',backgroundSize:'cover',overflow:'hidden'}},_react2.default.createElement('img',{width:'270',className:'visible-xs',src:'/imgs/app/homepage/simplepowerful.png',style:{margin:'auto',marginTop:30}}))),_react2.default.createElement(Hero,null,_react2.default.createElement(HeroHeader,null,_react2.default.createElement('span',null,"Don't wait for Web Components "),_react2.default.createElement('sup',null,_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'NEW!'))),_react2.default.createElement(HeroHeader2,null,"Embrace React ",_react2.default.createElement('sup',null,_react2.default.createElement('small',null,_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'v15.3.1')))),_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{sm:7,collapseLeft:true,collapseRight:true},_react2.default.createElement('p',{style:{marginTop:60}},'Rubix is built on top of React which uses a Virtual DOM implementation for ultra-high performance and semantic markup coupled with CommonJS for composable Components.'),_react2.default.createElement('p',null,'The result: ',_react2.default.createElement('strong',null,'clean and elegant code.'))),_react2.default.createElement(_rubix.Col,{sm:5,collapseLeft:true,collapseRight:true},_react2.default.createElement('div',{className:'hidden-xs text-right'},_react2.default.createElement('img',{src:'/imgs/app/homepage/reactcode.png'})),_react2.default.createElement('div',{className:'visible-xs text-center'},_react2.default.createElement('img',{width:'250',src:'/imgs/app/homepage/reactcode.png'})))))),_react2.default.createElement(Hero,null,_react2.default.createElement(HeroHeader2,null,_react2.default.createElement('span',null,"Bootstrap on Steroids "),_react2.default.createElement('sup',null,_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'NEW!'))),_react2.default.createElement('div',{className:'text-center',style:{marginTop:25,marginBottom:25}},_react2.default.createElement('div',{className:'hidden-xs'},_react2.default.createElement('img',{src:'/imgs/app/homepage/bootstrapreact.png'})),_react2.default.createElement('div',{className:'visible-xs'},_react2.default.createElement('img',{width:'250',src:'/imgs/app/homepage/bootstrapreact.png'}))),_react2.default.createElement('p',{className:'text-center'},'Rubix implements custom React Components on top of the popular react-bootstrap project enabling you to write shorter, semantic markup. Say Goodbye to unwieldy classnames and spaghetti code!')),_react2.default.createElement(Hero,{style:{position:'relative',zIndex:2}},_react2.default.createElement(HeroHeader,null,_react2.default.createElement('span',null,"Multiple Language + Framework Integrations "),_react2.default.createElement('sup',null,_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'NEW!'))),_react2.default.createElement('div',{className:'text-center visible-xs',style:{marginTop:50,marginBottom:50}},_react2.default.createElement('img',{width:'100%',src:'/imgs/app/homepage/rubix-implementations.png'})),_react2.default.createElement('p',{className:'text-center',style:{marginTop:25}},"Rubix comes integrated with starter kits for various backends including:",' ',_react2.default.createElement('strong',null,_react2.default.createElement('em',null,_react2.default.createElement('small',null,'NodeJS'))),', ',_react2.default.createElement('strong',null,_react2.default.createElement('em',null,_react2.default.createElement('small',null,'Redux + GraphQL'))),', ',_react2.default.createElement('strong',null,_react2.default.createElement('em',null,_react2.default.createElement('small',null,'Relay + GraphQL'))),', ',_react2.default.createElement('strong',null,_react2.default.createElement('em',null,_react2.default.createElement('small',null,'Ruby on Rails'))),', ',_react2.default.createElement('strong',null,_react2.default.createElement('em',null,_react2.default.createElement('small',null,'Laravel'))),' and ',_react2.default.createElement('strong',null,_react2.default.createElement('em',null,_react2.default.createElement('small',null,'Meteor'))),'.'),_react2.default.createElement('p',{className:'text-center hidden-xs'},_react2.default.createElement('small',null,_react2.default.createElement('em',null,'The complete list of features for each integration is detailed below:'))),_react2.default.createElement('hr',{className:'hidden-xs'}),_react2.default.createElement('div',{className:'text-center hidden-xs'},_react2.default.createElement(_rubix.Tab.Container,{id:'integration-description',defaultActiveKey:'redux'},_react2.default.createElement(_rubix.Row,{className:'clearfix'},_react2.default.createElement(_rubix.Col,{sm:12},_react2.default.createElement(_rubix.Nav,{bsStyle:'pills'},_react2.default.createElement(_rubix.NavItem,{eventKey:'redux'},_react2.default.createElement('img',{src:'/imgs/app/homepage/redux.png',alt:'redux'})),_react2.default.createElement(_rubix.NavItem,{eventKey:'relay'},_react2.default.createElement('img',{src:'/imgs/app/homepage/relay.png',alt:'relay'})),_react2.default.createElement(_rubix.NavItem,{eventKey:'graphql'},_react2.default.createElement('img',{src:'/imgs/app/homepage/graphql.png',alt:'graphql'})),_react2.default.createElement(_rubix.NavItem,{eventKey:'laravel'},_react2.default.createElement('img',{src:'/imgs/app/homepage/laravel.png',alt:'laravel'})),_react2.default.createElement(_rubix.NavItem,{eventKey:'rails'},_react2.default.createElement('img',{src:'/imgs/app/homepage/rails.png',alt:'rails'})),_react2.default.createElement(_rubix.NavItem,{eventKey:'meteor'},_react2.default.createElement('img',{src:'/imgs/app/homepage/meteor.png',alt:'meteor'})),_react2.default.createElement(_rubix.NavItem,{eventKey:'nodejs'},_react2.default.createElement('img',{src:'/imgs/app/homepage/nodejs.png',alt:'nodejs'}))),_react2.default.createElement(_rubix.Tab.Content,{animation:false},_react2.default.createElement(_rubix.Tab.Pane,{eventKey:'redux'},_react2.default.createElement('ul',null,_react2.default.createElement('li',null,'Integrated with ',_react2.default.createElement('strong',null,'GraphQL'),'.'),_react2.default.createElement('li',null,'Integrates with ',_react2.default.createElement('strong',null,'Chrome Redux DevTools'),'.'),_react2.default.createElement('li',null,'Provides a ',_react2.default.createElement('strong',null,'GraphiQL in-browser IDE'),' for interactively exploring GraphQL schemas.'),_react2.default.createElement('li',null,'Integrated with ',_react2.default.createElement('strong',null,'redux'),', ',_react2.default.createElement('strong',null,'redux-fetch-data'),', ',_react2.default.createElement('strong',null,'react-router'),' and ',_react2.default.createElement('strong',null,'react-router-redux'),'.'),_react2.default.createElement('li',null,_react2.default.createElement('strong',null,'Isomorphic/Universal:'),' Server-side rendering enabled.'),_react2.default.createElement('li',null,'An example ',_react2.default.createElement('strong',null,'Todo List'),' app demonstrating the complete integration. Includes a tutorial which re-creates the entire example app.'),_react2.default.createElement('li',null,'Deployment guides for ',_react2.default.createElement('strong',null,'Heroku + mLab'),' and ',_react2.default.createElement('strong',null,'DigitalOcean'),'.'))),_react2.default.createElement(_rubix.Tab.Pane,{eventKey:'relay'},_react2.default.createElement('ul',null,_react2.default.createElement('li',null,'Integrated with ',_react2.default.createElement('strong',null,'GraphQL'),'.'),_react2.default.createElement('li',null,'Provides a ',_react2.default.createElement('strong',null,'GraphiQL in-browser IDE'),' for interactively exploring GraphQL schemas.'),_react2.default.createElement('li',null,'Integrated with ',_react2.default.createElement('strong',null,'isomorphic-relay'),', ',_react2.default.createElement('strong',null,'isomorphic-relay-router'),', ',_react2.default.createElement('strong',null,'react-relay'),' and ',_react2.default.createElement('strong',null,'react-router'),'.'),_react2.default.createElement('li',null,_react2.default.createElement('strong',null,'Isomorphic/Universal:'),' Server-side rendering enabled.'),_react2.default.createElement('li',null,'An example ',_react2.default.createElement('strong',null,'Todo List'),' app demonstrating the complete integration. Includes a tutorial which re-creates the entire example app.'),_react2.default.createElement('li',null,'Deployment guides for ',_react2.default.createElement('strong',null,'Heroku + mLab'),' and ',_react2.default.createElement('strong',null,'DigitalOcean'),'.'))),_react2.default.createElement(_rubix.Tab.Pane,{eventKey:'graphql'},_react2.default.createElement('ul',null,_react2.default.createElement('li',null,'Integrates with both ',_react2.default.createElement('strong',null,'Relay'),' and ',_react2.default.createElement('strong',null,'Redux'),'.'),_react2.default.createElement('li',null,'Includes a ',_react2.default.createElement('strong',null,'GraphiQL in-browser IDE'),' for interactively exploring GraphQL schemas.'))),_react2.default.createElement(_rubix.Tab.Pane,{eventKey:'laravel'},_react2.default.createElement('ul',null,_react2.default.createElement('li',null,'Integrates with ',_react2.default.createElement('strong',null,'Laravel 5.1 LTS'),'.'),_react2.default.createElement('li',null,'Managed using ',_react2.default.createElement('strong',null,'Homestead'),' to provide same virtual environment for all platforms.'),_react2.default.createElement('li',null,_react2.default.createElement('strong',null,'Isomorphic/Universal:'),' Server-side rendering enabled. Makes use of ',_react2.default.createElement('strong',null,_react2.default.createElement('em',null,'react-php-v8js')),' for compiling React components server-side.'),_react2.default.createElement('li',null,'An example ',_react2.default.createElement('strong',null,'Todo List'),' app demonstrating the complete integration. Includes a tutorial which re-creates the entire example app.'),_react2.default.createElement('li',null,'Complete Deployment guide for pushing the entire app to ',_react2.default.createElement('strong',null,'Forge'),'.'))),_react2.default.createElement(_rubix.Tab.Pane,{eventKey:'rails'},_react2.default.createElement('ul',null,_react2.default.createElement('li',null,'Integrates with ',_react2.default.createElement('strong',null,'Rails 5'),'.'),_react2.default.createElement('li',null,_react2.default.createElement('strong',null,'Isomorphic/Universal:'),' Server-side rendering enabled.'),_react2.default.createElement('li',null,'An example ',_react2.default.createElement('strong',null,'Todo List'),' app demonstrating the complete integration. Includes a tutorial which re-creates the entire example app.'),_react2.default.createElement('li',null,'Deployment guides for ',_react2.default.createElement('strong',null,'Heroku'),'.'))),_react2.default.createElement(_rubix.Tab.Pane,{eventKey:'meteor'},_react2.default.createElement('ul',null,_react2.default.createElement('li',null,'Integrates with ',_react2.default.createElement('strong',null,'Meteor 1.4'),'.'),_react2.default.createElement('li',null,_react2.default.createElement('strong',null,'Isomorphic/Universal:'),' Server-side rendering enabled.'),_react2.default.createElement('li',null,'An example ',_react2.default.createElement('strong',null,'Todo List'),' app demonstrating the complete integration. Includes a tutorial which re-creates the entire example app.'),_react2.default.createElement('li',null,'Deployment guides for ',_react2.default.createElement('strong',null,'Galaxy + mLab'),'.'))),_react2.default.createElement(_rubix.Tab.Pane,{eventKey:'nodejs'},_react2.default.createElement('ul',null,_react2.default.createElement('li',null,_react2.default.createElement('strong',null,'Isomorphic/Universal:'),' Server-side rendering enabled.'),_react2.default.createElement('li',null,'Ability to create ',_react2.default.createElement('strong',null,'distributables'),' for integrations not provided.'))))))))),_react2.default.createElement(Hero,{style:{position:'relative',zIndex:2}},_react2.default.createElement(HeroHeader,null,_react2.default.createElement('span',null,"The Asset Pipeline "),_react2.default.createElement('sup',null,_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'NEW!'))),_react2.default.createElement(HeroHeader2,null,"NPM, Webpack and Go!"),_react2.default.createElement('div',{className:'text-center',style:{marginTop:25,marginBottom:25}},_react2.default.createElement('div',{className:'hidden-xs'},_react2.default.createElement('img',{src:'/imgs/app/homepage/assetpipeline.png'})),_react2.default.createElement('div',{className:'visible-xs'},_react2.default.createElement('img',{width:'250',src:'/imgs/app/homepage/assetpipeline.png'}))),_react2.default.createElement('p',{className:'text-center'},"The new architecture in Rubix 4.0, removes the complexity of previous versions and implements a better and simpler asset pipeline using NPM scripts. It uses Webpack to transpile React code, compile SASS files, compile fonts and even provide RTL support by flipping stylesheets."),_react2.default.createElement('p',{className:'text-center'},"Rubix uses Babel for Javascript transformations. It ships with a set of ES6/ES7 syntax transformers. These allow you to use new ES6/ES7 syntax, right now, without waiting for browser support.")),_react2.default.createElement(Hero,{style:{position:'relative',zIndex:2}},_react2.default.createElement(HeroHeader,null,_react2.default.createElement('span',null,"Modular and Distributable "),_react2.default.createElement('sup',null,_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'NEW!'))),_react2.default.createElement('div',{className:'text-center',style:{marginTop:50,marginBottom:50}},_react2.default.createElement('div',{className:'logo-container',id:'npm-logo'},_react2.default.createElement('svg',{viewBox:'0 0 18 7',style:{width:200}},_react2.default.createElement('path',{fill:'#CB3837',d:'M0,0v6h5v1h4v-1h9v-6'}),_react2.default.createElement('path',{fill:'#FFF',d:'M1,1v4h2v-3h1v3h1v-4h1v5h2v-4h1v2h-1v1h2v-4h1v4h2v-3h1v3h1v-3h1v3h1v-4'})))),_react2.default.createElement('p',{className:'text-center',style:{marginTop:25}},'Already have a ',_react2.default.createElement('strong',null,'existing React project'),' and not willing to make the transition to our starter-kits? No worries! We are now providing Rubix as a module which you can ',_react2.default.createElement('strong',null,'directly import'),' into your existing projects.'),_react2.default.createElement('p',{className:'text-center',style:{marginTop:25}},'Rubix 4.0 allows you to create static sites using a feature called ',_react2.default.createElement('strong',null,'distributables'),'. These distributables can be deployed directly to any static server (e.g. Apache2 / Nginx etc).')),_react2.default.createElement(Hero,null,_react2.default.createElement(HeroHeader2,null,"Rubix Charts"),_react2.default.createElement('div',{className:'text-center',style:{marginTop:25,marginBottom:25}},_react2.default.createElement('div',{className:'hidden-xs'},_react2.default.createElement('img',{src:'/imgs/app/homepage/rubixcharts.png'})),_react2.default.createElement('div',{className:'visible-xs'},_react2.default.createElement('img',{width:'250',src:'/imgs/app/homepage/rubixcharts.png'}))),_react2.default.createElement('p',{className:'text-center'},'Rubix Charts is an aesthetically beautiful, hand-crafted charting library created exclusively for Rubix Admin app. We used the awesome D3.JS library to write all the charting components (Line, Area, Stacked, Bar, Column, Pie and Donut) that power Rubix Charts.')),_react2.default.createElement(Hero,null,_react2.default.createElement(HeroHeader,null,"Internationalization and Localization"),_react2.default.createElement(HeroHeader2,null,"Mozilla L20n.js"),_react2.default.createElement('div',{className:'text-center',style:{marginTop:25,marginBottom:25}},_react2.default.createElement('div',{className:'hidden-xs'},_react2.default.createElement('img',{src:'/imgs/app/homepage/mozflags.png'})),_react2.default.createElement('div',{className:'visible-xs'},_react2.default.createElement('img',{width:'250',src:'/imgs/app/homepage/mozflags.png'}))),_react2.default.createElement('p',{className:'text-center'},"Mozilla L20n is a developer friendly framework that places languages in the localizer's hand to create better translations. "),_react2.default.createElement('p',{className:'text-center'},"It removes the need for developers to thoroughly understand the specifics of a natural language and provides an opportunity for localizers to create better translations. Rubix ships with custom React component bindings for the framework.")),_react2.default.createElement(Hero,{style:{position:'relative',zIndex:2}},_react2.default.createElement(HeroHeader,null,_react2.default.createElement('span',null,"Universal Javascript "),_react2.default.createElement('sup',null,_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'NEW!'))),_react2.default.createElement(HeroHeader2,null,"Render client code on the server!"),_react2.default.createElement('div',{className:'text-center',style:{marginTop:25,marginBottom:25}},_react2.default.createElement('div',{className:'hidden-xs'},_react2.default.createElement('img',{src:'/imgs/app/homepage/isomorphic.png'})),_react2.default.createElement('div',{className:'visible-xs'},_react2.default.createElement('img',{width:'250',src:'/imgs/app/homepage/isomorphic.png'}))),_react2.default.createElement('p',{className:'text-center'},"Rubix uses React-Router to provide routing client side and reuses the same routing logic for rendering compiled HTML from the server making your app SEO friendly.")),_react2.default.createElement(Hero,null,_react2.default.createElement(HeroHeader,null,"Create complex layouts easily"),_react2.default.createElement(HeroHeader2,null,"Panels"),_react2.default.createElement('div',{className:'text-center',style:{marginTop:25,marginBottom:25}},_react2.default.createElement('div',{className:'hidden-xs'},_react2.default.createElement('img',{src:'/imgs/app/homepage/panels.png'})),_react2.default.createElement('div',{className:'visible-xs'},_react2.default.createElement('img',{width:'250',src:'/imgs/app/homepage/panels.png'}))),_react2.default.createElement('p',{className:'text-center'},"Rubix Panels empowers developers to create complex layouts in addition to the awesome Grid provided by Twitter Bootstrap. Pretty much every example page showcased in the demo makes use of Panels for layout.")),_react2.default.createElement(Hero,{style:{position:'relative',zIndex:2}},_react2.default.createElement(HeroHeader,null,_react2.default.createElement('span',null,"React Hot Loader v3.0 "),_react2.default.createElement('sup',null,_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'NEW!'))),_react2.default.createElement(HeroHeader2,null,"Time-saving synchronised browser testing!"),_react2.default.createElement('div',{className:'text-center',style:{marginTop:25,marginBottom:25}},_react2.default.createElement('video',{loop:true,autoPlay:true,width:'100%'},_react2.default.createElement('source',{src:'/video/app/homepage/livereload.mp4',type:'video/mp4'}),_react2.default.createElement('source',{src:'/video/app/homepage/livereload.ogv',type:'video/ogg'}),'Your browser does not support the video tag.')),_react2.default.createElement('p',{className:'text-center'},"When you’re making responsive websites, there’s a lot of tweaking and testing to do. React Hot Loader makes your workflow faster by ",_react2.default.createElement('strong',null,'hot-reloading code as soon as a change is made.')," Hot reloading is enabled for SASS files, Image files, Locale files and WebFonts.")),_react2.default.createElement(Hero,{style:{position:'relative',zIndex:2}},_react2.default.createElement(HeroHeader,null,_react2.default.createElement('span',null,"Advanced Theming and Customizations "),_react2.default.createElement('sup',null,_react2.default.createElement(_rubix.Label,{className:'bg-deepred fg-white'},'NEW!'))),_react2.default.createElement(HeroHeader2,null,_react2.default.createElement('small',null,'Using SASS mixins!')),_react2.default.createElement('div',{className:'text-center',style:{marginTop:25,marginBottom:25}},_react2.default.createElement('div',{className:'hidden-xs'},_react2.default.createElement('img',{src:'/imgs/app/homepage/themes.png'})),_react2.default.createElement('div',{className:'visible-xs'},_react2.default.createElement('img',{width:'250',src:'/imgs/app/homepage/themes.png'}))),_react2.default.createElement('p',{className:'text-center'},"We provide SASS mixins to customize individual UI elements or even the entire theme!")),_react2.default.createElement('div',null,_react2.default.createElement(Hero,{className:'text-center',style:{height:215,backgroundImage:'url(/imgs/app/homepage/background.png)',backgroundRepeat:'no-repeat',backgroundSize:'cover',overflow:'hidden',backgroundPosition:'0% 100%'}},_react2.default.createElement('h1',{className:'fg-white',style:{marginTop:0,marginBottom:25,fontWeight:100}},'So what are you waiting for?'),_react2.default.createElement(_rubix.Button,{lg:true,outlined:true,inverse:true,retainBackground:true,bsStyle:'red',onClick:this.handleNavigation.bind(this)},'Click here to View Demo'))));};return Homepage;}(_react2.default.Component))||_class;exports.default=Homepage;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Hero,'Hero','/Users/toby/Okey/reptonWeb/src/routes/Homepage.js');__REACT_HOT_LOADER__.register(HeroHeader,'HeroHeader','/Users/toby/Okey/reptonWeb/src/routes/Homepage.js');__REACT_HOT_LOADER__.register(HeroHeader2,'HeroHeader2','/Users/toby/Okey/reptonWeb/src/routes/Homepage.js');__REACT_HOT_LOADER__.register(Homepage,'Homepage','/Users/toby/Okey/reptonWeb/src/routes/Homepage.js');}();;
+	Homepage.prototype.render=function render(){return _react2.default.createElement('div',{id:'homepage-container'},_react2.default.createElement(_rubix.Button,{bsStyle:'green',id:'demo-btn',onClick:this.handleNavigation.bind(this)},'Admin Panel'),_react2.default.createElement('div',null,_react2.default.createElement(Hero,{className:'text-center hidden-xs',style:{height:475,backgroundImage:'url(/imgs/app/homepage/background.png)',backgroundRepeat:'no-repeat',backgroundSize:'cover',overflow:'hidden'}},_react2.default.createElement('img',{src:'/imgs/app/homepage/simplepowerful.png',style:{marginTop:5}})),_react2.default.createElement(Hero,{className:'text-center visible-xs',style:{height:270,backgroundImage:'url(/imgs/app/homepage/background.png)',backgroundRepeat:'no-repeat',backgroundSize:'cover',overflow:'hidden'}},_react2.default.createElement('img',{width:'270',className:'visible-xs',src:'/imgs/app/homepage/simplepowerful.png',style:{margin:'auto',marginTop:30}}))),_react2.default.createElement(Hero,null,_react2.default.createElement(HeroHeader,null,_react2.default.createElement('span',null,"Don't wait for your field reps to email you"),_react2.default.createElement('sup',null,_react2.default.createElement(_rubix.Label,{className:'bg-green fg-white'},'NEW!'))),_react2.default.createElement(HeroHeader2,null,"Embrace ReportON ",_react2.default.createElement('sup',null,_react2.default.createElement('small',null,_react2.default.createElement(_rubix.Label,{className:'bg-green fg-white'},'v1.0.1')))),_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{sm:7,collapseLeft:true,collapseRight:true},_react2.default.createElement('p',{style:{marginTop:60}},'ReportOn is built ontop of the latest frameworks released by Facebook and Twitter. Using state of the art design experience methods, ReportON brings ultra-high performance to connect your office with the field.'),_react2.default.createElement('p',null,'The result: ',_react2.default.createElement('strong',null,'faster and more efficient reporting.'))),_react2.default.createElement(_rubix.Col,{sm:5,collapseLeft:true,collapseRight:true},_react2.default.createElement('div',{className:'hidden-xs text-right'},_react2.default.createElement('img',{src:'/imgs/app/homepage/reactcode.png'})),_react2.default.createElement('div',{className:'visible-xs text-center'},_react2.default.createElement('img',{width:'250',src:'/imgs/app/homepage/reactcode.png'})))))),_react2.default.createElement('div',null,_react2.default.createElement(Hero,{className:'text-center',style:{height:215,backgroundImage:'url(/imgs/app/homepage/background.png)',backgroundRepeat:'no-repeat',backgroundSize:'cover',overflow:'hidden',backgroundPosition:'0% 100%'}},_react2.default.createElement('h1',{className:'fg-white',style:{marginTop:0,marginBottom:25,fontWeight:100}},'So what are you waiting for?'),_react2.default.createElement(_rubix.Button,{lg:true,outlined:true,inverse:true,retainBackground:true,bsStyle:'green',onClick:this.handleNavigation.bind(this)},'Click here to Log in'))));};return Homepage;}(_react2.default.Component))||_class;exports.default=Homepage;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Hero,'Hero','/Users/toby/Okey/reptonWeb/src/routes/Homepage.js');__REACT_HOT_LOADER__.register(HeroHeader,'HeroHeader','/Users/toby/Okey/reptonWeb/src/routes/Homepage.js');__REACT_HOT_LOADER__.register(HeroHeader2,'HeroHeader2','/Users/toby/Okey/reptonWeb/src/routes/Homepage.js');__REACT_HOT_LOADER__.register(Homepage,'Homepage','/Users/toby/Okey/reptonWeb/src/routes/Homepage.js');}();;
 
 /***/ },
 /* 641 */
@@ -50974,8 +50976,8 @@ require('source-map-support').install({environment: 'node'});
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(177);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(178);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(247);var _inherits3=_interopRequireDefault(_inherits2);var _dec,_class;// import { push } from 'react-router';
-	var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _classnames=__webpack_require__(255);var _classnames2=_interopRequireDefault(_classnames);var _reactRouter=__webpack_require__(256);var _rubix=__webpack_require__(257);var _reactRedux=__webpack_require__(610);var _actions=__webpack_require__(615);var _actions2=_interopRequireDefault(_actions);var _reactLoadingOverlay=__webpack_require__(702);var _reactLoadingOverlay2=_interopRequireDefault(_reactLoadingOverlay);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Login=(_dec=(0,_reactRedux.connect)(function(state){return state;}),(0,_reactRouter.withRouter)(_class=_dec(_class=function(_React$Component){(0,_inherits3.default)(Login,_React$Component);Login.prototype.back=function back(e){console.log(';back?!@?!?@');e.preventDefault();e.stopPropagation();var userScreen=this;this.setState({loading:true});this.props.dispatch(_actions2.default.fetchLogin({username:this.state.email,password:this.state.password})).then(function(){console.log("something just fetched login??!?!");var loginStatus=userScreen.props.loginStatus||{};var isLoggedIn=loginStatus.isLoggedIn;if(isLoggedIn){var loginRedir=loginStatus.loginRedir||'/ltr/dashboard';userScreen.props.dispatch(_actions2.default.fetchData('accounts')).then(function(){userScreen.setState({loading:false});console.log("pushing to loginREdix "+loginRedir);userScreen.props.router.push(loginRedir);});}else{userScreen.setState({loading:false});}});// 
-	};function Login(props){(0,_classCallCheck3.default)(this,Login);var _this=(0,_possibleConstructorReturn3.default)(this,_React$Component.call(this,props));_this.state={loading:false};return _this;}Login.prototype.componentDidMount=function componentDidMount(){$('html').addClass('authentication');};Login.prototype.componentWillUnmount=function componentWillUnmount(){$('html').removeClass('authentication');};Login.prototype.getPath=function getPath(path){var dir=this.props.location.pathname.search('rtl')!==-1?'rtl':'ltr';path='/'+dir+'/'+path;return path;};Login.prototype.handleEmailChange=function handleEmailChange(e){this.setState({email:e.target.value});};Login.prototype.handlePasswordChange=function handlePasswordChange(e){this.setState({password:e.target.value});};Login.prototype.getValidationState=function getValidationState(){var error=this.props.loginStatus.loginError;return error?'error':null;};Login.prototype.render=function render(){var _this2=this;return _react2.default.createElement('div',{id:'auth-container',className:'login'},_react2.default.createElement('div',{id:'auth-row'},_react2.default.createElement('div',{id:'auth-cell'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{sm:4,smOffset:4,xs:10,xsOffset:1,collapseLeft:true,collapseRight:true},_react2.default.createElement(_reactLoadingOverlay2.default,{active:this.state.loading,spinner:true,text:'Trying to log you in...'},_react2.default.createElement(_rubix.PanelContainer,{controls:false},_react2.default.createElement(_rubix.Panel,null,_react2.default.createElement(_rubix.PanelBody,{style:{padding:0}},_react2.default.createElement('div',{className:'text-center bg-darkblue fg-white'},_react2.default.createElement('h3',{style:{margin:0,padding:25}},'Sign in to ReportON')),_react2.default.createElement('div',null,_react2.default.createElement('div',{style:{padding:25,paddingTop:0,paddingBottom:0,margin:'auto',marginBottom:25,marginTop:25}},_react2.default.createElement(_rubix.Form,{onSubmit:this.back.bind(this)},_react2.default.createElement(_rubix.FormGroup,{controlId:'emailaddress',validationState:this.getValidationState()},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,{style:{backgroundColor:'transparent'}},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-mail'})),_react2.default.createElement(_rubix.FormControl,{onChange:function onChange(e){return _this2.handleEmailChange(e);},autoFocus:true,type:'email',style:{borderWidth:0,borderBottomWidth:3,padding:0},className:'border-focus-blue',placeholder:'hello@okeylabs.com'}))),_react2.default.createElement(_rubix.FormGroup,{controlId:'password',validationState:this.getValidationState()},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,{style:{backgroundColor:'transparent'}},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-key'})),_react2.default.createElement(_rubix.FormControl,{type:'password',onChange:function onChange(e){return _this2.handlePasswordChange(e);},style:{borderWidth:0,borderBottomWidth:3,padding:0},className:'border-focus-blue',placeholder:'password'}))),_react2.default.createElement(_rubix.FormGroup,null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12,md:12,style:{flex:1,alignItems:'flex-end'},className:'text-center'},_react2.default.createElement(_rubix.Button,{lg:true,type:'submit',style:{backgroundColor:'#4F555b'},bsStyle:'grey'},'ReportON'))),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12,md:12,style:{flex:1,alignItems:'flex-end'},className:'text-center'},_react2.default.createElement(_rubix.Button,{lg:true,type:'submit',bsStyle:'link'},'Forgot Password?'))))))))))))))))));};return Login;}(_react2.default.Component))||_class)||_class);exports.default=Login;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Login,'Login','/Users/toby/Okey/reptonWeb/src/routes/Login.js');}();;
+	var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _classnames=__webpack_require__(255);var _classnames2=_interopRequireDefault(_classnames);var _reactRouter=__webpack_require__(256);var _rubix=__webpack_require__(257);var _reactRedux=__webpack_require__(610);var _actions=__webpack_require__(615);var _actions2=_interopRequireDefault(_actions);var _reactLoadingOverlay=__webpack_require__(702);var _reactLoadingOverlay2=_interopRequireDefault(_reactLoadingOverlay);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Login=(_dec=(0,_reactRedux.connect)(function(state){return state;}),(0,_reactRouter.withRouter)(_class=_dec(_class=function(_React$Component){(0,_inherits3.default)(Login,_React$Component);Login.prototype.back=function back(e){console.log(';back?!@?!?@');e.preventDefault();e.stopPropagation();var userScreen=this;this.setState({loading:true});this.props.dispatch(_actions2.default.fetchLogin({username:this.state.email,password:this.state.password})).then(function(){console.log("something just fetched login??!?!");var loginStatus=userScreen.props.loginStatus||{};var isLoggedIn=loginStatus.isLoggedIn;if(isLoggedIn){var loginRedir=loginStatus.loginRedir||'/ltr/account/AddAccount';userScreen.props.dispatch(_actions2.default.fetchData('accounts')).then(function(){userScreen.setState({loading:false});console.log("pushing to loginREdix "+loginRedir);userScreen.props.router.push(loginRedir);});}else{userScreen.setState({loading:false});}});// 
+	};function Login(props){(0,_classCallCheck3.default)(this,Login);var _this=(0,_possibleConstructorReturn3.default)(this,_React$Component.call(this,props));_this.state={loading:false};return _this;}Login.prototype.componentDidMount=function componentDidMount(){$('html').addClass('authentication');};Login.prototype.componentWillUnmount=function componentWillUnmount(){$('html').removeClass('authentication');};Login.prototype.getPath=function getPath(path){var dir=this.props.location.pathname.search('rtl')!==-1?'rtl':'ltr';path='/'+dir+'/'+path;return path;};Login.prototype.handleEmailChange=function handleEmailChange(e){this.setState({email:e.target.value});};Login.prototype.handlePasswordChange=function handlePasswordChange(e){this.setState({password:e.target.value});};Login.prototype.getValidationState=function getValidationState(){var error=this.props.loginStatus.loginError;return error?'error':null;};Login.prototype.render=function render(){var _this2=this;return _react2.default.createElement('div',{id:'auth-container',className:'login'},_react2.default.createElement('div',{id:'auth-row'},_react2.default.createElement('div',{id:'auth-cell'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{sm:4,smOffset:4,xs:10,xsOffset:1,collapseLeft:true,collapseRight:true},_react2.default.createElement(_reactLoadingOverlay2.default,{active:this.state.loading,spinner:true,text:'Trying to log you in...'},_react2.default.createElement(_rubix.PanelContainer,{controls:false},_react2.default.createElement(_rubix.Panel,null,_react2.default.createElement(_rubix.PanelBody,{style:{padding:0}},_react2.default.createElement('div',{className:'text-center bg-darkblue fg-white'},_react2.default.createElement('h3',{style:{margin:0,padding:25}},'Sign in to ReportON')),_react2.default.createElement('div',null,_react2.default.createElement('div',{style:{padding:25,paddingTop:0,paddingBottom:0,margin:'auto',marginBottom:25,marginTop:25}},_react2.default.createElement(_rubix.Form,{onSubmit:this.back.bind(this)},_react2.default.createElement(_rubix.FormGroup,{controlId:'emailaddress',validationState:this.getValidationState()},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,{style:{backgroundColor:'transparent'}},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-mail'})),_react2.default.createElement(_rubix.FormControl,{onChange:function onChange(e){return _this2.handleEmailChange(e);},autoFocus:true,type:'email',style:{borderWidth:0,borderBottomWidth:3,padding:0},className:'border-focus-blue',placeholder:'hello@okeylabs.com'}))),_react2.default.createElement(_rubix.FormGroup,{controlId:'password',validationState:this.getValidationState()},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,{style:{backgroundColor:'transparent'}},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-key'})),_react2.default.createElement(_rubix.FormControl,{type:'password',onChange:function onChange(e){return _this2.handlePasswordChange(e);},style:{borderWidth:0,borderBottomWidth:3,padding:0},className:'border-focus-blue',placeholder:'password'}))),_react2.default.createElement(_rubix.FormGroup,null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12,md:12,style:{flex:1,alignItems:'flex-end'},className:'text-center'},_react2.default.createElement(_rubix.Button,{lg:true,type:'submit',style:{backgroundColor:'#4F555b'},bsStyle:'grey'},'ReportON'))),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12,md:12,style:{flex:1,alignItems:'flex-end'},className:'text-center'})))))))))))))))));};return Login;}(_react2.default.Component))||_class)||_class);exports.default=Login;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Login,'Login','/Users/toby/Okey/reptonWeb/src/routes/Login.js');}();;
 
 /***/ },
 /* 702 */
@@ -52889,6 +52891,1296 @@ require('source-map-support').install({environment: 'node'});
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';var _actionTypes=__webpack_require__(619);function users(){var state=arguments.length>0&&arguments[0]!==undefined?arguments[0]:[];var action=arguments[1];switch(action.type){case _actionTypes.ALL_USERS:return{result:action.resp};default:return state;}}module.exports={users:users};;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(users,'users','/Users/toby/Okey/reptonWeb/src/redux/reducers/users.js');}();;
+
+/***/ },
+/* 747 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _extends2 = __webpack_require__(259);
+	
+	var _extends3 = _interopRequireDefault(_extends2);
+	
+	var _keys = __webpack_require__(460);
+	
+	var _keys2 = _interopRequireDefault(_keys);
+	
+	var _getPrototypeOf = __webpack_require__(264);
+	
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(268);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	var _possibleConstructorReturn2 = __webpack_require__(178);
+	
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+	
+	var _inherits2 = __webpack_require__(247);
+	
+	var _inherits3 = _interopRequireDefault(_inherits2);
+	
+	var _react = __webpack_require__(6);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactAddonsShallowCompare = __webpack_require__(748);
+	
+	var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
+	
+	var _utils = __webpack_require__(749);
+	
+	var _Gravatar = __webpack_require__(750);
+	
+	var _Gravatar2 = _interopRequireDefault(_Gravatar);
+	
+	var _Facebook = __webpack_require__(756);
+	
+	var _Facebook2 = _interopRequireDefault(_Facebook);
+	
+	var _Vkontakte = __webpack_require__(757);
+	
+	var _Vkontakte2 = _interopRequireDefault(_Vkontakte);
+	
+	var _Twitter = __webpack_require__(758);
+	
+	var _Twitter2 = _interopRequireDefault(_Twitter);
+	
+	var _Google = __webpack_require__(759);
+	
+	var _Google2 = _interopRequireDefault(_Google);
+	
+	var _Skype = __webpack_require__(760);
+	
+	var _Skype2 = _interopRequireDefault(_Skype);
+	
+	var _Value = __webpack_require__(761);
+	
+	var _Value2 = _interopRequireDefault(_Value);
+	
+	var _Src = __webpack_require__(762);
+	
+	var _Src2 = _interopRequireDefault(_Src);
+	
+	var _Icon = __webpack_require__(763);
+	
+	var _Icon2 = _interopRequireDefault(_Icon);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SOURCES = [_Facebook2.default, _Google2.default, _Twitter2.default, _Vkontakte2.default, _Skype2.default, _Gravatar2.default, _Src2.default, _Value2.default, _Icon2.default];
+	
+	var Avatar = function (_React$Component) {
+	    (0, _inherits3.default)(Avatar, _React$Component);
+	
+	    function Avatar(props) {
+	        (0, _classCallCheck3.default)(this, Avatar);
+	
+	        var _this = (0, _possibleConstructorReturn3.default)(this, (Avatar.__proto__ || (0, _getPrototypeOf2.default)(Avatar)).call(this, props));
+	
+	        _this.tryNextsource = function (Source, next) {
+	
+	            var instance = new Source(_this.props);
+	
+	            if (!instance.isCompatible(_this.props)) return next();
+	
+	            instance.get(function (state) {
+	                var failedBefore = state && state.hasOwnProperty('src') && (0, _utils.hasSourceFailedBefore)(state.src);
+	
+	                if (!failedBefore && state) {
+	                    // console.log(state);
+	                    _this.setState(state);
+	                } else {
+	                    next();
+	                }
+	            });
+	        };
+	
+	        _this.fetch = function (event) {
+	            // If fetch was triggered by img onError
+	            // then set state src back to null so render will
+	            // automatically switch a text avatar if there is no
+	            // other social ID available to try
+	            if (event && event.type === 'error') {
+	                (0, _utils.cacheFailingSource)(_this.state.src);
+	                _this.setState({ src: null });
+	            }
+	
+	            // console.log('## fetch');
+	
+	            var id = _this._fetchId = _this._fetchId ? _this._fetchId + 1 : 1;
+	
+	            var tryFetch = function tryFetch() {
+	                if (SOURCES.length === _this.state._internal.sourcePointer) return;
+	
+	                var source = SOURCES[_this.state._internal.sourcePointer];
+	
+	                var internal = _this.state._internal;
+	                internal.sourcePointer++;
+	
+	                // console.log('## try fetch', id, this._fetchId, internal.sourcePointer-1);
+	                _this.setState({
+	                    _internal: internal
+	                }, function () {
+	                    _this.tryNextsource(source, function () {
+	                        // console.log('-- next', id, this._fetchId);
+	                        if (id === _this._fetchId) {
+	                            tryFetch();
+	                        }
+	                    });
+	                });
+	            };
+	
+	            tryFetch();
+	        };
+	
+	        _this.state = {
+	            _internal: {
+	                sourcePointer: 0
+	            },
+	            src: props.src,
+	            value: null,
+	            color: props.color
+	        };
+	        return _this;
+	    }
+	
+	    (0, _createClass3.default)(Avatar, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.fetch();
+	        }
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(newProps) {
+	            var nextState = {};
+	            if (newProps.src !== this.props.src) nextState.src = newProps.src;
+	
+	            if (newProps.name !== this.props.name) nextState.name = newProps.name;
+	
+	            if (newProps.value !== this.props.value) nextState.value = newProps.value;
+	
+	            if (newProps.email !== this.props.email) nextState.email = newProps.email;
+	
+	            if (newProps.md5Email !== this.props.md5Email) nextState.md5Email = newProps.md5Email;
+	
+	            if (newProps.facebookId !== this.props.facebookId) nextState.facebookId = newProps.facebookId;
+	
+	            if (newProps.googleId !== this.props.googleId) nextState.googleId = newProps.googleId;
+	
+	            if (newProps.twitterHandle !== this.props.twitterHandle) nextState.twitterHandle = newProps.twitterHandle;
+	
+	            if (newProps.vkontakteId !== this.props.vkontakteId) nextState.vkontakteId = newProps.vkontakteId;
+	
+	            if (newProps.skypeId !== this.props.skypeId) nextState.skypeId = newProps.skypeId;
+	
+	            if ((0, _keys2.default)(nextState) !== 0) {
+	                nextState._internal = this.state._internal;
+	                nextState._internal.sourcePointer = 0;
+	                this.setState(nextState, this.fetch);
+	            }
+	        }
+	    }, {
+	        key: 'shouldComponentUpdate',
+	        value: function shouldComponentUpdate(nextProps, nextState) {
+	            return (0, _reactAddonsShallowCompare2.default)(this, nextProps, nextState);
+	        }
+	    }, {
+	        key: '_renderAsImage',
+	        value: function _renderAsImage() {
+	            var size = this.props.size;
+	            var round = this.props.round;
+	            var alt = this.props.name || this.props.value;
+	            var imageStyle = {
+	                maxWidth: '100%',
+	                width: size,
+	                height: size,
+	                borderRadius: round ? 500 : 0
+	            };
+	            return _react2.default.createElement('img', { width: this.props.size,
+	                height: this.props.size,
+	                style: imageStyle,
+	                src: this.state.src,
+	                alt: alt,
+	                onError: this.fetch });
+	        }
+	    }, {
+	        key: '_renderAsText',
+	        value: function _renderAsText() {
+	            var size = this.props.size;
+	            var textSizeRatio = this.props.textSizeRatio;
+	            var round = this.props.round;
+	            var initialsStyle = {
+	                width: size,
+	                height: size,
+	                font: Math.floor(size / textSizeRatio) + 'px Helvetica, Arial, sans-serif',
+	                lineHeight: size + 'px', // yes, px suffix is needed on lineHeight
+	                textAlign: 'center',
+	                textTransform: 'uppercase',
+	                color: this.props.fgColor,
+	                background: this.state.color,
+	                borderRadius: round ? '100%' : 0
+	            };
+	            return _react2.default.createElement(
+	                'div',
+	                { style: initialsStyle },
+	                this.state.value
+	            );
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var size = this.props.size;
+	            var hostStyle = (0, _extends3.default)({
+	                display: 'inline-block',
+	                width: size,
+	                height: size,
+	                borderRadius: this.props.round ? 500 : 0
+	            }, this.props.style);
+	            return _react2.default.createElement(
+	                'div',
+	                { className: this.props.className,
+	                    style: hostStyle },
+	                this.state.src ? this._renderAsImage() : this._renderAsText()
+	            );
+	        }
+	    }]);
+	    return Avatar;
+	}(_react2.default.Component);
+	
+	Avatar.displayName = 'Avatar';
+	Avatar.propTypes = {
+	    className: _react2.default.PropTypes.string,
+	    fgColor: _react2.default.PropTypes.string,
+	    color: _react2.default.PropTypes.string,
+	    colors: _react2.default.PropTypes.array,
+	    name: _react2.default.PropTypes.string,
+	    value: _react2.default.PropTypes.string,
+	    email: _react2.default.PropTypes.string,
+	    md5Email: _react2.default.PropTypes.string,
+	    src: _react2.default.PropTypes.string,
+	    facebookId: _react2.default.PropTypes.string,
+	    googleId: _react2.default.PropTypes.string,
+	    twitterHandle: _react2.default.PropTypes.string,
+	    vkontakteId: _react2.default.PropTypes.string,
+	    skypeId: _react2.default.PropTypes.string,
+	    round: _react2.default.PropTypes.bool,
+	    style: _react2.default.PropTypes.object,
+	    size: _react2.default.PropTypes.number,
+	    textSizeRatio: _react2.default.PropTypes.number
+	};
+	Avatar.defaultProps = {
+	    className: 'sb-avatar',
+	    fgColor: '#FFF',
+	    color: null,
+	    name: null,
+	    value: null,
+	    email: null,
+	    md5Email: null,
+	    facebookId: null,
+	    googleId: null,
+	    twitterHandle: null,
+	    vkontakteId: null,
+	    skypeId: null,
+	    round: false,
+	    size: 100,
+	    style: null,
+	    textSizeRatio: 3
+	};
+	exports.default = Avatar;
+	module.exports = exports['default'];
+
+/***/ },
+/* 748 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule shallowCompare
+	 */
+	
+	'use strict';
+	
+	var shallowEqual = __webpack_require__(127);
+	
+	/**
+	 * Does a shallow comparison for props and state.
+	 * See ReactComponentWithPureRenderMixin
+	 * See also https://facebook.github.io/react/docs/shallow-compare.html
+	 */
+	function shallowCompare(instance, nextProps, nextState) {
+	  return (
+	    !shallowEqual(instance.props, nextProps) ||
+	    !shallowEqual(instance.state, nextState)
+	  );
+	}
+	
+	module.exports = shallowCompare;
+
+
+/***/ },
+/* 749 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _toConsumableArray2 = __webpack_require__(350);
+	
+	var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+	
+	exports.fetch = fetch;
+	exports.fetchJSONP = fetchJSONP;
+	exports.getRandomColor = getRandomColor;
+	exports.cacheFailingSource = cacheFailingSource;
+	exports.hasSourceFailedBefore = hasSourceFailedBefore;
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function fetch(url, successCb, errorCb) {
+	    var request = new XMLHttpRequest();
+	    request.onreadystatechange = function () {
+	        if (request.readyState === 4) {
+	            if (request.status === 200) {
+	                var data = JSON.parse(request.responseText);
+	                successCb(data);
+	            } else {
+	                errorCb(request.status);
+	            }
+	        }
+	    };
+	    request.open('GET', url, true);
+	    request.send();
+	}
+	
+	function fetchJSONP(url, successCb, errorCb) {
+	    var callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
+	
+	    var script = document.createElement('script');
+	    script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+	    document.body.appendChild(script);
+	
+	    script.onerror = function () {
+	        errorCb();
+	    };
+	
+	    window[callbackName] = function (data) {
+	        delete window[callbackName];
+	        document.body.removeChild(script);
+	        successCb(data);
+	    };
+	}
+	
+	var defaultColors = ['#d73d32', '#7e3794', '#4285f4', '#67ae3f', '#d61a7f', '#ff4080'];
+	
+	function _stringAsciiCodeSum(value) {
+	    return [].concat((0, _toConsumableArray3.default)(value)).map(function (letter) {
+	        return letter.charCodeAt(0);
+	    }).reduce(function (current, previous) {
+	        return previous + current;
+	    });
+	}
+	
+	function getRandomColor(value) {
+	    var colors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultColors;
+	
+	    // if no value is passed, always return transparent color otherwise
+	    // a rerender would show a new color which would will
+	    // give strange effects when an interface is loading
+	    // and gets rerendered a few consequent times
+	    if (!value) return 'transparent';
+	
+	    // value based random color index
+	    // the reason we don't just use a random number is to make sure that
+	    // a certain value will always get the same color assigned given
+	    // a fixed set of colors
+	    var sum = _stringAsciiCodeSum(value);
+	    var colorIndex = sum % colors.length;
+	    return colors[colorIndex];
+	}
+	
+	function _hasLocalStorage() {
+	    return typeof Storage !== 'undefined';
+	}
+	
+	var CACHE_KEY = 'react-avatar';
+	
+	function cacheFailingSource(source) {
+	    // cache not available
+	    if (!_hasLocalStorage) return;
+	
+	    var cache = localStorage.getItem(CACHE_KEY) || '';
+	
+	    // already in cache
+	    if (cache.indexOf(source) > -1) return;
+	
+	    var cacheList = cache.split(';');
+	    cacheList.push(source);
+	
+	    // only keep the last 20 results so we don't fill up local storage
+	    cacheList = cacheList.slice(-20);
+	
+	    try {
+	        localStorage.setItem(CACHE_KEY, cacheList.join(';'));
+	    } catch (e) {
+	        // failsafe for mobile Safari private mode
+	        console.error(e);
+	    }
+	}
+	
+	function hasSourceFailedBefore(source) {
+	    var cache = localStorage.getItem(CACHE_KEY) || '';
+	    return cache.indexOf(source) > -1;
+	}
+
+/***/ },
+/* 750 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _isRetina = __webpack_require__(751);
+	
+	var _isRetina2 = _interopRequireDefault(_isRetina);
+	
+	var _md = __webpack_require__(752);
+	
+	var _md2 = _interopRequireDefault(_md);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var IS_RETINA = (0, _isRetina2.default)();
+	
+	var GravatarSource = function GravatarSource(props) {
+	    (0, _classCallCheck3.default)(this, GravatarSource);
+	
+	    _initialiseProps.call(this);
+	
+	    this.props = props;
+	};
+	
+	var _initialiseProps = function _initialiseProps() {
+	    var _this = this;
+	
+	    this.props = null;
+	
+	    this.isCompatible = function () {
+	        return !!_this.props.email || !!_this.props.md5Email;
+	    };
+	
+	    this.get = function (setState) {
+	        var props = _this.props;
+	
+	        var email = props.md5Email || (0, _md2.default)(props.email);
+	        var size = IS_RETINA ? props.size * 2 : props.size;
+	        var url = 'https://secure.gravatar.com/avatar/' + email + '?s=' + size + '&d=404';
+	
+	        setState({ src: url });
+	    };
+	};
+	
+	exports.default = GravatarSource;
+	module.exports = exports['default'];
+
+/***/ },
+/* 751 */
+/***/ function(module, exports) {
+
+	module.exports = function() {
+	  var mediaQuery;
+	  if (typeof window !== "undefined" && window !== null) {
+	    mediaQuery = "(-webkit-min-device-pixel-ratio: 1.25), (min--moz-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 1.25dppx)";
+	    if (window.devicePixelRatio > 1.25) {
+	      return true;
+	    }
+	    if (window.matchMedia && window.matchMedia(mediaQuery).matches) {
+	      return true;
+	    }
+	  }
+	  return false;
+	};
+
+
+/***/ },
+/* 752 */
+/***/ function(module, exports, __webpack_require__) {
+
+	(function(){
+	  var crypt = __webpack_require__(753),
+	      utf8 = __webpack_require__(754).utf8,
+	      isBuffer = __webpack_require__(755),
+	      bin = __webpack_require__(754).bin,
+	
+	  // The core
+	  md5 = function (message, options) {
+	    // Convert to byte array
+	    if (message.constructor == String)
+	      if (options && options.encoding === 'binary')
+	        message = bin.stringToBytes(message);
+	      else
+	        message = utf8.stringToBytes(message);
+	    else if (isBuffer(message))
+	      message = Array.prototype.slice.call(message, 0);
+	    else if (!Array.isArray(message))
+	      message = message.toString();
+	    // else, assume byte array already
+	
+	    var m = crypt.bytesToWords(message),
+	        l = message.length * 8,
+	        a =  1732584193,
+	        b = -271733879,
+	        c = -1732584194,
+	        d =  271733878;
+	
+	    // Swap endian
+	    for (var i = 0; i < m.length; i++) {
+	      m[i] = ((m[i] <<  8) | (m[i] >>> 24)) & 0x00FF00FF |
+	             ((m[i] << 24) | (m[i] >>>  8)) & 0xFF00FF00;
+	    }
+	
+	    // Padding
+	    m[l >>> 5] |= 0x80 << (l % 32);
+	    m[(((l + 64) >>> 9) << 4) + 14] = l;
+	
+	    // Method shortcuts
+	    var FF = md5._ff,
+	        GG = md5._gg,
+	        HH = md5._hh,
+	        II = md5._ii;
+	
+	    for (var i = 0; i < m.length; i += 16) {
+	
+	      var aa = a,
+	          bb = b,
+	          cc = c,
+	          dd = d;
+	
+	      a = FF(a, b, c, d, m[i+ 0],  7, -680876936);
+	      d = FF(d, a, b, c, m[i+ 1], 12, -389564586);
+	      c = FF(c, d, a, b, m[i+ 2], 17,  606105819);
+	      b = FF(b, c, d, a, m[i+ 3], 22, -1044525330);
+	      a = FF(a, b, c, d, m[i+ 4],  7, -176418897);
+	      d = FF(d, a, b, c, m[i+ 5], 12,  1200080426);
+	      c = FF(c, d, a, b, m[i+ 6], 17, -1473231341);
+	      b = FF(b, c, d, a, m[i+ 7], 22, -45705983);
+	      a = FF(a, b, c, d, m[i+ 8],  7,  1770035416);
+	      d = FF(d, a, b, c, m[i+ 9], 12, -1958414417);
+	      c = FF(c, d, a, b, m[i+10], 17, -42063);
+	      b = FF(b, c, d, a, m[i+11], 22, -1990404162);
+	      a = FF(a, b, c, d, m[i+12],  7,  1804603682);
+	      d = FF(d, a, b, c, m[i+13], 12, -40341101);
+	      c = FF(c, d, a, b, m[i+14], 17, -1502002290);
+	      b = FF(b, c, d, a, m[i+15], 22,  1236535329);
+	
+	      a = GG(a, b, c, d, m[i+ 1],  5, -165796510);
+	      d = GG(d, a, b, c, m[i+ 6],  9, -1069501632);
+	      c = GG(c, d, a, b, m[i+11], 14,  643717713);
+	      b = GG(b, c, d, a, m[i+ 0], 20, -373897302);
+	      a = GG(a, b, c, d, m[i+ 5],  5, -701558691);
+	      d = GG(d, a, b, c, m[i+10],  9,  38016083);
+	      c = GG(c, d, a, b, m[i+15], 14, -660478335);
+	      b = GG(b, c, d, a, m[i+ 4], 20, -405537848);
+	      a = GG(a, b, c, d, m[i+ 9],  5,  568446438);
+	      d = GG(d, a, b, c, m[i+14],  9, -1019803690);
+	      c = GG(c, d, a, b, m[i+ 3], 14, -187363961);
+	      b = GG(b, c, d, a, m[i+ 8], 20,  1163531501);
+	      a = GG(a, b, c, d, m[i+13],  5, -1444681467);
+	      d = GG(d, a, b, c, m[i+ 2],  9, -51403784);
+	      c = GG(c, d, a, b, m[i+ 7], 14,  1735328473);
+	      b = GG(b, c, d, a, m[i+12], 20, -1926607734);
+	
+	      a = HH(a, b, c, d, m[i+ 5],  4, -378558);
+	      d = HH(d, a, b, c, m[i+ 8], 11, -2022574463);
+	      c = HH(c, d, a, b, m[i+11], 16,  1839030562);
+	      b = HH(b, c, d, a, m[i+14], 23, -35309556);
+	      a = HH(a, b, c, d, m[i+ 1],  4, -1530992060);
+	      d = HH(d, a, b, c, m[i+ 4], 11,  1272893353);
+	      c = HH(c, d, a, b, m[i+ 7], 16, -155497632);
+	      b = HH(b, c, d, a, m[i+10], 23, -1094730640);
+	      a = HH(a, b, c, d, m[i+13],  4,  681279174);
+	      d = HH(d, a, b, c, m[i+ 0], 11, -358537222);
+	      c = HH(c, d, a, b, m[i+ 3], 16, -722521979);
+	      b = HH(b, c, d, a, m[i+ 6], 23,  76029189);
+	      a = HH(a, b, c, d, m[i+ 9],  4, -640364487);
+	      d = HH(d, a, b, c, m[i+12], 11, -421815835);
+	      c = HH(c, d, a, b, m[i+15], 16,  530742520);
+	      b = HH(b, c, d, a, m[i+ 2], 23, -995338651);
+	
+	      a = II(a, b, c, d, m[i+ 0],  6, -198630844);
+	      d = II(d, a, b, c, m[i+ 7], 10,  1126891415);
+	      c = II(c, d, a, b, m[i+14], 15, -1416354905);
+	      b = II(b, c, d, a, m[i+ 5], 21, -57434055);
+	      a = II(a, b, c, d, m[i+12],  6,  1700485571);
+	      d = II(d, a, b, c, m[i+ 3], 10, -1894986606);
+	      c = II(c, d, a, b, m[i+10], 15, -1051523);
+	      b = II(b, c, d, a, m[i+ 1], 21, -2054922799);
+	      a = II(a, b, c, d, m[i+ 8],  6,  1873313359);
+	      d = II(d, a, b, c, m[i+15], 10, -30611744);
+	      c = II(c, d, a, b, m[i+ 6], 15, -1560198380);
+	      b = II(b, c, d, a, m[i+13], 21,  1309151649);
+	      a = II(a, b, c, d, m[i+ 4],  6, -145523070);
+	      d = II(d, a, b, c, m[i+11], 10, -1120210379);
+	      c = II(c, d, a, b, m[i+ 2], 15,  718787259);
+	      b = II(b, c, d, a, m[i+ 9], 21, -343485551);
+	
+	      a = (a + aa) >>> 0;
+	      b = (b + bb) >>> 0;
+	      c = (c + cc) >>> 0;
+	      d = (d + dd) >>> 0;
+	    }
+	
+	    return crypt.endian([a, b, c, d]);
+	  };
+	
+	  // Auxiliary functions
+	  md5._ff  = function (a, b, c, d, x, s, t) {
+	    var n = a + (b & c | ~b & d) + (x >>> 0) + t;
+	    return ((n << s) | (n >>> (32 - s))) + b;
+	  };
+	  md5._gg  = function (a, b, c, d, x, s, t) {
+	    var n = a + (b & d | c & ~d) + (x >>> 0) + t;
+	    return ((n << s) | (n >>> (32 - s))) + b;
+	  };
+	  md5._hh  = function (a, b, c, d, x, s, t) {
+	    var n = a + (b ^ c ^ d) + (x >>> 0) + t;
+	    return ((n << s) | (n >>> (32 - s))) + b;
+	  };
+	  md5._ii  = function (a, b, c, d, x, s, t) {
+	    var n = a + (c ^ (b | ~d)) + (x >>> 0) + t;
+	    return ((n << s) | (n >>> (32 - s))) + b;
+	  };
+	
+	  // Package private blocksize
+	  md5._blocksize = 16;
+	  md5._digestsize = 16;
+	
+	  module.exports = function (message, options) {
+	    if (message === undefined || message === null)
+	      throw new Error('Illegal argument ' + message);
+	
+	    var digestbytes = crypt.wordsToBytes(md5(message, options));
+	    return options && options.asBytes ? digestbytes :
+	        options && options.asString ? bin.bytesToString(digestbytes) :
+	        crypt.bytesToHex(digestbytes);
+	  };
+	
+	})();
+
+
+/***/ },
+/* 753 */
+/***/ function(module, exports) {
+
+	(function() {
+	  var base64map
+	      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+	
+	  crypt = {
+	    // Bit-wise rotation left
+	    rotl: function(n, b) {
+	      return (n << b) | (n >>> (32 - b));
+	    },
+	
+	    // Bit-wise rotation right
+	    rotr: function(n, b) {
+	      return (n << (32 - b)) | (n >>> b);
+	    },
+	
+	    // Swap big-endian to little-endian and vice versa
+	    endian: function(n) {
+	      // If number given, swap endian
+	      if (n.constructor == Number) {
+	        return crypt.rotl(n, 8) & 0x00FF00FF | crypt.rotl(n, 24) & 0xFF00FF00;
+	      }
+	
+	      // Else, assume array and swap all items
+	      for (var i = 0; i < n.length; i++)
+	        n[i] = crypt.endian(n[i]);
+	      return n;
+	    },
+	
+	    // Generate an array of any length of random bytes
+	    randomBytes: function(n) {
+	      for (var bytes = []; n > 0; n--)
+	        bytes.push(Math.floor(Math.random() * 256));
+	      return bytes;
+	    },
+	
+	    // Convert a byte array to big-endian 32-bit words
+	    bytesToWords: function(bytes) {
+	      for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
+	        words[b >>> 5] |= bytes[i] << (24 - b % 32);
+	      return words;
+	    },
+	
+	    // Convert big-endian 32-bit words to a byte array
+	    wordsToBytes: function(words) {
+	      for (var bytes = [], b = 0; b < words.length * 32; b += 8)
+	        bytes.push((words[b >>> 5] >>> (24 - b % 32)) & 0xFF);
+	      return bytes;
+	    },
+	
+	    // Convert a byte array to a hex string
+	    bytesToHex: function(bytes) {
+	      for (var hex = [], i = 0; i < bytes.length; i++) {
+	        hex.push((bytes[i] >>> 4).toString(16));
+	        hex.push((bytes[i] & 0xF).toString(16));
+	      }
+	      return hex.join('');
+	    },
+	
+	    // Convert a hex string to a byte array
+	    hexToBytes: function(hex) {
+	      for (var bytes = [], c = 0; c < hex.length; c += 2)
+	        bytes.push(parseInt(hex.substr(c, 2), 16));
+	      return bytes;
+	    },
+	
+	    // Convert a byte array to a base-64 string
+	    bytesToBase64: function(bytes) {
+	      for (var base64 = [], i = 0; i < bytes.length; i += 3) {
+	        var triplet = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
+	        for (var j = 0; j < 4; j++)
+	          if (i * 8 + j * 6 <= bytes.length * 8)
+	            base64.push(base64map.charAt((triplet >>> 6 * (3 - j)) & 0x3F));
+	          else
+	            base64.push('=');
+	      }
+	      return base64.join('');
+	    },
+	
+	    // Convert a base-64 string to a byte array
+	    base64ToBytes: function(base64) {
+	      // Remove non-base-64 characters
+	      base64 = base64.replace(/[^A-Z0-9+\/]/ig, '');
+	
+	      for (var bytes = [], i = 0, imod4 = 0; i < base64.length;
+	          imod4 = ++i % 4) {
+	        if (imod4 == 0) continue;
+	        bytes.push(((base64map.indexOf(base64.charAt(i - 1))
+	            & (Math.pow(2, -2 * imod4 + 8) - 1)) << (imod4 * 2))
+	            | (base64map.indexOf(base64.charAt(i)) >>> (6 - imod4 * 2)));
+	      }
+	      return bytes;
+	    }
+	  };
+	
+	  module.exports = crypt;
+	})();
+
+
+/***/ },
+/* 754 */
+/***/ function(module, exports) {
+
+	var charenc = {
+	  // UTF-8 encoding
+	  utf8: {
+	    // Convert a string to a byte array
+	    stringToBytes: function(str) {
+	      return charenc.bin.stringToBytes(unescape(encodeURIComponent(str)));
+	    },
+	
+	    // Convert a byte array to a string
+	    bytesToString: function(bytes) {
+	      return decodeURIComponent(escape(charenc.bin.bytesToString(bytes)));
+	    }
+	  },
+	
+	  // Binary encoding
+	  bin: {
+	    // Convert a string to a byte array
+	    stringToBytes: function(str) {
+	      for (var bytes = [], i = 0; i < str.length; i++)
+	        bytes.push(str.charCodeAt(i) & 0xFF);
+	      return bytes;
+	    },
+	
+	    // Convert a byte array to a string
+	    bytesToString: function(bytes) {
+	      for (var str = [], i = 0; i < bytes.length; i++)
+	        str.push(String.fromCharCode(bytes[i]));
+	      return str.join('');
+	    }
+	  }
+	};
+	
+	module.exports = charenc;
+
+
+/***/ },
+/* 755 */
+/***/ function(module, exports) {
+
+	module.exports = require("is-buffer");
+
+/***/ },
+/* 756 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FacebookSource = function FacebookSource(props) {
+	    var _this = this;
+	
+	    (0, _classCallCheck3.default)(this, FacebookSource);
+	    this.props = null;
+	
+	    this.isCompatible = function () {
+	        return !!_this.props.facebookId;
+	    };
+	
+	    this.get = function (setState) {
+	        var _props = _this.props;
+	        var size = _props.size;
+	        var facebookId = _props.facebookId;
+	
+	        var url = 'https://graph.facebook.com/' + (facebookId + '/picture?width=' + size + '&height=' + size);
+	
+	        setState({ src: url });
+	    };
+	
+	    this.props = props;
+	};
+	
+	exports.default = FacebookSource;
+	module.exports = exports['default'];
+
+/***/ },
+/* 757 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(268);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	var _utils = __webpack_require__(749);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var GoogleSource = function () {
+	    function GoogleSource(props) {
+	        var _this = this;
+	
+	        (0, _classCallCheck3.default)(this, GoogleSource);
+	        this.props = null;
+	
+	        this.isCompatible = function () {
+	            return !!_this.props.vkontakteId;
+	        };
+	
+	        this.get = function (setState) {
+	            var vkontakteId = _this.props.vkontakteId;
+	
+	            var size = _this.getImageSize();
+	            var url = 'https://api.vk.com/method/users.get?user_id=' + vkontakteId + '&v=5.8&fields=' + size;
+	
+	            (0, _utils.fetchJSONP)(url, function (data) {
+	                var src = data.response[0][size];
+	                setState({
+	                    src: src
+	                });
+	            }, function () {
+	                // on error
+	                setState(null);
+	            });
+	        };
+	
+	        this.props = props;
+	    }
+	
+	    (0, _createClass3.default)(GoogleSource, [{
+	        key: 'getImageSize',
+	        value: function getImageSize() {
+	            var size = this.props.size;
+	
+	
+	            if (size <= 50) return 'photo_50';
+	
+	            if (size <= 100) return 'photo_100';
+	
+	            if (size <= 200) return 'photo_200';
+	
+	            return 'photo_max';
+	        }
+	    }]);
+	    return GoogleSource;
+	}();
+	
+	exports.default = GoogleSource;
+	module.exports = exports['default'];
+
+/***/ },
+/* 758 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(268);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var TwitterSource = function () {
+	    function TwitterSource(props) {
+	        var _this = this;
+	
+	        (0, _classCallCheck3.default)(this, TwitterSource);
+	        this.props = null;
+	
+	        this.isCompatible = function () {
+	            return !!_this.props.twitterHandle;
+	        };
+	
+	        this.get = function (setState) {
+	            var twitterHandle = _this.props.twitterHandle;
+	
+	            var size = _this.getImageSize();
+	
+	            var url = 'https://twitter.com/' + twitterHandle + '/profile_image?size=' + size;
+	
+	            setState({ src: url });
+	        };
+	
+	        this.props = props;
+	    }
+	
+	    (0, _createClass3.default)(TwitterSource, [{
+	        key: 'getImageSize',
+	        value: function getImageSize() {
+	            var size = this.props.size;
+	
+	
+	            if (size <= 24) return 'mini';
+	
+	            if (size <= 48) return 'normal';
+	
+	            if (size <= 73) return 'bigger';
+	
+	            return 'original';
+	        }
+	    }]);
+	    return TwitterSource;
+	}();
+	
+	exports.default = TwitterSource;
+	module.exports = exports['default'];
+
+/***/ },
+/* 759 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _utils = __webpack_require__(749);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var GoogleSource = function GoogleSource(props) {
+	    var _this = this;
+	
+	    (0, _classCallCheck3.default)(this, GoogleSource);
+	    this.props = null;
+	
+	    this.isCompatible = function () {
+	        return !!_this.props.googleId;
+	    };
+	
+	    this.get = function (setState) {
+	        var _props = _this.props;
+	        var size = _props.size;
+	        var googleId = _props.googleId;
+	
+	        var url = 'https://picasaweb.google.com/data/entry/api/user/' + googleId + '?alt=json';
+	
+	        if ((0, _utils.hasSourceFailedBefore)(url)) {
+	            setState(null);
+	            return;
+	        }
+	
+	        (0, _utils.fetch)(url, function (data) {
+	            var src = data.entry.gphoto$thumbnail.$t;
+	            var srcWithCorrectSize = src.replace('s64', 's' + size);
+	            setState({
+	                src: srcWithCorrectSize
+	            });
+	        }, function () {
+	            // on error
+	            (0, _utils.cacheFailingSource)(url);
+	            setState(null);
+	        });
+	    };
+	
+	    this.props = props;
+	};
+	
+	exports.default = GoogleSource;
+	module.exports = exports['default'];
+
+/***/ },
+/* 760 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SkypeSource = function SkypeSource(props) {
+	    var _this = this;
+	
+	    (0, _classCallCheck3.default)(this, SkypeSource);
+	    this.props = null;
+	
+	    this.isCompatible = function () {
+	        return !!_this.props.skypeId;
+	    };
+	
+	    this.get = function (setState) {
+	        var skypeId = _this.props.skypeId;
+	
+	        var url = 'https://api.skype.com/users/' + skypeId + '/profile/avatar';
+	
+	        setState({ src: url });
+	    };
+	
+	    this.props = props;
+	};
+	
+	exports.default = SkypeSource;
+	module.exports = exports['default'];
+
+/***/ },
+/* 761 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(268);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	var _utils = __webpack_require__(749);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ValueSource = function () {
+	    function ValueSource(props) {
+	        var _this = this;
+	
+	        (0, _classCallCheck3.default)(this, ValueSource);
+	        this.props = null;
+	
+	        this.isCompatible = function () {
+	            return !!_this.props.name || !!_this.props.value;
+	        };
+	
+	        this.get = function (setState) {
+	            var value = _this.getValue();
+	            var state = value ? {
+	                value: value,
+	                color: _this.getColor(value)
+	            } : null;
+	            setState(state);
+	        };
+	
+	        this.props = props;
+	    }
+	
+	    (0, _createClass3.default)(ValueSource, [{
+	        key: 'getInitials',
+	        value: function getInitials() {
+	            var name = this.props.name;
+	            var parts = name.split(' ');
+	            var initials = '';
+	            for (var i = 0; i < parts.length; i++) {
+	                initials += parts[i].substr(0, 1).toUpperCase();
+	            }
+	            return initials;
+	        }
+	    }, {
+	        key: 'getValue',
+	        value: function getValue() {
+	            if (this.props.name) return this.getInitials();
+	
+	            if (this.props.value) return this.props.value;
+	
+	            return null;
+	        }
+	    }, {
+	        key: 'getColor',
+	        value: function getColor(value) {
+	            var _props = this.props;
+	            var color = _props.color;
+	            var colors = _props.colors;
+	
+	            return color || (0, _utils.getRandomColor)(value, colors);
+	        }
+	    }]);
+	    return ValueSource;
+	}();
+	
+	exports.default = ValueSource;
+	module.exports = exports['default'];
+
+/***/ },
+/* 762 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SrcSource = function SrcSource(props) {
+	    var _this = this;
+	
+	    (0, _classCallCheck3.default)(this, SrcSource);
+	    this.props = null;
+	
+	    this.isCompatible = function () {
+	        return !!_this.props.src;
+	    };
+	
+	    this.get = function (setState) {
+	        setState({
+	            src: _this.props.src
+	        });
+	    };
+	
+	    this.props = props;
+	};
+	
+	exports.default = SrcSource;
+	module.exports = exports['default'];
+
+/***/ },
+/* 763 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _classCallCheck2 = __webpack_require__(177);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _utils = __webpack_require__(749);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var IconSource = function IconSource(props) {
+	    var _this = this;
+	
+	    (0, _classCallCheck3.default)(this, IconSource);
+	    this.props = null;
+	    this.icon = '✷';
+	
+	    this.isCompatible = function () {
+	        return true;
+	    };
+	
+	    this.get = function (setState) {
+	        setState({
+	            value: _this.icon,
+	            color: (0, _utils.getRandomColor)(_this.icon, _this.props.colors)
+	        });
+	    };
+	
+	    this.props = props;
+	};
+	
+	exports.default = IconSource;
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);
