@@ -208,6 +208,15 @@ class DatatableComponent extends React.Component {
           ]
         },
         {
+          extend: "selectAll",
+          className: "btn-outlined btn btn-md btn-success",
+          editor: editor,
+          formButtons:[
+            'save'
+            // {label:'save row'}
+          ]
+        },
+        {
           extend: "print",
           className: "btn-outlined btn btn-md btn-success"
         },
