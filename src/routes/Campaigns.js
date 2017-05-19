@@ -888,6 +888,7 @@ class EditUsers extends React.Component {
           <h4 style={{wordWrap:'break-word'}}>{store.banner}</h4>
           </Col>
           <Col xs={4} componentClass={ControlLabel}>
+          <h4 style={{wordWrap:'break-word'}}>{store.storeNumber}</h4>
           <h4 style={{wordWrap:'break-word'}}>{store.name}</h4>
           <h4 style={{wordWrap:'break-word'}}>{store.address.streetAddress}</h4>
           <h4 style={{wordWrap:'break-word'}}>{store.address.city}</h4>
